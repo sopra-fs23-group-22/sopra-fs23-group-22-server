@@ -112,7 +112,7 @@ public class Game {
 
     //public GameController getGameController(){}
     public void resign(Player playerResigned){
-        winner = (playerResigned == players.get(0)) ? players.get(1) : players.get(0);
+        winner = playerResigned;
         gameState = GameState.WAITING;
     }
 }
