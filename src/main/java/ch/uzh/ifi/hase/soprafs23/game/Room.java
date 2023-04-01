@@ -12,7 +12,7 @@ public class Room {
     public void addUser(int userId){ this.users.add(userId); }
     public void removeUser(int userId){ this.users.remove(users.indexOf(userId)); }
 
-    public void startGame(){
+    public void enterGame(){
         if (this.game == null) this.game = new Game();
         game.setup(users);
     }

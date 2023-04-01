@@ -31,6 +31,8 @@ public class Square {
 
     public Piece getContent(){ return this.content; }
 
+    public SquareType getType() { return this.type; }
+
     public int calculateDistanceTo(Square targetSquare) {
         Axis[] tagetAxis = targetSquare.getAxis();
         if (this.axisX == tagetAxis[0] && this.axisY != tagetAxis[1]) {

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.game.board;
 
 
+import ch.uzh.ifi.hase.soprafs23.game.Player;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 
 import java.util.ArrayList;
@@ -41,11 +42,37 @@ public class Board {
         square[targetAxis[0].getInt()][targetAxis[1].getInt()].setContent(piece);
     }
 
+    public boolean isPlayerPiecesPlaced(Player player) {
+        int count = 0;
+        for (int i = 0; i < square.length; i++) {
+            for (int j = 0; j < square[i].length; j++) {
+                if (square[i][j].getContent().getArmyType() == player.getArmy().getType()) {
+                    count++;
+                }
+            }
+        }
+        if (count == 40) return true;
+        return false;
+    }
+
     public void clear() {
         for (int i = 0; i < square.length; i++) {
             for (int j = 0; j < square[i].length; j++) {
                 square[i][j].clear();
             }
         }
+    }
+
+    public void movePiece(Axis[] sourceAxis, Axis[] targetAxis) {
+        if (square[targetAxis[0].getInt()][targetAxis[1].getInt()].getType() == LAKE)
+            throw new IllegalStateException("Target square is a lake!");
+        Piece piece = getPieceViaAxis(sourceAxis);
+        place(piece, targetAxis);
+        square[sourceAxis[0].getInt()][sourceAxis[1].getInt()].clear();
+    }
+
+    public void attackPiece(Axis[] sourceAxis, Axis[] targetAxis) {
+        Piece piece = getPieceViaAxis(sourceAxis);
+        piece.attack(targetAxis);
     }
 }

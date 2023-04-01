@@ -46,9 +46,11 @@ public class Army {
         for (Piece piece : army) {
             if (piece.getAliveState() == ALIVE) {
                 state = ALIVE;
-                continue;
+                break;
             }
         }
         return state;
     }
+
+    public ArrayList<Piece> getPieces() { return this.army; }
 }

@@ -27,7 +27,7 @@ public class Piece {
     public ArmyType getArmyType() { return this.armyType; }
     //public Square getLocation() { return this.location; }
     public AliveState getAliveState() { return this.aliveState; }
-    public void attack(Axis target) { this.attackStrategy; }
-    public void move(Axis target) { this.moveStrategy; }
+    public void attack(Axis[] targetAxis) { this.attackStrategy; }
+    public void move(Axis[] targetAxis) { this.moveStrategy; }
 
 }

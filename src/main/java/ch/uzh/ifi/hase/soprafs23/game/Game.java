@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import static ch.uzh.ifi.hase.soprafs23.game.army.ArmyType.BLUE;
 import static ch.uzh.ifi.hase.soprafs23.game.army.ArmyType.RED;
+import static ch.uzh.ifi.hase.soprafs23.game.states.AliveState.DOWN;
 import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.IN_PROGRESS;
 import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.PRE_PLAY;
 
@@ -44,22 +45,74 @@ public class Game {
         board.place(piece, targetAxis);
     }
 
-    public void switchTurn(){
-
+    public boolean isPlayerPrePlayCompleted(Player player) { return board.isPlayerPiecesPlaced(player); }
+    public boolean isPrePlayCompleted() {
+        return (isPlayerPrePlayCompleted(players.get(0)) && isPlayerPrePlayCompleted(players.get(1)));
     }
+
+    public void start() {
+        if (!isPrePlayCompleted()) throw new IllegalStateException("The game is not ready to start!");
+        gameState = IN_PROGRESS;
+        operatingPlayer = players.get(0);
+    }
+
+    public void switchTurn() {
+        if (operatingPlayer == players.get(0)) operatingPlayer = players.get(1);
+        else operatingPlayer = players.get(0);
+    }
+
+    /*
+    // used for displaying available options for an operation
+    public Axis[][] getAvailableTargets(Piece piece) {
+        return board.getAvailableTargets(piece);
+    }
+     */
+
+    public void operate(Axis[] sourceAxis, Axis[] targetAxis) {
+        if (gameState != IN_PROGRESS) throw new IllegalStateException("The game is not in progress!");
+        if (board.getSquareViaAxis(sourceAxis).getContent() == null)
+            throw new IllegalStateException("The source square has no piece!");
+        if (board.getSquareViaAxis(targetAxis).getContent() != null) {
+            // if the target square has been occupied, then it is an attack
+            board.attackPiece(sourceAxis, targetAxis);
+        } else {
+            // if the target square has not been occupied, then it is a placement
+            board.movePiece(sourceAxis, targetAxis);
+        }
+    }
+
     public boolean hasWinner(){
-
+        // Two approaches to check if there is a winner:
+        //  1. if one's Flag is captured, then the other wins
+        boolean hasWinner = false;
+        for (Player player : players) {
+            for (Piece piece : player.getArmy().getPieces()) {
+                if (piece.getPieceType() == PieceType.FLAG && piece.getAliveState() == DOWN) {
+                    hasWinner = true;
+                    winner = (player == players.get(0)) ? players.get(1) : players.get(0);
+                    gameState = GameState.WAITING;
+                    break;
+                }
+            }
+        }
+        //  2. if all the pieces of one's army are captured, then the other wins
+        for (Player player : players) {
+            // if all the pieces of one's army are captured (aliveState == DOWN)
+            if (player.getArmy().getPieces().stream().allMatch(piece -> piece.getAliveState() == DOWN)) {
+                hasWinner = true;
+                winner = (player == players.get(0)) ? players.get(1) : players.get(0);
+                gameState = GameState.WAITING;
+                break;
+            }
+        }
     }
 
-    public Player getOperatingPlayer(){
-        return this.operatingPlayer;
-    }
-    public GameState getGameState(){
-        return this.gameState;
-    }
+    public Player getOperatingPlayer(){ return this.operatingPlayer; }
+    public GameState getGameState(){ return this.gameState; }
 
     //public GameController getGameController(){}
     public void resign(Player playerResigned){
-
+        winner = (playerResigned == players.get(0)) ? players.get(1) : players.get(0);
+        gameState = GameState.WAITING;
     }
 }
