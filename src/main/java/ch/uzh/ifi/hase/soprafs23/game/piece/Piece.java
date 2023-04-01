@@ -13,20 +13,20 @@ public class Piece {
     private PieceType pieceType;
     private ArmyType armyType;
     //private Square location;
-    private AliveState isAlive;
+    private AliveState aliveState;
     private MoveStrategy moveStrategy;
     private AttackStrategy attackStrategy;
 
     public Piece(PieceType pieceType, ArmyType armyType) {
         this.pieceType = pieceType;
         this.armyType = armyType;
-        isAlive = ALIVE;
+        aliveState = ALIVE;
     }
 
     public PieceType getPieceType() { return this.pieceType; }
     public ArmyType getArmyType() { return this.armyType; }
     //public Square getLocation() { return this.location; }
-    public AliveState isAlive() { return this.isAlive; }
+    public AliveState getAliveState() { return this.aliveState; }
     public void attack(Axis target) { this.attackStrategy; }
     public void move(Axis target) { this.moveStrategy; }
 

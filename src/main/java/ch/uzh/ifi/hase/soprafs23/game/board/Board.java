@@ -34,8 +34,10 @@ public class Board {
     }
 
     public void place(Piece piece, Axis[] targetAxis) {
+        /*
         if (square[targetAxis[0].getInt()][targetAxis[1].getInt()].getContent() != null)
             throw new IllegalStateException("Target square has been occupied!");
+         */
         square[targetAxis[0].getInt()][targetAxis[1].getInt()].setContent(piece);
     }
 

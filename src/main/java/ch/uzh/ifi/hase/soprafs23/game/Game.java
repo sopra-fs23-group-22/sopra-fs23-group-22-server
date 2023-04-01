@@ -29,15 +29,20 @@ public class Game {
         players.clear();
         players.add(new Player(userIds.get(0), new Army(RED)));
         players.add(new Player(userIds.get(1), new Army(BLUE)));
-        //gameState = PRE_PLAY;
+        gameState = PRE_PLAY;
     }
 
-    public void prePlay() {
-        if (gameState != PRE_PLAY) throw new IllegalStateException("The game state is not PRE_PLAY!");
-        this.gameState = PRE_PLAY;
+    // The function to place a piece for the initial board
+    // (not necessarily using this approach, may implement placement at frontend and put them in backend at once)
+    public void placePieceForInitialBoard(Piece piece, Axis[] targetAxis) {
+        // check if the game is in PRE_PLAY
+        if (gameState != PRE_PLAY)
+            throw new IllegalStateException("The game state is not PRE_PLAY!");
+        // check if the target square has been occupied
+        if (board.getSquareViaAxis(targetAxis).getContent() != null)
+            throw new IllegalStateException("The chosen square has been occupied by another piece!");
+        board.place(piece, targetAxis);
     }
-
-    public void placePiece(Piece piece, Axis[] targetAxis) { board.place(piece, targetAxis); }
 
     public void switchTurn(){
 

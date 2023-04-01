@@ -15,7 +15,6 @@ public class Room {
     public void startGame(){
         if (this.game == null) this.game = new Game();
         game.setup(users);
-        game.start();
     }
 
     public ArrayList<Integer> getUsersInRoom(){ return this.users; }
