@@ -7,7 +7,7 @@ public class Lobby {
     private static final Lobby lobby = new Lobby();
     public static Lobby getInstance() { return lobby; }
 
-    // HashMap to store Room instances, keyed by room ID
+    // To store Room instances, keyed by room ID
     private HashMap<Integer, Room> roomMap = new HashMap<Integer, Room>();
     private int nextRoomId = 1; // Counter for auto-generated room IDs
     private Set<Integer> closedRoomIds = new HashSet<>(); // Set of closed room IDs

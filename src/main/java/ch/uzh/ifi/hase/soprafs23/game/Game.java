@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
+import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 
 import java.util.ArrayList;
@@ -20,9 +21,7 @@ public class Game {
     private Board board;
     private Player operatingPlayer;
     private GameState gameState;
-    //private int turnNum;
     private Player winner;
-    //private GameController controller;
 
     public void setup(ArrayList<Integer> userIds){
         if (this.board == null) board = new Board();
@@ -35,6 +34,8 @@ public class Game {
 
     // The function to place a piece for the initial board
     // (not necessarily using this approach, may implement placement at frontend and put them in backend at once)
+    // (should write with the frontend team to decide)
+    /*
     public void placePieceForInitialBoard(Piece piece, Axis[] targetAxis) {
         // check if the game is in PRE_PLAY
         if (gameState != PRE_PLAY)
@@ -44,6 +45,7 @@ public class Game {
             throw new IllegalStateException("The chosen square has been occupied by another piece!");
         board.place(piece, targetAxis);
     }
+     */
 
     public boolean isPlayerPrePlayCompleted(Player player) { return board.isPlayerPiecesPlaced(player); }
     public boolean isPrePlayCompleted() {
@@ -72,17 +74,19 @@ public class Game {
         if (gameState != IN_PROGRESS) throw new IllegalStateException("The game is not in progress!");
         if (board.getSquareViaAxis(sourceAxis).getContent() == null)
             throw new IllegalStateException("The source square has no piece!");
+        // if the target square has been occupied, then it is an attack
         if (board.getSquareViaAxis(targetAxis).getContent() != null) {
-            // if the target square has been occupied, then it is an attack
             board.attackPiece(sourceAxis, targetAxis);
+            switchTurn();
         } else {
             // if the target square has not been occupied, then it is a placement
-            board.movePiece(sourceAxis, targetAxis);
+            MoveResult result = board.movePiece(sourceAxis, targetAxis);
+            if (result == MoveResult.SUCCESSFUL) switchTurn();
         }
     }
 
     public boolean hasWinner(){
-        // Two approaches to check if there is a winner:
+        // Two scenarios if there is a winner:
         //  1. if one's Flag is captured, then the other wins
         boolean hasWinner = false;
         for (Player player : players) {
@@ -105,6 +109,7 @@ public class Game {
                 break;
             }
         }
+        return hasWinner;
     }
 
     public Player getOperatingPlayer(){ return this.operatingPlayer; }

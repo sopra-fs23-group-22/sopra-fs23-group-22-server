@@ -5,5 +5,5 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 
 public interface AttackStrategy {
-    void attack(Square targetSquare);
+    public AttackResult attack(Square sourceSquare, Square targetSquare);
 }

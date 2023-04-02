@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.game.army;
 
 import ch.uzh.ifi.hase.soprafs23.game.piece.*;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackStrategy;
 import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 
 import java.util.*;
@@ -21,6 +23,7 @@ public class Army {
         put(MAJOR, 3);
         put(CAPTAIN, 4);
         put(LIEUTENANT, 4);
+        put(SERGEANT, 4);
         put(MINER, 5);
         put(SCOUT, 8);
         put(SPY, 1);

@@ -1,7 +1,10 @@
 package ch.uzh.ifi.hase.soprafs23.game.piece;
 
 import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
+import ch.uzh.ifi.hase.soprafs23.game.board.Square;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveStrategy;
 import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
@@ -14,8 +17,6 @@ public class Piece {
     private ArmyType armyType;
     //private Square location;
     private AliveState aliveState;
-    private MoveStrategy moveStrategy;
-    private AttackStrategy attackStrategy;
 
     public Piece(PieceType pieceType, ArmyType armyType) {
         this.pieceType = pieceType;
@@ -27,7 +28,8 @@ public class Piece {
     public ArmyType getArmyType() { return this.armyType; }
     //public Square getLocation() { return this.location; }
     public AliveState getAliveState() { return this.aliveState; }
-    public void attack(Axis[] targetAxis) { this.attackStrategy; }
-    public void move(Axis[] targetAxis) { this.moveStrategy; }
+    public void setAliveState(AliveState aliveState) { this.aliveState = aliveState; }
+    public AttackResult attack(Square sourceSquare, Square targetSquare) { return this.pieceType.getAttackStrategy().attack(sourceSquare, targetSquare); }
+    public MoveResult move(Square sourceSquare, Square targetSquare) { return this.pieceType.getMoveStrategy().move(sourceSquare, targetSquare); }
 
 }
