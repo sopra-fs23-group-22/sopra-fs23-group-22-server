@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,17 @@ public class UserService {
   public List<User> getUsers() {
     return this.userRepository.findAll();
   }
+
+    public List<User> getOnlineUsers() {
+      List<User> allUsers = this.userRepository.findAll();
+      List<User> onlineUsers = new ArrayList<>();
+      for(User user: allUsers) {
+          if (user.getStatus()==UserStatus.ONLINE) {
+              onlineUsers.add(user);
+          }
+      }
+      return onlineUsers;
+    }
 
   public User createUser(User newUser) {
     newUser.setToken(UUID.randomUUID().toString());
