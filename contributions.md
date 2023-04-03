@@ -14,3 +14,7 @@ Week 1, Shiran Liu,   https://github.com/sopra-fs23-group-22/sopra-fs23-group-22
 Week 1, Jiachen Bao,  https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/63
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/66
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/33
+                      
+Week 1,Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/7
+                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/20
+                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/5
