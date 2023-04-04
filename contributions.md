@@ -1,3 +1,4 @@
+04.04.2023
 Week 1, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/41 
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/81
