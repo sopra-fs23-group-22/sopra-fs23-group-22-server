@@ -1,9 +1,12 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.entity.Room;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs23.service.RoomService;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +26,10 @@ import java.util.List;
 public class UserController {
 
   private final UserService userService;
-
-  UserController(UserService userService) {
+  private final RoomService roomService;
+  UserController(UserService userService, RoomService roomService) {
     this.userService = userService;
+    this.roomService = roomService;
   }
 
   @GetMapping("/users")
@@ -98,6 +102,31 @@ public class UserController {
     public UserGetDTO getUserByUsername(@PathVariable String username){
         User user = userService.findUserByUsername(username);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+    }
+    @PostMapping("/rooms")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RoomGetDTO createRoom() {
+        // convert API user to internal representation
+
+        // create user
+        Room createdRoom = roomService.createRoom();
+        // convert internal representation of user back to API
+        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
+    }
+
+    @GetMapping("/rooms")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<RoomGetDTO> getAllRooms() {
+        // fetch all users in the internal representation
+        List<Room> rooms = roomService.getRooms();
+        List<RoomGetDTO> roomGetDTOs = new ArrayList<>();
+
+        // convert each user to the API representation
+        for (Room room : rooms) {
+            roomGetDTOs.add(DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room));
+        }
+        return roomGetDTOs;
     }
 
 }

@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs23.entity.Room;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import org.mapstruct.*;
@@ -24,9 +26,6 @@ public interface DTOMapper {
 
   @Mapping(source = "password", target = "password")
   @Mapping(source = "username", target = "username")
-//  @Mapping(source = "id", target = "id")
-//  @Mapping(source = "status", target = "status")
-//  @Mapping(source = "token", target = "token")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
 
   @Mapping(source = "id", target = "id")
@@ -35,4 +34,7 @@ public interface DTOMapper {
   @Mapping(source = "status", target = "status")
   @Mapping(source = "token", target = "token")
   UserGetDTO convertEntityToUserGetDTO(User user);
+
+  @Mapping(source = "roomId", target = "roomId")
+  RoomGetDTO convertEntityToRoomGetDTO(Room room);
 }
