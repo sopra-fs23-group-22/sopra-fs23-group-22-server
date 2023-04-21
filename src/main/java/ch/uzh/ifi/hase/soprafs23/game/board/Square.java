@@ -50,4 +50,11 @@ public class Square {
 
     public void clear() { this.content = null; }
 
+    public Axis getAxisX() {
+        return axisX;
+    }
+
+    public Axis getAxisY() {
+        return axisY;
+    }
 }

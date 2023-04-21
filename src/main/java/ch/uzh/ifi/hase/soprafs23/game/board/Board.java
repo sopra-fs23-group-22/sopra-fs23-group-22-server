@@ -111,4 +111,9 @@ public class Board {
             targetSquare.clear();
         }
     }
+
+    public Square getSquare(int axisX, int axisY) {
+        return square[axisX][axisY];
+    }
+
 }
