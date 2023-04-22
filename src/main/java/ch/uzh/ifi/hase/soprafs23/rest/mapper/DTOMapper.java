@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
@@ -46,6 +47,10 @@ public abstract class DTOMapper {
     @Mapping(source = "type", target = "type")
     @Mapping(source = "content", target = "content")
     public abstract SquareGETDTO convertSquareToSquareGETDTO(Square square);
+
+    @Mapping(source = "roomId", target = "roomId")
+//    @Mapping(source = "currentGameId", target = "currentGameId")
+    public abstract RoomGetDTO convertEntityToRoomGetDTO(Room room);
 
     SquareGETDTO[][] convertBoardToSquareGETDTOList(@NotNull Board board) {
         SquareGETDTO[][] squares = new SquareGETDTO[10][10];

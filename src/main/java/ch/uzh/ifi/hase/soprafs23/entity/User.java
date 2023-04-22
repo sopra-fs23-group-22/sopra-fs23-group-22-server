@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Internal User Representation
@@ -36,7 +37,15 @@ public class User implements Serializable {
 
   @Column(nullable = false)
   private UserStatus status;
-
+//  @ElementCollection(fetch = FetchType.EAGER)
+//  @CollectionTable(name = "friend_id",
+//                    joinColumns = @JoinColumn(name="user_id"))
+//  private List<Long> friends;
+//
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "friend_request",
+//            joinColumns = @JoinColumn(name="user_id"))
+//    private List<Integer> friendRequests;
   public Long getId() {
     return id;
   }
@@ -76,4 +85,19 @@ public class User implements Serializable {
   public void setStatus(UserStatus status) {
     this.status = status;
   }
+
+//  public void addFriend(Long friendId) {
+//      friends.add(friendId);
+//  }
+//  public void removeFriend(Long friendId) {
+//      friends.remove(friendId);
+//  }
+//
+//    public List<Long> getFriends() {
+//        return friends;
+//    }
+//
+//    public List<Integer> getFriendRequests() {
+//        return friendRequests;
+//    }
 }

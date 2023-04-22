@@ -17,6 +17,7 @@ import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.IN_PROGRESS;
 import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.PRE_PLAY;
 
 public class Game {
+    private int gameId;
     private ArrayList<Player> players;
     private Board board;
     private Player operatingPlayer;
@@ -119,5 +120,13 @@ public class Game {
     public void resign(Player playerResigned){
         winner = playerResigned;
         gameState = GameState.WAITING;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 }

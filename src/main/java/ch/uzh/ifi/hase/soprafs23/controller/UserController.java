@@ -1,6 +1,9 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.game.Lobby;
+import ch.uzh.ifi.hase.soprafs23.game.Room;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,9 +27,10 @@ import java.util.List;
 public class UserController {
 
   private final UserService userService;
-
+//  private final RoomService roomService;
   UserController(UserService userService) {
     this.userService = userService;
+//    this.roomService = roomService;
   }
 
   @GetMapping("/users")
@@ -99,5 +104,9 @@ public class UserController {
         User user = userService.findUserByUsername(username);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
     }
+//    @PostMapping("users/{userId}/friends")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @ResponseBody
+//    public GetDTO (@RequestBody)
 
 }

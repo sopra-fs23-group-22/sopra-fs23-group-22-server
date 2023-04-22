@@ -13,7 +13,7 @@ public class Lobby {
     private Set<Integer> closedRoomIds = new HashSet<>(); // Set of closed room IDs
 
     // Add a new Room to the Lobby with an auto-generated or reused room ID
-    public void createRoom() {
+    public Room createRoom() {
         int roomId;
         if (!closedRoomIds.isEmpty()) {
             // Reuse the ID of a closed room if available
@@ -27,6 +27,7 @@ public class Lobby {
         // Create a new Room instance and add it to the roomMap with the chosen room ID
         Room room = new Room(roomId);
         roomMap.put(roomId, room);
+        return room;
     }
 
     public Room getRoomByRoomId(int roomId) { return roomMap.get(roomId); }
