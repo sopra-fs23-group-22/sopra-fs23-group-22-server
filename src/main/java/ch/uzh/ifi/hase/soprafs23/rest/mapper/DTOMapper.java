@@ -65,5 +65,8 @@ public abstract class DTOMapper {
         return squares;
     }
 
-
+//    @Mapping(source = "roomId", target = "roomId")
+//    @Mapping(source = "currentGameId", target = "currentGameId")
+//    @Mapping(source = "userIds", target = "userIds")
+//    public abstract Room convertRoomPostDTOtoEntity(RoomPostDTO roomPostDTO);
 }

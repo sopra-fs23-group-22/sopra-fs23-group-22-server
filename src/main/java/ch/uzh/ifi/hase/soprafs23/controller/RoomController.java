@@ -1,8 +1,11 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomPostDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +20,7 @@ public class RoomController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public RoomGetDTO createRoom() {
-        // convert API user to internal representation
-        // create user
         Room createdRoom = Lobby.getInstance().createRoom();
-        createdRoom.addUser(1);
-        // convert internal representation of user back to API
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
     }
 
@@ -39,4 +38,16 @@ public class RoomController {
         }
         return roomGetDTOs;
     }
+//    @PutMapping("/rooms/{roomId}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @ResponseBody
+//    public void updateInfo(@PathVariable long roomId, @RequestBody RoomPostDTO roomPostDTO) {
+//        Room roomInput = DTOMapper.INSTANCE.convertRoomPostDTOtoEntity(roomPostDTO);
+//        if(roomInput.getCurrentGameId()!=0) {
+//            Lobby.getInstance().getRoomByRoomId(roomId).setCurrentGameId(roomInput.getCurrentGameId());
+//        }
+//        if (roomInput.getUserIds()!=null) {
+//            Lobby.getInstance().getRoomByRoomId(roomId).setUserIds(roomInput.getUserIds());
+//        }
+//    }
 }

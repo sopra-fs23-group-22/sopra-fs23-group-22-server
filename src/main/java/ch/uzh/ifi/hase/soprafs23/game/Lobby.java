@@ -30,7 +30,7 @@ public class Lobby {
         return room;
     }
 
-    public Room getRoomByRoomId(int roomId) { return roomMap.get(roomId); }
+    public Room getRoomByRoomId(Long roomId) { return roomMap.get(roomId); }
 
     public HashMap<Integer, Room> getRooms() { return this.roomMap; }
 

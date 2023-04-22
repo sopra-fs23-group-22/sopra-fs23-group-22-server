@@ -51,6 +51,10 @@ public class Room {
 //        this.userIds = users;
 //    }
 
+    public void setUserIds(ArrayList<Integer> userIds) {
+        this.userIds = userIds;
+    }
+
 
 //    public ArrayList<User> getUsers() {
 //        return users;

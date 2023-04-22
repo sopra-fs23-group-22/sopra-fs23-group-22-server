@@ -1,23 +1,30 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
+import java.util.ArrayList;
+
 public class RoomPostDTO {
 
     private int roomId;
-    private int currenGameId;
+    private int currentGameId;
 
     public int getRoomId() {
         return roomId;
+    }
+    private ArrayList<Integer> userIds = new ArrayList<Integer>();
+
+    public ArrayList<Integer> getUserIds() {
+        return userIds;
     }
 
     public void setRoomId(int id) {
         this.roomId = id;
     }
 
-    public int getCurrenGameId() {
-        return currenGameId;
+    public int getCurrentGameId() {
+        return currentGameId;
     }
 
-    public void setCurrenGameId(int currenGameId) {
-        this.currenGameId = currenGameId;
+    public void setCurrentGameId(int currentGameId) {
+        this.currentGameId = currentGameId;
     }
 }
