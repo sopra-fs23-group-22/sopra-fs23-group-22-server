@@ -129,4 +129,8 @@ public class Game {
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
+
+    public Board getBoard() {
+        return board;
+    }
 }

@@ -15,10 +15,12 @@ import java.util.List;
 public class RoomController {
     @PostMapping("/rooms")
     @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
     public RoomGetDTO createRoom() {
         // convert API user to internal representation
         // create user
         Room createdRoom = Lobby.getInstance().createRoom();
+        createdRoom.addUser(1);
         // convert internal representation of user back to API
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
     }

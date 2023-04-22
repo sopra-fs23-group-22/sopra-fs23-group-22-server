@@ -10,6 +10,8 @@ import com.sun.istack.NotNull;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
+
 /**
  * DTOMapper
  * This class is responsible for generating classes that will automatically
@@ -49,7 +51,8 @@ public abstract class DTOMapper {
     public abstract SquareGETDTO convertSquareToSquareGETDTO(Square square);
 
     @Mapping(source = "roomId", target = "roomId")
-//    @Mapping(source = "currentGameId", target = "currentGameId")
+    @Mapping(source = "currentGameId", target = "currentGameId")
+    @Mapping(source = "userIds", target = "userIds")
     public abstract RoomGetDTO convertEntityToRoomGetDTO(Room room);
 
     SquareGETDTO[][] convertBoardToSquareGETDTOList(@NotNull Board board) {
@@ -61,5 +64,6 @@ public abstract class DTOMapper {
         }
         return squares;
     }
+
 
 }

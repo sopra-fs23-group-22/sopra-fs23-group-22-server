@@ -15,7 +15,7 @@ import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult
 import static ch.uzh.ifi.hase.soprafs23.game.states.AliveState.DOWN;
 
 public class Board {
-    private Square[][] square;
+    private Square[][] square = new Square[10][10];
 
     public Board() {
         // Initialisation of the board. Each grid is a square object.
