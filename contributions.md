@@ -31,3 +31,9 @@ Week 4, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-
                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/87
                      - Added frontend request to fetch data and render the board correctly
                      
+Week 4, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/77
+                        - Created a users search bar on lobby page
+                        https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/25
+                        - Add visual component of creating a room
+                        - Add frontend requests to fetch data and display the list of existing rooms
+                        - Add Endpoints to create a room and add user to the room
