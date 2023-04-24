@@ -22,3 +22,12 @@ Week 1,Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22
 
 Week 1, Anqi Xu,      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/6
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/21
+
+25.04.2023
+Week 4, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27
+                     - Created the visual component of piece, square and board.
+                     - Set up the default pieces configuration.
+                     - Added click functionality to piece component, so players can swap two pieces by clicking and change the board configuration.
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/87
+                     - Added frontend request to fetch data and render the board correctly
+                     
