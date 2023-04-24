@@ -79,13 +79,13 @@ public class UserController {
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void updateInfo(@PathVariable long userId, @RequestBody UserPostDTO userPostDTO) {
-        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
-        if(userInput.getUsername()!=null) {
-            userService.updateUsername(userInput.getUsername(), userId);
+    public void updateInfo(@PathVariable long userId, @RequestBody User user) {
+//        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+        if(user.getUsername()!=null) {
+            userService.updateUsername(user.getUsername(), userId);
         }
-        if (userInput.getStatus()!=null) {
-            userService.updateUserStatus(userInput.getStatus(), userId);
+        if (user.getStatus()!=null) {
+            userService.updateUserStatus(user.getStatus(), userId);
         }
     }
 

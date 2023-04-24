@@ -19,11 +19,21 @@ public class RoomController {
     @PostMapping("/rooms")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public RoomGetDTO createRoom() {
+    public RoomGetDTO createRoom(@RequestBody User user) {
         Room createdRoom = Lobby.getInstance().createRoom();
+        long userId = user.getId();
+        createdRoom.addUser(userId);
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
     }
-
+    @PutMapping("/rooms/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void addAUser(@RequestBody User user, @PathVariable int roomId) {
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        long userId = user.getId();
+        room.addUser(userId);
+//        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
+    }
     @GetMapping("/rooms")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

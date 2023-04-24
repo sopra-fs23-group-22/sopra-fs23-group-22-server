@@ -7,12 +7,12 @@ public class RoomPostDTO {
     private int roomId;
     private int currentGameId;
 
-    public int getRoomId() {
+    public long getRoomId() {
         return roomId;
     }
-    private ArrayList<Integer> userIds = new ArrayList<Integer>();
+    private ArrayList<Long> userIds = new ArrayList<Long>();
 
-    public ArrayList<Integer> getUserIds() {
+    public ArrayList<Long> getUserIds() {
         return userIds;
     }
 

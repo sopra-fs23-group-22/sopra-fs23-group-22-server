@@ -24,7 +24,7 @@ public class User implements Serializable {
 
   @Id
   @GeneratedValue
-  private Long id;
+  private long id;
 
   @Column(nullable = false)
   private String password;
@@ -46,11 +46,11 @@ public class User implements Serializable {
 //    @CollectionTable(name = "friend_request",
 //            joinColumns = @JoinColumn(name="user_id"))
 //    private List<Integer> friendRequests;
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(int id) {
     this.id = id;
   }
 

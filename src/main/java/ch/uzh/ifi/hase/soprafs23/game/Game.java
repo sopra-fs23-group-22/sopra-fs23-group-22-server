@@ -24,7 +24,7 @@ public class Game {
     private GameState gameState;
     private Player winner;
 
-    public void setup(ArrayList<Integer> userIds){
+    public void setup(ArrayList<Long> userIds){
         if (this.board == null) board = new Board();
         else board.clear();
         players.clear();

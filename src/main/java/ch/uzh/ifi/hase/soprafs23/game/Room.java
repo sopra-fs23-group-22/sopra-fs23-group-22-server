@@ -6,18 +6,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Room {
     private int roomId;
 //    private ArrayList<User> users = new ArrayList<>();
-    private ArrayList<Integer> userIds = new ArrayList<Integer>();
+    private ArrayList<Long> userIds = new ArrayList<Long>();
     private Game game;
     private int currentGameId;
     public Room(int roomId) { this.roomId = roomId; }
 
-    public void addUser(int userId){ if (this.userIds.size() < 2) this.userIds.add(userId); }
+    public void addUser(long userId){ if (this.userIds.size() < 2) this.userIds.add(userId); }
     public void removeUser(int userId){ this.userIds.remove(userIds.indexOf(userId)); }
 
     public void enterGame(){
@@ -29,7 +30,7 @@ public class Room {
         game.setup(userIds);
     }
 
-    public ArrayList<Integer> getUsersInRoom(){ return this.userIds; }
+//    public ArrayList<Integer> getUsersInRoom(){ return this.userIds; }
 
     public int getRoomId() {
         return roomId;
@@ -51,7 +52,7 @@ public class Room {
 //        this.userIds = users;
 //    }
 
-    public void setUserIds(ArrayList<Integer> userIds) {
+    public void setUserIds(ArrayList<Long> userIds) {
         this.userIds = userIds;
     }
 
@@ -61,7 +62,7 @@ public class Room {
 //    }
 
 
-    public ArrayList<Integer> getUserIds() {
+    public ArrayList<Long> getUserIds() {
         return userIds;
     }
 }

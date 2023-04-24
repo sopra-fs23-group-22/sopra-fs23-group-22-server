@@ -6,10 +6,10 @@ public class RoomGetDTO {
 
     private int roomId;
     private int currentGameId;
-    private ArrayList<Integer> userIds = new ArrayList<>();
+    private ArrayList<Long> userIds = new ArrayList<>();
 //    private ArrayList<UserGetDTO> users = new ArrayList<>();
 
-    public int getRoomId() {
+    public long getRoomId() {
         return roomId;
     }
 
@@ -25,11 +25,11 @@ public class RoomGetDTO {
         this.currentGameId = currenGameId;
     }
 
-    public ArrayList<Integer> getUserIds() {
+    public ArrayList<Long> getUserIds() {
         return userIds;
     }
 
-    public void setUserIds(ArrayList<Integer> userIds) {
+    public void setUserIds(ArrayList<Long> userIds) {
 //        for(Integer id: userIds) {
 //            this.userIds.add(id);
 //        }
