@@ -33,6 +33,23 @@ public class Game {
         gameState = PRE_PLAY;
     }
 
+    public void placePieces(Piece[] pieceArray){
+        //convert the array with pieces to actual positions on the board
+        if(pieceArray[0].getArmyType() == RED){
+            for(int i=0; i<10; i++){
+                for(int j=6; j<10; j++){
+                    board.setPiece(i,j,pieceArray[j*10+i]);
+                }
+            }
+        }else{
+            for(int i=0; i<10; i++){
+                for(int j=0; j<4; j++){
+                    board.setPiece(i,j,pieceArray[j*10 + i]);
+                }
+            }
+        }
+
+    }
     // The function to place a piece for the initial board
     // (not necessarily using this approach, may implement placement at frontend and put them in backend at once)
     // (should write with the frontend team to decide)

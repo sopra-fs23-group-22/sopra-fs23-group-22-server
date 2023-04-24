@@ -25,14 +25,14 @@ public class Board {
             }
         }
         // Specifying the lake areas
-        square[2][4].setType(LAKE);
-        square[2][5].setType(LAKE);
-        square[3][4].setType(LAKE);
-        square[2][5].setType(LAKE);
-        square[6][4].setType(LAKE);
-        square[6][5].setType(LAKE);
-        square[7][4].setType(LAKE);
-        square[7][5].setType(LAKE);
+        square[4][2].setType(LAKE);
+        square[5][2].setType(LAKE);
+        square[4][3].setType(LAKE);
+        square[5][3].setType(LAKE);
+        square[4][6].setType(LAKE);
+        square[5][6].setType(LAKE);
+        square[4][7].setType(LAKE);
+        square[5][7].setType(LAKE);
     }
 
     public Square getSquareViaAxis(Axis[] axis) { return this.square[axis[0].getInt()][axis[1].getInt()]; }
@@ -114,6 +114,9 @@ public class Board {
 
     public Square getSquare(int axisX, int axisY) {
         return square[axisX][axisY];
+    }
+    public void setPiece(int axisX, int axisY, Piece piece){
+        this.square[axisY][axisX].setContent(piece);
     }
 
 }
