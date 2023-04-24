@@ -37,3 +37,7 @@ Week 4, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-2
                         - Add visual component of creating a room
                         - Add frontend requests to fetch data and display the list of existing rooms
                         - Add Endpoints to create a room and add user to the room
+                        
+week 4, Anqi xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34
+                 - Modify gamePreparing page format
+                 - Add frontend requests to fetch data and display the player and the opponent
