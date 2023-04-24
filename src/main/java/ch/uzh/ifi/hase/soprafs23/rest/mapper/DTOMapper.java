@@ -10,8 +10,6 @@ import com.sun.istack.NotNull;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.ArrayList;
-
 /**
  * DTOMapper
  * This class is responsible for generating classes that will automatically
@@ -44,11 +42,16 @@ public abstract class DTOMapper {
     @Mapping(source = "pieceType", target = "pieceType")
     public abstract PieceGETDTO convertPieceToPieceGETDTO(Piece piece);
 
+    Piece convertPiecePUTDTOtoPiece(@NotNull PiecePUTDTO piecePUTDTO) {
+        return new Piece(piecePUTDTO.getPieceType(), piecePUTDTO.getArmyType());
+    }
+
     @Mapping(source = "axisX", target = "axisX")
     @Mapping(source = "axisY", target = "axisY")
     @Mapping(source = "type", target = "type")
     @Mapping(source = "content", target = "content")
     public abstract SquareGETDTO convertSquareToSquareGETDTO(Square square);
+
 
     @Mapping(source = "roomId", target = "roomId")
     @Mapping(source = "currentGameId", target = "currentGameId")
@@ -63,6 +66,14 @@ public abstract class DTOMapper {
             }
         }
         return squares;
+    }
+
+    public Piece[] convertConfigurationToInitialBoard(@NotNull PiecePUTDTO[] pieces) {
+        Piece[] configuration = new Piece[40];
+        for(int i=0; i<pieces.length; i++) {
+            configuration[i] = convertPiecePUTDTOtoPiece(pieces[i]);
+        }
+        return configuration;
     }
 
 //    @Mapping(source = "roomId", target = "roomId")

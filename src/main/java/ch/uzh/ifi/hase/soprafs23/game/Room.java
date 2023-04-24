@@ -65,4 +65,6 @@ public class Room {
     public ArrayList<Long> getUserIds() {
         return userIds;
     }
+
+    public Game getGame() { return game; }
 }

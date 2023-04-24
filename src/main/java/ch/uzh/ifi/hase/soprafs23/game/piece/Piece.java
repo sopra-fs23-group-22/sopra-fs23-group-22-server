@@ -32,4 +32,11 @@ public class Piece {
     public AttackResult attack(Square sourceSquare, Square targetSquare) { return this.pieceType.getAttackStrategy().attack(sourceSquare, targetSquare); }
     public MoveResult move(Square sourceSquare, Square targetSquare) { return this.pieceType.getMoveStrategy().move(sourceSquare, targetSquare); }
 
+    public void setPieceType(PieceType pieceType) {
+        this.pieceType = pieceType;
+    }
+
+    public void setArmyType(ArmyType armyType) {
+        this.armyType = armyType;
+    }
 }
