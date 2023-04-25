@@ -44,3 +44,6 @@ week 4, Anqi xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-serv
 
 week 4, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/88
                     - Start with implementing the websocket
+
+week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23
+                    - Refine of backend & some connection parts
