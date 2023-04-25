@@ -41,3 +41,6 @@ Week 4, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-2
 week 4, Anqi xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34
                  - Modify gamePreparing page format
                  - Add frontend requests to fetch data and display the player and the opponent
+
+week 4, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/88
+                    - Start with implementing the websocket
