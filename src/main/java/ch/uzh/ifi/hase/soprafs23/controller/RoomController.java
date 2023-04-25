@@ -34,6 +34,13 @@ public class RoomController {
         room.addUser(userId);
 //        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
     }
+    @GetMapping("/rooms/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RoomGetDTO getRoom(@PathVariable int roomId) {
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
+    }
     @GetMapping("/rooms")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
