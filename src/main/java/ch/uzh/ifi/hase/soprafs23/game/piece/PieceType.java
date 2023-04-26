@@ -6,7 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.*;
 import static ch.uzh.ifi.hase.soprafs23.game.piece.Rank.*;
 
 public enum PieceType {
-    BOMB(B, "Bomb", new BombMoveStrategy(), new BasicAttackStrategy(B)),
+    BOMB(B, "Bomb", new NonMoveStrategy(), new BasicAttackStrategy(B)),
     MARSHAL(_10, "Marshal", new BasicMoveStrategy(), new BasicAttackStrategy(_10)),
     GENERAL(_9, "General", new BasicMoveStrategy(), new BasicAttackStrategy(_9)),
     COLONEL(_8, "Colonel", new BasicMoveStrategy(), new BasicAttackStrategy(_8)),
@@ -17,7 +17,7 @@ public enum PieceType {
     MINER(_3, "Miner", new BasicMoveStrategy(), new MinerAttackStrategy()),
     SCOUT(_2, "Scout", new ScoutMoveStrategy(), new BasicAttackStrategy(_2)),
     SPY(_1, "Spy", new BasicMoveStrategy(), new SpyAttackStrategy()),
-    FLAG(F, "Flag", new FlagMoveStrategy(), new BasicAttackStrategy(F));
+    FLAG(F, "Flag", new NonMoveStrategy(), new BasicAttackStrategy(F));
 
     private final Rank rank;
     private final String name;
