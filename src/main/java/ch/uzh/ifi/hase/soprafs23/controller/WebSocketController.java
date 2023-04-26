@@ -1,7 +1,12 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.BoardGETDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.MovingDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.TextMessageDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs23.service.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import java.util.List;
+
 @RestController
     public class WebSocketController {
+        private final GameService gameService;
 
+        public WebSocketController(GameService gameService){this.gameService = gameService;}
         @Autowired
         SimpMessagingTemplate template;
 
@@ -36,6 +45,14 @@ import com.fasterxml.jackson.databind.ObjectWriter;
         @MessageMapping("/sendMessage")
         public void receiveMessage(@Payload TextMessageDTO textMessageDTO) {
             // receive message from client
+        }
+
+        // this is a test method
+        @MessageMapping("/boards")
+        @SendTo("/boards")
+        public List<SquareGETDTO> operatePiece(@RequestBody MovingDTO movingDTO) {
+            Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
+            return gameService.operatePiece(coordinates);
         }
 
 

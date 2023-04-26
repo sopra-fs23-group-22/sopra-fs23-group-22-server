@@ -10,6 +10,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,9 +89,19 @@ public class GameService {
         Lobby.getInstance().createRoom();
     }
 
+    //this is a test method
+    public List<SquareGETDTO> operatePiece(Axis[][] coordinates) {
 
-    public void operatePiece(Axis[][] coordinates) {
         game.operate(coordinates[0], coordinates[1]);
+        Board board = game.getBoard();
+        List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
+        for(int i = 0; i<10; i++) {
+            for(int j=0; j<10; j++) {
+//                squares[i][j] = convertSquareToSquareGETDTO(board.getSquare(i, j));
+                squares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
+            }
+        }
+        return squares;
     }
 
     public Board getBoard() {
