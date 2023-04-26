@@ -52,8 +52,10 @@ public class Board {
         int count = 0;
         for (int i = 0; i < square.length; i++) {
             for (int j = 0; j < square[i].length; j++) {
-                if (square[i][j].getContent().getArmyType() == player.getArmy().getType()) {
-                    count++;
+                if (square[i][j].getContent() != null && square[i][j].getType() != LAKE) {
+                    if (square[i][j].getContent().getArmyType() == player.getArmy().getType()) {
+                        count++;
+                    }
                 }
             }
         }
