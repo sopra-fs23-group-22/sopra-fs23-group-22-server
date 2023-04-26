@@ -19,4 +19,6 @@ public enum Axis {
         return this.value;
     }
 
+    public int getIntIndex() { return this.value - 1; }
+
 }
