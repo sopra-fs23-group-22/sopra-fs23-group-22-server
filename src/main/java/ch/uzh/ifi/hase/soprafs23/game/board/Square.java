@@ -57,4 +57,6 @@ public class Square {
     public Axis getAxisY() {
         return axisY;
     }
+
+    public SquareType getSquareType() { return this.type; }
 }
