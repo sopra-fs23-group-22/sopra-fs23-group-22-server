@@ -15,9 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -48,11 +46,20 @@ import java.util.List;
         }
 
         // this is a test method
-        @MessageMapping("/boards")
-        @SendTo("/boards")
-        public List<SquareGETDTO> operatePiece(@RequestBody MovingDTO movingDTO) {
+//        @MessageMapping("/topics/boards")
+//        @SendTo("/boards")
+        @PutMapping("/boards")
+        @ResponseStatus(HttpStatus.NO_CONTENT)
+        @ResponseBody
+//        public List<SquareGETDTO> operatePiece(@RequestBody MovingDTO movingDTO) {
+        public void operatePiece(@RequestBody MovingDTO movingDTO) {
             Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
-            return gameService.operatePiece(coordinates);
+//            System.out.println(gameService.getBoard().getSquare(coordinates[0][0].getInt(), coordinates[0][1].getInt()).getContent().getPieceType());
+//            System.out.println(gameService.getBoard().getSquare(coordinates[1][0].getInt(), coordinates[1][1].getInt()).getContent());
+            List<SquareGETDTO> board = gameService.operatePiece(coordinates);
+//            System.out.println(gameService.getBoard().getSquare(coordinates[0][0].getInt(), coordinates[0][1].getInt()).getContent());
+//            System.out.println(gameService.getBoard().getSquare(coordinates[1][0].getInt(), coordinates[1][1].getInt()).getContent().getPieceType());
+            template.convertAndSend("/topic/ongoingGame", board);
         }
 
 

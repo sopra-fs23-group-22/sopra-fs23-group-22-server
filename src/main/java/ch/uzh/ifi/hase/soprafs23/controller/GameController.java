@@ -52,13 +52,13 @@ public class GameController {
         gameService.setInitialBoard(game, pieces);
     }
 
-    @PutMapping("/boards")
-//    @PutMapping("/rooms/{roomId}/ongoingGame/players/{userId}/operation")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ResponseBody
-    public void operatePiece(@RequestBody MovingDTO movingDTO) {
-        Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
-        gameService.operatePiece(coordinates);
-    }
+//    @PutMapping("/boards")
+////    @PutMapping("/rooms/{roomId}/ongoingGame/players/{userId}/operation")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @ResponseBody
+//    public void operatePiece(@RequestBody MovingDTO movingDTO) {
+//        Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
+//        gameService.operatePiece(coordinates);
+//    }
 
 }
