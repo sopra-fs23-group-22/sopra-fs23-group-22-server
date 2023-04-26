@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
+import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
@@ -9,6 +10,8 @@ import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import com.sun.istack.NotNull;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Arrays;
 
 /**
  * DTOMapper
@@ -42,7 +45,7 @@ public abstract class DTOMapper {
     @Mapping(source = "pieceType", target = "pieceType")
     public abstract PieceGETDTO convertPieceToPieceGETDTO(Piece piece);
 
-    Piece convertPiecePUTDTOtoPiece(@NotNull PiecePUTDTO piecePUTDTO) {
+    public Piece convertPiecePUTDTOtoPiece(@NotNull PiecePUTDTO piecePUTDTO) {
         return new Piece(piecePUTDTO.getPieceType(), piecePUTDTO.getArmyType());
     }
 
@@ -75,6 +78,20 @@ public abstract class DTOMapper {
         }
         return configuration;
     }
+
+    public Axis[][] convertMovingDTOtoCoordinates(@NotNull MovingDTO movingDTO) {
+        Axis[][] coordinates = new Axis[2][1];
+        // a better way maybe using a hashmap, but I don't exactly know much about hashmap...
+        coordinates[0] = movingDTO.getSource();
+        coordinates[1] = movingDTO.getTarget();
+        System.out.println(coordinates[0][0]);
+        System.out.println(coordinates[0][1]);
+        System.out.println(coordinates[1][0]);
+        System.out.println(coordinates[1][1]);
+        return coordinates;
+    }
+
+
 
 //    @Mapping(source = "roomId", target = "roomId")
 //    @Mapping(source = "currentGameId", target = "currentGameId")
