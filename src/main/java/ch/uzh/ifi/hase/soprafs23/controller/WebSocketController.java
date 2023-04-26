@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.rest.dto.BoardGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.TextMessageDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +13,23 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.Console;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 @RestController
-    public class WebSocketTextController {
+    public class WebSocketController {
 
         @Autowired
         SimpMessagingTemplate template;
 
-        @PostMapping("/send")
-        public ResponseEntity<Void> sendMessage(@RequestBody TextMessageDTO textMessageDTO) {
+        @PostMapping("/boards")
+        public ResponseEntity<Void> sendBoard(@RequestBody BoardGETDTO boardGETDTO) throws JsonProcessingException {
+            //convert Object to json
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(boardGETDTO);
 
-            template.convertAndSend("/topic/message", textMessageDTO);
+            template.convertAndSend("/boards", json);
+
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
@@ -33,7 +39,7 @@ import java.io.Console;
         }
 
 
-        @SendTo("/topic/message")
+        @SendTo("/boards")
         public TextMessageDTO broadcastMessage(@Payload TextMessageDTO textMessageDTO) {
             return textMessageDTO;
         }

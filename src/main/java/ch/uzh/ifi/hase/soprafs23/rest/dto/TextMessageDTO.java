@@ -1,13 +1,14 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
+import ch.uzh.ifi.hase.soprafs23.game.Game;
+import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 
 public class TextMessageDTO {
-
-    private String message;
-    public String getMessage() {
-        return message;
+    private Piece piece;
+    public Piece getPiece() {
+        return piece;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
 }

@@ -12,8 +12,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
         @Override
         public void configureMessageBroker(MessageBrokerRegistry config) {
-            config.enableSimpleBroker("/topic");
-            config.setApplicationDestinationPrefixes("/app");
+            //config.enableSimpleBroker("/topic");
+            config.setApplicationDestinationPrefixes("/boards");
         }
 
         @Override
