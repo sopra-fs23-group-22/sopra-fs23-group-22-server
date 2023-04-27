@@ -11,7 +11,7 @@ import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.GameStatusDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.SocketMessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
@@ -114,8 +114,8 @@ public class GameService {
         return game.getOperatingPlayer();
     }
 
-    public GameStatusDTO getMessage(List<SquareGETDTO> board) {
-        GameStatusDTO socketMessageDTO = new GameStatusDTO();
+    public SocketMessageDTO getMessage(List<SquareGETDTO> board) {
+        SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setBoard(board);
         socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
         if(game.hasWinner()) {

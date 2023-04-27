@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 import java.util.List;
 
-public class GameStatusDTO {
+public class SocketMessageDTO {
 
     List<SquareGETDTO> board;
     long currentPlayerId;

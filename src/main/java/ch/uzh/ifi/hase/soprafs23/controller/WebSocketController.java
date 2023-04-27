@@ -60,7 +60,7 @@ import java.util.List;
             List<SquareGETDTO> board = gameService.operatePiece(coordinates);
 //            System.out.println(gameService.getBoard().getSquare(coordinates[0][0].getInt(), coordinates[0][1].getInt()).getContent());
 //            System.out.println(gameService.getBoard().getSquare(coordinates[1][0].getInt(), coordinates[1][1].getInt()).getContent().getPieceType());
-            GameStatusDTO messageDTO = gameService.getMessage(board);
+            SocketMessageDTO messageDTO = gameService.getMessage(board);
             System.out.println(gameService.getOperatingPlayer().getArmy().getType());
             template.convertAndSend("/topic/ongoingGame", messageDTO);
         }
