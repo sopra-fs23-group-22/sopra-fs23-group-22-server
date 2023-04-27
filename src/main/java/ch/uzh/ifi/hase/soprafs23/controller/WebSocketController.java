@@ -1,10 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.BoardGETDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.MovingDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.TextMessageDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -59,7 +56,9 @@ import java.util.List;
             List<SquareGETDTO> board = gameService.operatePiece(coordinates);
 //            System.out.println(gameService.getBoard().getSquare(coordinates[0][0].getInt(), coordinates[0][1].getInt()).getContent());
 //            System.out.println(gameService.getBoard().getSquare(coordinates[1][0].getInt(), coordinates[1][1].getInt()).getContent().getPieceType());
-            template.convertAndSend("/topic/ongoingGame", board);
+            SocketMessageDTO messageDTO = gameService.getMessage(board);
+            System.out.println(gameService.getOperatingPlayer().getArmy().getType());
+            template.convertAndSend("/topic/ongoingGame", messageDTO);
         }
 
 

@@ -31,6 +31,7 @@ public class GameController {
     public List<SquareGETDTO> getBoard(){
         // just to test if the endpoints works, need to be modified when we have the rest code
         Board board = gameService.getBoard();
+        System.out.println(gameService.getOperatingPlayer().getArmy().getType());
         List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
         for(int i = 0; i<10; i++) {
             for(int j=0; j<10; j++) {

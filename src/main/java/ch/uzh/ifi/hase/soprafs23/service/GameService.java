@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.game.Game;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
+import ch.uzh.ifi.hase.soprafs23.game.Player;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
@@ -10,6 +11,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.SocketMessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
@@ -108,4 +110,14 @@ public class GameService {
         return game.getBoard();
     }
 
+    public Player getOperatingPlayer() {
+        return game.getOperatingPlayer();
+    }
+
+    public SocketMessageDTO getMessage(List<SquareGETDTO> board) {
+        SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
+        socketMessageDTO.setBoard(board);
+        socketMessageDTO.setPlayer("anqi");
+        return socketMessageDTO;
+    }
 }

@@ -8,7 +8,9 @@ import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ public class UserController {
     this.userService = userService;
 //    this.roomService = roomService;
   }
+
+@Autowired
+SimpMessagingTemplate template;
 
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
@@ -60,6 +65,7 @@ public class UserController {
         for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
+        template.convertAndSend("/topic/users/online","get online users successfully");
         return userGetDTOs;
     }
 
