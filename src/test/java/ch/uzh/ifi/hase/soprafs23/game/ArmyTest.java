@@ -13,7 +13,10 @@ public class ArmyTest {
     @Test
     public void testGetAliveStateALIVE(){
         Army army = new Army(ArmyType.BLUE);
-
+        for(Piece piece : army.getPieces()){
+            piece.setAliveState(AliveState.DOWN);
+        }
+        army.getPieces().get(0).setAliveState(AliveState.ALIVE);
         assert(army.getAliveState().equals(AliveState.ALIVE));
 
 
