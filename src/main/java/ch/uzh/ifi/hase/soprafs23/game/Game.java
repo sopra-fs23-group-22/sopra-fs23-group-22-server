@@ -38,7 +38,7 @@ public class Game {
         if(pieceArray[0].getArmyType() == RED){
             for(int i=0; i<10; i++){
                 for(int j=6; j<10; j++){
-                    board.setPiece(i,j,pieceArray[j*10+i]);
+                    board.setPiece(i,j,pieceArray[(j-6)*10+i]);
                 }
             }
         }else{

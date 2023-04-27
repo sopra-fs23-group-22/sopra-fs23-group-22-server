@@ -17,7 +17,7 @@ public class BasicMoveStrategy implements MoveStrategy {
         if (targetSquare.getContent() != null)
             throw new IllegalArgumentException("Cannot move to a square that is already occupied");
         // calculate the distance between the two squares
-        if (currentSquare.calculateDistanceTo(targetSquare) > 1) return FAILED;
+        if (currentSquare.calculateDistanceTo(targetSquare) > 1 || currentSquare.calculateDistanceTo(targetSquare) == -1) return FAILED;
         // move the piece
         return SUCCESSFUL;
     }

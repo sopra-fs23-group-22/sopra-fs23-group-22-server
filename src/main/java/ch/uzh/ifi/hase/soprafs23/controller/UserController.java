@@ -39,6 +39,9 @@ public class UserController {
 //    this.roomService = roomService;
   }
 
+@Autowired
+SimpMessagingTemplate template;
+
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -69,7 +72,7 @@ public class UserController {
         for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
-        template.convertAndSend("/users/online", userGetDTOs);
+        template.convertAndSend("/topic/users/online","get online users successfully");
         return userGetDTOs;
     }
 
