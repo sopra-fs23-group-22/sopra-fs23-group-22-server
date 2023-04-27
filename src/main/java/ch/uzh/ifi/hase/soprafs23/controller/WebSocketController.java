@@ -29,11 +29,10 @@ import java.util.stream.Collectors;
     public class WebSocketController {
         private final GameService gameService;
 
-        public WebSocketController(GameService gameService, SimpMessagingTemplate template){this.gameService = gameService;
-            this.template = template;
-        }
+        public WebSocketController(GameService gameService){this.gameService = gameService;}
 
-        private final SimpMessagingTemplate template;
+        @Autowired
+        SimpMessagingTemplate template;
 
         @PostMapping("/boards")
         public ResponseEntity<Void> sendBoard(@RequestBody BoardGETDTO boardGETDTO) throws JsonProcessingException {

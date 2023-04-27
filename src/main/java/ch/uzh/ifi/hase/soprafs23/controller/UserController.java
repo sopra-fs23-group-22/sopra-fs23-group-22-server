@@ -26,12 +26,12 @@ public class UserController {
 
 
       private final UserService userService;
-      UserController(UserService userService, SimpMessagingTemplate template) {
+      UserController(UserService userService) {
         this.userService = userService;
     //    this.roomService = roomService;
-          this.template = template;
       }
-    final SimpMessagingTemplate template;
+    @Autowired
+    SimpMessagingTemplate template;
 
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
