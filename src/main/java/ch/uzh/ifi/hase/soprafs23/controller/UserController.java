@@ -1,9 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.User;
-import ch.uzh.ifi.hase.soprafs23.game.Lobby;
-import ch.uzh.ifi.hase.soprafs23.game.Room;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
@@ -14,9 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * User Controller
@@ -29,9 +24,16 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
 
+
+      private final UserService userService;
+      UserController(UserService userService) {
+        this.userService = userService;
+    //    this.roomService = roomService;
+      }
     @Autowired
     SimpMessagingTemplate template;
 
+<<<<<<< Updated upstream
   private final UserService userService;
 //  private final RoomService roomService;
   UserController(UserService userService) {
@@ -41,6 +43,8 @@ public class UserController {
 
 
 
+=======
+>>>>>>> Stashed changes
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody

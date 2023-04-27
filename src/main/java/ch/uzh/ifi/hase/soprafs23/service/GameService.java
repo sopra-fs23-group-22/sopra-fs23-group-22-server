@@ -45,8 +45,8 @@ public class GameService {
         players.add(2L);
         game.setup(players);
         Board board = game.getBoard();
-        Piece redpiece = new Piece(PieceType.GENERAL, ArmyType.RED);
-        Piece bludpiece = new Piece(PieceType.SCOUT, ArmyType.BLUE);
+        Piece redpiece = new Piece(PieceType.SCOUT, ArmyType.RED);
+        Piece bludpiece = new Piece(PieceType.GENERAL, ArmyType.BLUE);
         Piece[] red = new Piece[40];
         Piece[] blue = new Piece[40];
         for(int i=0; i<40; i++) {

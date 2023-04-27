@@ -14,8 +14,8 @@ public class BasicMoveStrategy implements MoveStrategy {
         // can only move to adjacent squares
         if (targetSquare.getType() == LAKE)
             throw new IllegalArgumentException("Cannot move to a lake");
-        if (targetSquare.getContent() != null)
-            throw new IllegalArgumentException("Cannot move to a square that is already occupied");
+        //if (targetSquare.getContent() != null)
+        //    throw new IllegalArgumentException("Cannot move to a square that is already occupied");
         // calculate the distance between the two squares
         if (currentSquare.calculateDistanceTo(targetSquare) > 1 || currentSquare.calculateDistanceTo(targetSquare) == -1) return FAILED;
         // move the piece

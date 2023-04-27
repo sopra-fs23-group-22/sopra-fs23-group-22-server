@@ -7,11 +7,13 @@ import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
 import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 import static ch.uzh.ifi.hase.soprafs23.game.board.SquareType.LAKE;
 import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult.DEFEATED;
 import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult.SUCCESSFUL;
+import static ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult.FAILED;
 import static ch.uzh.ifi.hase.soprafs23.game.states.AliveState.DOWN;
 
 public class Board {
@@ -92,16 +94,22 @@ public class Board {
         Piece attacker = getPieceViaAxis(sourceAxis);
         Square targetSquare = getSquareViaAxis(targetAxis);
         Square sourceSquare = getSquareViaAxis(sourceAxis);
+        if ( attacker.move(sourceSquare, targetSquare) == FAILED ) { return; }
         AttackResult result = attacker.attack(sourceSquare, targetSquare);
         // 1. If the attack is successful, the target square is cleared.
         //      and the attacker moves to the target square.
         if (result == SUCCESSFUL) {
+            System.out.println("attack successfully");
             targetSquare.getContent().setAliveState(DOWN);
             targetSquare.clear();
-            movePiece(sourceAxis, targetAxis);
+            System.out.println("movePiece() after attack invoked!");
+            //movePiece(sourceAxis, targetAxis);
+            targetSquare.setContent(attacker);
+            sourceSquare.clear();
         }
         // 2. If attack result is DEFEATED, the attacker is captured.
         else if (result == DEFEATED) {
+            System.out.println("attack fail");
             attacker.setAliveState(DOWN);
             square[sourceAxis[0].getInt()][sourceAxis[1].getInt()].clear();
         }

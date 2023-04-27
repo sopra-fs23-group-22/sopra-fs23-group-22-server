@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.game.board;
 
 public enum Axis {
+
+    _0(0),
     _1(1),
     _2(2),
     _3(3),
@@ -9,8 +11,8 @@ public enum Axis {
     _6(6),
     _7(7),
     _8(8),
-    _9(9),
-    _10(10);
+    _9(9);
+//    _10(10);
 
     private final int value;
 

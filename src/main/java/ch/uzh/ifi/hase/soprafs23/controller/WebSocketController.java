@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
         private final GameService gameService;
 
         public WebSocketController(GameService gameService){this.gameService = gameService;}
+
         @Autowired
         SimpMessagingTemplate template;
 
