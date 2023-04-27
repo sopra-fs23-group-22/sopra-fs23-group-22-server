@@ -8,7 +8,9 @@ import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +28,9 @@ import java.util.stream.Collectors;
  */
 @RestController
 public class UserController {
+
+    @Autowired
+    SimpMessagingTemplate template;
 
   private final UserService userService;
 //  private final RoomService roomService;
@@ -52,18 +57,19 @@ public class UserController {
     @GetMapping("/users/online")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<UserGetDTO> getOnlineUsers(@RequestBody User thisUser) {
+    public List<UserGetDTO> getOnlineUsers(/*@RequestBody User thisUser*/) {
         // fetch all online users in the internal representation
 
         List<User> users = userService.getOnlineUsers();
-        long thisUserId = thisUser.getId();
-        List<User> filteredUsers = users.stream().filter(user -> user.getId() != thisUserId).collect(Collectors.toList());
+//        long thisUserId = getId();
+        //List<User> filteredUsers = users.stream().filter(user -> user.getId() != thisUserId).collect(Collectors.toList());
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
         // convert each user to the API representation
-        for (User user : filteredUsers) {
+        for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
+        template.convertAndSend("/users/online", userGetDTOs);
         return userGetDTOs;
     }
 
