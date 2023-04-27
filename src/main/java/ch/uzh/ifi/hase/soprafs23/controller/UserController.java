@@ -52,19 +52,17 @@ public class UserController {
     @GetMapping("/users/online")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<UserGetDTO> getOnlineUsers(/*@RequestBody User thisUser*/) {
+    public List<UserGetDTO> getOnlineUsers() {
         // fetch all online users in the internal representation
 
         List<User> users = userService.getOnlineUsers();
-//        long thisUserId = getId();
-        //List<User> filteredUsers = users.stream().filter(user -> user.getId() != thisUserId).collect(Collectors.toList());
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
         // convert each user to the API representation
         for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
-//        template.convertAndSend("/topic/users/online","get online users successfully");
+        template.convertAndSend("/topic/users/online",userGetDTOs);
         return userGetDTOs;
     }
 
@@ -92,6 +90,13 @@ public class UserController {
         if (user.getStatus()!=null) {
             userService.updateUserStatus(user.getStatus(), userId);
         }
+        List<User> onlineUsers = userService.getOnlineUsers();
+        List<UserGetDTO> userGetDTOs = new ArrayList<>();
+
+        for (User user1 : onlineUsers) {
+            userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user1));
+        }
+        template.convertAndSend("/topic/users/online",userGetDTOs);
     }
 
     @GetMapping("/users/{userId}")
@@ -109,9 +114,5 @@ public class UserController {
         User user = userService.findUserByUsername(username);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
     }
-//    @PostMapping("users/{userId}/friends")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @ResponseBody
-//    public GetDTO (@RequestBody)
 
 }

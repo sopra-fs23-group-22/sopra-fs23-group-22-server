@@ -4,10 +4,12 @@ import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomPostDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs23.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,6 +18,14 @@ import java.util.List;
 
 @RestController
 public class RoomController {
+    @Autowired
+    SimpMessagingTemplate template;
+    private final UserService userService;
+
+    public RoomController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/rooms")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -23,6 +33,14 @@ public class RoomController {
         Room createdRoom = Lobby.getInstance().createRoom();
         long userId = user.getId();
         createdRoom.addUser(userId);
+        HashMap<Integer, Room> rooms = Lobby.getInstance().getRooms();
+        List<RoomGetDTO> roomGetDTOs = new ArrayList<>();
+
+        // ... send list of rooms back (with JSON format)
+        for (HashMap.Entry<Integer, Room> room : rooms.entrySet()) {
+            roomGetDTOs.add(DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room.getValue()));
+        }
+        template.convertAndSend("/topic/rooms", roomGetDTOs);
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
     }
     @PutMapping("/rooms/add/{roomId}")
@@ -32,6 +50,23 @@ public class RoomController {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
         long userId = user.getId();
         room.addUser(userId);
+
+        List<UserGetDTO> userGetDTOS = new ArrayList<UserGetDTO>();
+        for(long id: room.getUserIds()){
+            User user1 = userService.findUserById(id);
+            userGetDTOS.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user1));
+        }
+
+        HashMap<Integer, Room> rooms = Lobby.getInstance().getRooms();
+        List<RoomGetDTO> roomGetDTOs = new ArrayList<>();
+
+        // ... send list of rooms back (with JSON format)
+        for (HashMap.Entry<Integer, Room> room1 : rooms.entrySet()) {
+            roomGetDTOs.add(DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room1.getValue()));
+        }
+
+        template.convertAndSend("/topic/rooms", roomGetDTOs);
+        template.convertAndSend("/topic/room", userGetDTOS);
     }
     @PutMapping("/rooms/remove/{roomId}")
     @ResponseStatus(HttpStatus.OK)
@@ -40,13 +75,41 @@ public class RoomController {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
         long userId = user.getId();
         room.removeUser(userId);
+        List<UserGetDTO> userGetDTOS = new ArrayList<UserGetDTO>();
+        for(long id: room.getUserIds()){
+            User user1 = userService.findUserById(id);
+            userGetDTOS.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user1));
+        }
+
+        HashMap<Integer, Room> rooms = Lobby.getInstance().getRooms();
+        List<RoomGetDTO> roomGetDTOs = new ArrayList<>();
+
+        // ... send list of rooms back (with JSON format)
+        for (HashMap.Entry<Integer, Room> room1 : rooms.entrySet()) {
+            roomGetDTOs.add(DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room1.getValue()));
+        }
+        template.convertAndSend("/topic/rooms", roomGetDTOs);
+        template.convertAndSend("/topic/room", userGetDTOS);
     }
     @GetMapping("/rooms/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public RoomGetDTO getRoom(@PathVariable int roomId) {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
+        RoomGetDTO roomGetDTO = DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
+        return roomGetDTO;
+    }
+    @GetMapping("/rooms/{roomId}/players")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<UserGetDTO> getPlayers(@PathVariable int roomId) {
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        List<UserGetDTO> userGetDTOS = new ArrayList<UserGetDTO>();
+        for(long id: room.getUserIds()){
+            User user = userService.findUserById(id);
+            userGetDTOS.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        }
+        return userGetDTOS;
     }
     @GetMapping("/rooms")
     @ResponseStatus(HttpStatus.OK)
@@ -60,6 +123,7 @@ public class RoomController {
         for (HashMap.Entry<Integer, Room> room : rooms.entrySet()) {
             roomGetDTOs.add(DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room.getValue()));
         }
+        template.convertAndSend("/topic/rooms", roomGetDTOs);
         return roomGetDTOs;
     }
 //    @PutMapping("/rooms/{roomId}")
