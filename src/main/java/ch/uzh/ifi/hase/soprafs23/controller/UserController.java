@@ -33,18 +33,6 @@ public class UserController {
     @Autowired
     SimpMessagingTemplate template;
 
-<<<<<<< Updated upstream
-  private final UserService userService;
-//  private final RoomService roomService;
-  UserController(UserService userService) {
-    this.userService = userService;
-//    this.roomService = roomService;
-  }
-
-
-
-=======
->>>>>>> Stashed changes
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
