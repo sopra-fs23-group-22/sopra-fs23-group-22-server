@@ -7,9 +7,9 @@ import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
-import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
+import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SocketMessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
@@ -117,7 +117,16 @@ public class GameService {
     public SocketMessageDTO getMessage(List<SquareGETDTO> board) {
         SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setBoard(board);
-        socketMessageDTO.setPlayer("anqi");
+        socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
+        if(game.hasWinner()) {
+            socketMessageDTO.setWinner(game.getWinner().getUserId());
+        } else {
+            socketMessageDTO.setWinner(-1L);
+        }
         return socketMessageDTO;
+    }
+
+    public GameState getGameState() {
+        return game.getGameState();
     }
 }
