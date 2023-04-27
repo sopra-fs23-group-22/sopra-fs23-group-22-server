@@ -31,8 +31,8 @@ public class UserController {
     //    this.roomService = roomService;
       }
 
-//    @Autowired
-//    SimpMessagingTemplate template;
+    @Autowired
+    SimpMessagingTemplate template;
 
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)

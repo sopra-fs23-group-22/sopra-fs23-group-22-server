@@ -37,9 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
-  @MockBean
-  private SimpMessagingTemplate simpMessagingTemplate;
-  @Autowired
+
+    @MockBean
+    private SimpMessagingTemplate simpMessagingTemplate;
+    @Autowired
   private MockMvc mockMvc;
 
   @MockBean
