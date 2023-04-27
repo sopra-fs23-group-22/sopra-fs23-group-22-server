@@ -92,9 +92,7 @@ public class WebsocketControllerTest {
         given(army.getType()).willReturn(Mockito.any());
 
 
-        MockHttpServletRequestBuilder postRequest = put("/boards")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(movingDTO));
+
 
         mockMvc.perform(put("/boards")
                 .contentType(MediaType.APPLICATION_JSON)
