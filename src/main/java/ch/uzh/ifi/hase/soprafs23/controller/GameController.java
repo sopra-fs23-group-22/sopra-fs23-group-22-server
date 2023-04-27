@@ -24,6 +24,8 @@ public class GameController {
     }
     @Autowired
     SimpMessagingTemplate template;
+
+
     @GetMapping("/boards")
 //    @GetMapping("/rooms/{roomId}/game")
     @ResponseStatus(HttpStatus.OK)
@@ -51,6 +53,9 @@ public class GameController {
         Game game = gameService.findGameByRoomId(roomId);
         Piece[] pieces = DTOMapper.INSTANCE.convertConfigurationToInitialBoard(configuration);
         gameService.setInitialBoard(game, pieces);
+        System.out.println(gameService.getGameState());
+        template.convertAndSend("/topic/loading", gameService.getGameState());
+        System.out.println(gameService.getGameState());
     }
 
 //    @PutMapping("/boards")
@@ -61,5 +66,6 @@ public class GameController {
 //        Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
 //        gameService.operatePiece(coordinates);
 //    }
+
 
 }

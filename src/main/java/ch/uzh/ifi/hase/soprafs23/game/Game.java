@@ -22,7 +22,7 @@ public class Game {
     private Board board;
     private Player operatingPlayer;
     private GameState gameState;
-    private Player winner;
+    private Player winner = null;
 
     public void setup(ArrayList<Long> userIds){
         if (this.board == null) board = new Board();
@@ -149,5 +149,9 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Player getWinner() {
+            return winner;
     }
 }
