@@ -1,16 +1,15 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.game.Game;
-import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
-import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.MovingDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.PiecePUTDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public class GameController {
     public GameController(GameService gameService) {
         this.gameService = gameService;
     }
-
+    @Autowired
+    SimpMessagingTemplate template;
     @GetMapping("/boards")
 //    @GetMapping("/rooms/{roomId}/game")
     @ResponseStatus(HttpStatus.OK)
