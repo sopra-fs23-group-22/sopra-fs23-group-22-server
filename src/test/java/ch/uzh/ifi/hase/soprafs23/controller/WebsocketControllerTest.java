@@ -3,6 +3,8 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 import ch.uzh.ifi.hase.soprafs23.game.Player;
 import ch.uzh.ifi.hase.soprafs23.game.army.Army;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
+import ch.uzh.ifi.hase.soprafs23.game.board.Square;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.BoardGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.MovingDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SocketMessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
@@ -11,6 +13,7 @@ import ch.uzh.ifi.hase.soprafs23.service.GameService;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -34,6 +37,7 @@ import static org.mockito.Mockito.verify;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(WebSocketController.class)
 public class WebsocketControllerTest {
@@ -59,6 +63,7 @@ public class WebsocketControllerTest {
     private Player player;
     @MockBean
     private Army army;
+
 
 
 
@@ -93,10 +98,30 @@ public class WebsocketControllerTest {
 
         mockMvc.perform(put("/boards")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(movingDTO)));
+                .content(asJsonString(movingDTO)))
+                .andExpect(status().isNoContent());
 
         verify(gameService).operatePiece(Mockito.any());
         verify(template).convertAndSend("/topic/ongoingGame", messageDTO);
+
+    }
+    @Test
+    public void TestSendBoard() throws Exception {
+        BoardGETDTO boardGETDTO = new BoardGETDTO();
+        SquareGETDTO squareGETDTO = new SquareGETDTO();
+        SquareGETDTO[][] squareGETDTOS = new SquareGETDTO[0][0];
+        boardGETDTO.setSquare(squareGETDTOS);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(boardGETDTO);
+
+
+        mockMvc.perform(post("/boards")
+               .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(boardGETDTO)))
+                .andExpect(status().isOk());
+
+
+        verify(template).convertAndSend("/boards", json);
 
     }
 
