@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * User Controller
@@ -51,13 +52,16 @@ public class UserController {
     @GetMapping("/users/online")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<UserGetDTO> getOnlineUsers() {
+    public List<UserGetDTO> getOnlineUsers(@RequestBody User thisUser) {
         // fetch all online users in the internal representation
+
         List<User> users = userService.getOnlineUsers();
+        long thisUserId = thisUser.getId();
+        List<User> filteredUsers = users.stream().filter(user -> user.getId() != thisUserId).collect(Collectors.toList());
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
         // convert each user to the API representation
-        for (User user : users) {
+        for (User user : filteredUsers) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
         return userGetDTOs;

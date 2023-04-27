@@ -25,14 +25,21 @@ public class RoomController {
         createdRoom.addUser(userId);
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
     }
-    @PutMapping("/rooms/{roomId}")
+    @PutMapping("/rooms/add/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void addAUser(@RequestBody User user, @PathVariable int roomId) {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
         long userId = user.getId();
         room.addUser(userId);
-//        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
+    }
+    @PutMapping("/rooms/remove/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void removeUser(@RequestBody User user, @PathVariable int roomId) {
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        long userId = user.getId();
+        room.removeUser(userId);
     }
     @GetMapping("/rooms/{roomId}")
     @ResponseStatus(HttpStatus.OK)
