@@ -47,6 +47,7 @@ week 4, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-2
 
 week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23
                     - Refine of backend & some connection parts
+
 01.05.2023
 Week 5, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/70
                     - Update displaying room list and player list using web socket and complete connection part for displaying the list.
