@@ -44,36 +44,33 @@ public class GameService {
         players.add(1L);
         players.add(2L);
         game.setup(players);
-        Board board = game.getBoard();
-        Piece redpiece = new Piece(PieceType.SCOUT, ArmyType.RED);
-        Piece bludpiece = new Piece(PieceType.GENERAL, ArmyType.BLUE);
+
         Piece[] red = new Piece[40];
         Piece[] blue = new Piece[40];
+        List<PieceType> reddy = new ArrayList<>(List.of(
+                PieceType.MARSHAL,
+                PieceType.GENERAL,
+                PieceType.COLONEL, PieceType.COLONEL,
+                PieceType.MAJOR, PieceType.MAJOR, PieceType.MAJOR,
+                PieceType.CAPTAIN, PieceType.CAPTAIN, PieceType.CAPTAIN, PieceType.CAPTAIN,
+                PieceType.LIEUTENANT, PieceType.LIEUTENANT, PieceType.LIEUTENANT, PieceType.LIEUTENANT,
+                PieceType.SERGEANT, PieceType.SERGEANT, PieceType.SERGEANT, PieceType.SERGEANT,
+                PieceType.MINER, PieceType.MINER, PieceType.MINER, PieceType.MINER, PieceType.MINER,
+                PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT,
+                PieceType.SPY,
+                PieceType.BOMB, PieceType.BOMB, PieceType.BOMB, PieceType.BOMB, PieceType.BOMB, PieceType.BOMB,
+                PieceType.FLAG
+                ));
+
         for(int i=0; i<40; i++) {
-            red[i] = redpiece;
-            blue[i] = bludpiece;
+            red[i] = new Piece(reddy.get(i), ArmyType.RED);
+            blue[i] = new Piece(reddy.get(39-i), ArmyType.BLUE);
         }
         game.placePieces(red);
         game.placePieces(blue);
         game.start();
     }
 
-//    public Board createBoard(){
-//        this.board = new Board();
-//        Piece redpiece = new Piece(PieceType.BOMB, ArmyType.RED);
-//        Piece bludpiece = new Piece(PieceType.SCOUT, ArmyType.BLUE);
-//        for(int i=0; i<4; i++) {
-//            for(int j=0; j<10; j++){
-//                board.place(bludpiece, board.getSquare(i,j));
-//            }
-//        }
-//        for(int i=6; i<10; i++) {
-//            for(int j=0; j<10; j++){
-//                board.place(redpiece, board.getSquare(i,j));
-//            }
-//        }
-//        return board;
-//    }
 
     public void setInitialBoard(Game game, Piece[] configuration) {
         game.placePieces(configuration);
