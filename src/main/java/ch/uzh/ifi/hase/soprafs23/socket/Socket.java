@@ -17,7 +17,7 @@ public class Socket implements WebSocketMessageBrokerConfigurer {
 
         private static final String ORIGIN_LOCALHOST = "http://localhost:3000";
 
-        private static final String ORIGIN_PROD = "sopra-fs23-group-22-client.oa.r.appspot.com";
+        private static final String ORIGIN_PROD = "https://sopra-fs23-group-22-client.oa.r.appspot.com";
 
         @Override
         public void configureMessageBroker(@NotNull MessageBrokerRegistry config) {
