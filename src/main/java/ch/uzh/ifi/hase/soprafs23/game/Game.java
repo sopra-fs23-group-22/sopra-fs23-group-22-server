@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.game;
 import ch.uzh.ifi.hase.soprafs23.game.army.Army;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
+import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 import static ch.uzh.ifi.hase.soprafs23.game.army.ArmyType.BLUE;
 import static ch.uzh.ifi.hase.soprafs23.game.army.ArmyType.RED;
+import static ch.uzh.ifi.hase.soprafs23.game.board.SquareType.LAKE;
 import static ch.uzh.ifi.hase.soprafs23.game.states.AliveState.DOWN;
 import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.IN_PROGRESS;
 import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.PRE_PLAY;
@@ -91,9 +93,33 @@ public class Game {
     public void operate(Axis[] sourceAxis, Axis[] targetAxis) {
         if (gameState != IN_PROGRESS) throw new IllegalStateException("The game is not in progress!");
         if (board.getSquareViaAxis(sourceAxis).getContent() == null)
-            throw new IllegalStateException("The source square has no piece!");
+            throw new IllegalStateException("The source square has no piece to move!");
         // if the target square has been occupied, then it is an attack
+        //  ... if source piece is a Scout, the path it moves over should not be LAKE and should have no piece
+        if (board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.SCOUT) {
+            // ... get squares along the path
+            Square[] path = board.getPath(sourceAxis, targetAxis);
+            // ... check if the path has piece or LAKE
+            for (Square square : path) {
+                if (square.getContent() != null)
+                    // throw new IllegalStateException("The path has been blocked by another piece!");
+                    return; // (just for now, should throw exception)
+                if (square.getType() == LAKE)
+                    // throw new IllegalStateException("The path has been blocked by a lake!");
+                    return; // (just for now, should throw exception)
+            }
+        }
+        // ... if source piece is a bomb or flag, it cannot move, this operation is invalid
+        if (board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.BOMB ||
+                board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.FLAG)
+            // throw new IllegalStateException("The source piece cannot move!");
+            return; // (just for now, should throw exception)
         if (board.getSquareViaAxis(targetAxis).getContent() != null) {
+            // if the target square has a piece of the same army, then it is an invalid move
+            if (board.getSquareViaAxis(sourceAxis).getContent().getArmyType() ==
+                    board.getSquareViaAxis(targetAxis).getContent().getArmyType())
+                //throw new IllegalStateException("The target square has a piece of the same army!");
+                return; // (just for now, should throw exception)
             board.attackPiece(sourceAxis, targetAxis);
             switchTurn();
         } else {

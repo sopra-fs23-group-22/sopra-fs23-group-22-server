@@ -8,9 +8,7 @@ public class SocketMessageDTO {
     String player;
 
 
-    public List<SquareGETDTO> getBoard() {
-        return board;
-    }
+    public List<SquareGETDTO> getBoard() { return board; }
 
     public void setBoard(List<SquareGETDTO> board) {
         this.board = board;

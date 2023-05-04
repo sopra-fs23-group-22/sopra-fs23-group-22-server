@@ -9,6 +9,7 @@ import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static ch.uzh.ifi.hase.soprafs23.game.board.SquareType.LAKE;
 import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult.DEFEATED;
@@ -128,5 +129,28 @@ public class Board {
     public void setPiece(int axisX, int axisY, Piece piece){
         this.square[axisY][axisX].setContent(piece);
     }
-
+    public Square[] getPath(Axis[] sourceAxis, Axis[] targetAxis) {
+        // to get the squares along the path from source to target
+        // the source and target is not included
+        Square[] path = new Square[0];
+        int x1 = sourceAxis[0].getInt();
+        int y1 = sourceAxis[1].getInt();
+        int x2 = targetAxis[0].getInt();
+        int y2 = targetAxis[1].getInt();
+        int deltaX = x2 - x1;
+        int deltaY = y2 - y1;
+        int xStep = 0;
+        int yStep = 0;
+        if (deltaX != 0) xStep = deltaX / Math.abs(deltaX);
+        if (deltaY != 0) yStep = deltaY / Math.abs(deltaY);
+        int x = x1 + xStep;
+        int y = y1 + yStep;
+        while (x != x2 || y != y2) {
+            path = Arrays.copyOf(path, path.length+1);
+            path[path.length-1] = square[x][y];
+            x += xStep;
+            y += yStep;
+        }
+        return path;
+    }
 }
