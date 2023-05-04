@@ -43,7 +43,7 @@ public class RoomController {
         template.convertAndSend("/topic/rooms", roomGetDTOs);
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
     }
-    @PutMapping("/rooms/add/{roomId}")
+    @PutMapping("/rooms/{roomId}/add")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void addAUser(@RequestBody User user, @PathVariable int roomId) {
@@ -68,7 +68,7 @@ public class RoomController {
         template.convertAndSend("/topic/rooms", roomGetDTOs);
         template.convertAndSend("/topic/room", userGetDTOS);
     }
-    @PutMapping("/rooms/remove/{roomId}")
+    @PutMapping("/rooms/{roomId}/remove")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void removeUser(@RequestBody User user, @PathVariable int roomId) {
@@ -99,6 +99,7 @@ public class RoomController {
         RoomGetDTO roomGetDTO = DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
         return roomGetDTO;
     }
+
     @GetMapping("/rooms/{roomId}/players")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

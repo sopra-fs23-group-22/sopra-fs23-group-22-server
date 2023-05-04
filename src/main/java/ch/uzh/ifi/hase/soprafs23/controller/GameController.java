@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.game.Game;
+import ch.uzh.ifi.hase.soprafs23.game.Lobby;
+import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.PiecePUTDTO;
@@ -42,15 +44,28 @@ public class GameController {
         return squares;
     }
 
+    @PutMapping("rooms/{roomId}/start")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void startGame(@PathVariable int roomId) {
+        Game game = gameService.findGameByRoomId(roomId);
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        game.setup(room.getUserIds());
+    }
+
+
     @PutMapping("/rooms/{roomId}/setBoard")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void setConfiguration(@PathVariable int roomId, @RequestBody PiecePUTDTO[] configuration) {
         // just to test if the endpoints works, need to be modified when we have the rest code
-        gameService.createRoom();
-        Game game = gameService.findGameByRoomId(roomId);
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        Game game = room.getGame();
+//        gameService.createRoom();
+//        Game game = gameService.findGameByRoomId(roomId);
         Piece[] pieces = DTOMapper.INSTANCE.convertConfigurationToInitialBoard(configuration);
-        gameService.setInitialBoard(game, pieces);
+        game.placePieces(pieces);
+//        gameService.setInitialBoard(game, pieces);
     }
 
 //    @PutMapping("/boards")
