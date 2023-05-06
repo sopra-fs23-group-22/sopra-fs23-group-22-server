@@ -114,7 +114,7 @@ public class GameService {
     public SocketMessageDTO getMessage(List<SquareGETDTO> board) {
         SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setBoard(board);
-        socketMessageDTO.setPlayer("anqi");
+        socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
         return socketMessageDTO;
     }
 }

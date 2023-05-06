@@ -5,7 +5,8 @@ import java.util.List;
 public class SocketMessageDTO {
 
     List<SquareGETDTO> board;
-    String player;
+    Long currentPlayerId;
+    Long winnerId = -1L; // ... the id of the winner, -1 by default means no winner yet
 
 
     public List<SquareGETDTO> getBoard() { return board; }
@@ -14,11 +15,15 @@ public class SocketMessageDTO {
         this.board = board;
     }
 
-    public String getPlayer() {
-        return player;
+    public Long getCurrentPlayerId() {
+        return currentPlayerId;
     }
 
-    public void setPlayer(String player) {
-        this.player = player;
+    public void setCurrentPlayerId(Long playerId) {
+        this.currentPlayerId = playerId;
     }
+
+    public Long getWinnerId() { return winnerId; }
+
+    public void setWinnerId(Long winnerId) { this.winnerId = winnerId; }
 }
