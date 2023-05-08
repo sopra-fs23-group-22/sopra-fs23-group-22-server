@@ -52,8 +52,8 @@ public class RoomController {
         List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(room);
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
 
-        template.convertAndSend("/topic/rooms", roomGetDTOs);
-        template.convertAndSend("/topic/room", userGetDTOS);
+        template.convertAndSend("/topic/rooms", roomGetDTOs); // send list of rooms to all clients
+        template.convertAndSend("/topic/room", userGetDTOS); // send list of users in room
     }
     @PutMapping("/rooms/{roomId}/remove")
     @ResponseStatus(HttpStatus.OK)
