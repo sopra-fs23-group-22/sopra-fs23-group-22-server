@@ -51,4 +51,11 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 01.05.2023
 Week 5, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/70
                     - Update displaying room list and player list using web socket and complete connection part for displaying the list.
-                    - Refractor code
+                    - Refactor code
+
+09.05.2023
+Week 6, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/36
+                    - Add user profile page in frontend to check users' profile and send request to change my personal information.
+                    - Add fetch user game statistics.
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/96
+                    - Refactor code for frontend and roomController in backend
