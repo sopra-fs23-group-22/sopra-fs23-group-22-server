@@ -54,21 +54,17 @@ import java.util.stream.Collectors;
         // this is a test method
 //        @MessageMapping("/topics/boards")
 //        @SendTo("/boards")
-        @PutMapping("/boards")
-        @ResponseStatus(HttpStatus.NO_CONTENT)
-        @ResponseBody
-//        public List<SquareGETDTO> operatePiece(@RequestBody MovingDTO movingDTO) {
-        public void operatePiece(@RequestBody MovingDTO movingDTO) {
-            Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
-//            System.out.println(gameService.getBoard().getSquare(coordinates[0][0].getInt(), coordinates[0][1].getInt()).getContent().getPieceType());
-//            System.out.println(gameService.getBoard().getSquare(coordinates[1][0].getInt(), coordinates[1][1].getInt()).getContent());
-            List<SquareGETDTO> board = gameService.operatePiece(coordinates);
-//            System.out.println(gameService.getBoard().getSquare(coordinates[0][0].getInt(), coordinates[0][1].getInt()).getContent());
-//            System.out.println(gameService.getBoard().getSquare(coordinates[1][0].getInt(), coordinates[1][1].getInt()).getContent().getPieceType());
-            SocketMessageDTO messageDTO = gameService.getMessage(board);
-            System.out.println(gameService.getOperatingPlayer().getArmy().getType());
-            template.convertAndSend("/topic/ongoingGame", messageDTO);
-        }
+//        @PutMapping("/boards")
+//        @ResponseStatus(HttpStatus.NO_CONTENT)
+//        @ResponseBody
+////        public List<SquareGETDTO> operatePiece(@RequestBody MovingDTO movingDTO) {
+//        public void operatePiece(@RequestBody MovingDTO movingDTO) {
+//            Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
+//            List<SquareGETDTO> board = gameService.operatePiece(coordinates);
+//            SocketMessageDTO messageDTO = gameService.getMessage(board);
+//            System.out.println(gameService.getOperatingPlayer().getArmy().getType());
+//            template.convertAndSend("/topic/ongoingGame", messageDTO);
+//        }
 
 
         @SendTo("/boards")

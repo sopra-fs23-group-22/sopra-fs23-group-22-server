@@ -65,25 +65,25 @@ public class GameControllerTest {
                 .andExpect(status().isOk());
     }*/
 
+    // the initial configuration has changed (it will be sent by user, so we don't need this anymore)
+    /*@Test
+    public void testSetConfiguration() throws Exception {
+        Piece piece = new Piece(PieceType.BOMB, ArmyType.BLUE);
+        Piece[] pieces = new Piece[2];
+        pieces[0] = piece;
+        pieces[1] = piece;
+        PiecePUTDTO piecePUTDTO = new PiecePUTDTO();
+        PiecePUTDTO[] piecePUTDTOS = new PiecePUTDTO[2];
+        piecePUTDTOS[0] = piecePUTDTO;
+        piecePUTDTOS[1] = piecePUTDTO;
+        given(gameService.findGameByRoomId(Mockito.anyInt())).willReturn(game);
+        given(dtoMapper.convertConfigurationToInitialBoard(Mockito.any())).willReturn(pieces);
 
-//    @Test
-//    public void testSetConfiguration() throws Exception {
-//        Piece piece = new Piece(PieceType.BOMB, ArmyType.BLUE);
-//        Piece[] pieces = new Piece[2];
-//        pieces[0] = piece;
-//        pieces[1] = piece;
-//        PiecePUTDTO piecePUTDTO = new PiecePUTDTO();
-//        PiecePUTDTO[] piecePUTDTOS = new PiecePUTDTO[2];
-//        piecePUTDTOS[0] = piecePUTDTO;
-//        piecePUTDTOS[1] = piecePUTDTO;
-//        given(gameService.findGameByRoomId(Mockito.anyInt())).willReturn(game);
-//        given(dtoMapper.convertConfigurationToInitialBoard(Mockito.any())).willReturn(pieces);
-//
-//        mockMvc.perform(put("/rooms/{roomId}/setBoard", 1)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(asJsonString(piecePUTDTOS)))
-//                .andExpect(status().isNoContent());
-//    }
+        mockMvc.perform(put("/rooms/{roomId}/setBoard", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(piecePUTDTOS)))
+                .andExpect(status().isNoContent());
+    }*/
 
     private String asJsonString(final Object object) {
         try {

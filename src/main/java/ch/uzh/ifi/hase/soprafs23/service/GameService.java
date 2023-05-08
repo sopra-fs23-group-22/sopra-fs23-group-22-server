@@ -30,47 +30,10 @@ public class GameService {
     private final Logger log = LoggerFactory.getLogger(GameService.class);
     private final UserRepository userRepository;
 
-    private Game game;
-
     @Autowired
     public GameService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        setUpGame();
     }
-
-    void setUpGame() {
-        game = new Game();
-        ArrayList<Long> players = new ArrayList<Long>();
-        players.add(1L);
-        players.add(2L);
-        game.setup(players);
-
-        Piece[] red = new Piece[40];
-        Piece[] blue = new Piece[40];
-        List<PieceType> reddy = new ArrayList<>(List.of(
-                PieceType.MARSHAL,
-                PieceType.GENERAL,
-                PieceType.COLONEL, PieceType.COLONEL,
-                PieceType.MAJOR, PieceType.MAJOR, PieceType.MAJOR,
-                PieceType.CAPTAIN, PieceType.CAPTAIN, PieceType.CAPTAIN, PieceType.CAPTAIN,
-                PieceType.LIEUTENANT, PieceType.LIEUTENANT, PieceType.LIEUTENANT, PieceType.LIEUTENANT,
-                PieceType.SERGEANT, PieceType.SERGEANT, PieceType.SERGEANT, PieceType.SERGEANT,
-                PieceType.MINER, PieceType.MINER, PieceType.MINER, PieceType.MINER, PieceType.MINER,
-                PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT, PieceType.SCOUT,
-                PieceType.SPY,
-                PieceType.BOMB, PieceType.BOMB, PieceType.BOMB, PieceType.BOMB, PieceType.BOMB, PieceType.BOMB,
-                PieceType.FLAG
-                ));
-
-        for(int i=0; i<40; i++) {
-            red[i] = new Piece(reddy.get(i), ArmyType.RED);
-            blue[i] = new Piece(reddy.get(39-i), ArmyType.BLUE);
-        }
-        game.placePieces(red);
-        game.placePieces(blue);
-        game.start();
-    }
-
 
     public void setInitialBoard(Game game, Piece[] configuration) {
         game.placePieces(configuration);
@@ -78,9 +41,6 @@ public class GameService {
 
     public Game findGameByRoomId(int roomId) {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-        room.addUser(1L);
-        room.addUser(2L);
-        room.enterGame();
         return room.getGame();
     }
 
@@ -89,32 +49,46 @@ public class GameService {
     }
 
     //this is a test method
-    public List<SquareGETDTO> operatePiece(Axis[][] coordinates) {
-
+    public List<SquareGETDTO> operatePiece(int roomId, Axis[][] coordinates) {
+        Game game = findGameByRoomId(roomId);
         game.operate(coordinates[0], coordinates[1]);
         Board board = game.getBoard();
         List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
         for(int i = 0; i<10; i++) {
             for(int j=0; j<10; j++) {
-//                squares[i][j] = convertSquareToSquareGETDTO(board.getSquare(i, j));
                 squares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
             }
         }
         return squares;
     }
 
-    public Board getBoard() {
+    public Board findBoardByRoomId(int roomId) {
+        Game game = findGameByRoomId(roomId);
         return game.getBoard();
     }
 
-    public Player getOperatingPlayer() {
+    public void enterGame(int roomId) {
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+//        Game game = room.getGame();
+        room.enterGame();
+//        game.setup(room.getUserIds());
+    }
+
+    public void startGame(int roomId) {
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        Game game = room.getGame();
+//        game.setup(room.getUserIds());
+        game.start();
+    }
+
+    public Player getOperatingPlayer(Game game) {
         return game.getOperatingPlayer();
     }
 
     public SocketMessageDTO getMessage(List<SquareGETDTO> board) {
         SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setBoard(board);
-        socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
+//        socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
         return socketMessageDTO;
     }
 }
