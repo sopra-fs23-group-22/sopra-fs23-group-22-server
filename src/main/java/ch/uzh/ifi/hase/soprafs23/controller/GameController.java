@@ -46,6 +46,7 @@ public class GameController {
     @ResponseBody
     public void enterGame(@PathVariable int roomId) {
         this.gameService.enterGame(roomId);
+        template.convertAndSend("/topic/room/" + roomId + "/state", "preplay");
     }
 
 
