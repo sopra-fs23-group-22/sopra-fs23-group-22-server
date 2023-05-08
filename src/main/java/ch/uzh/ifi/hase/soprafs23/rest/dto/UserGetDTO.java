@@ -9,6 +9,8 @@ public class UserGetDTO {
   private String username;
   private UserStatus status;
   private String token;
+  private int wins;
+  private int loss;
 
   public long getId() {
     return id;
@@ -48,5 +50,21 @@ public class UserGetDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLoss() {
+        return loss;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setLoss(int loss) {
+        this.loss = loss;
     }
 }
