@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
+import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.GameService;
@@ -58,9 +59,9 @@ public class GameController {
 //    }
 
     @PutMapping("/rooms/{roomId}/setBoard")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void setConfiguration(@PathVariable int roomId, @RequestBody PiecePUTDTO[] configuration){
+    public GameState setConfiguration(@PathVariable int roomId, @RequestBody PiecePUTDTO[] configuration){
         Piece[] pieces = DTOMapper.INSTANCE.convertConfigurationToInitialBoard(configuration);
         Game game = this.gameService.findGameByRoomId(roomId);
 //        System.out.println(game.getBoard().getSquare(0,0).getContent());
@@ -72,6 +73,7 @@ public class GameController {
             System.out.println("fail");
         }
         template.convertAndSend("/topic/loading/"+roomId, game.getGameState());
+        return game.getGameState();
     }
 
     @PutMapping("/rooms/{roomId}/players/{playerId}/moving")
