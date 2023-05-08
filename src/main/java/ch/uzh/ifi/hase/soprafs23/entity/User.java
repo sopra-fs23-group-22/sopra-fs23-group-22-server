@@ -37,6 +37,10 @@ public class User implements Serializable {
 
   @Column(nullable = false)
   private UserStatus status;
+  @Column(nullable = false)
+  private int wins;
+  @Column(nullable = false)
+  private int loss;
 //  @ElementCollection(fetch = FetchType.EAGER)
 //  @CollectionTable(name = "friend_id",
 //                    joinColumns = @JoinColumn(name="user_id"))
@@ -86,7 +90,22 @@ public class User implements Serializable {
     this.status = status;
   }
 
-//  public void addFriend(Long friendId) {
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLoss() {
+        return loss;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setLoss(int loss) {
+        this.loss = loss;
+    }
+    //  public void addFriend(Long friendId) {
 //      friends.add(friendId);
 //  }
 //  public void removeFriend(Long friendId) {
