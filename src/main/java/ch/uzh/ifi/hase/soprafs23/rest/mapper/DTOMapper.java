@@ -61,7 +61,6 @@ public abstract class DTOMapper {
 
 
     @Mapping(source = "roomId", target = "roomId")
-    @Mapping(source = "currentGameId", target = "currentGameId")
     @Mapping(source = "userIds", target = "userIds")
     public abstract RoomGetDTO convertEntityToRoomGetDTO(Room room);
 
@@ -107,10 +106,4 @@ public abstract class DTOMapper {
         return coordinates;
     }
 
-
-
-//    @Mapping(source = "roomId", target = "roomId")
-//    @Mapping(source = "currentGameId", target = "currentGameId")
-//    @Mapping(source = "userIds", target = "userIds")
-//    public abstract Room convertRoomPostDTOtoEntity(RoomPostDTO roomPostDTO);
 }

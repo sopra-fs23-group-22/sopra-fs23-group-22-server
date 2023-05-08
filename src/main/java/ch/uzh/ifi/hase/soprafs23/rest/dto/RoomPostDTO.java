@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class RoomPostDTO {
 
     private int roomId;
-    private int currentGameId;
 
     public long getRoomId() {
         return roomId;
@@ -20,11 +19,4 @@ public class RoomPostDTO {
         this.roomId = id;
     }
 
-    public int getCurrentGameId() {
-        return currentGameId;
-    }
-
-    public void setCurrentGameId(int currentGameId) {
-        this.currentGameId = currentGameId;
-    }
 }
