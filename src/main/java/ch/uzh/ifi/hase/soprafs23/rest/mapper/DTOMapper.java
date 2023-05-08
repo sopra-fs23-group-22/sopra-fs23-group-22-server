@@ -11,6 +11,8 @@ import com.sun.istack.NotNull;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 
 /**
@@ -61,15 +63,27 @@ public abstract class DTOMapper {
     @Mapping(source = "userIds", target = "userIds")
     public abstract RoomGetDTO convertEntityToRoomGetDTO(Room room);
 
-    SquareGETDTO[][] convertBoardToSquareGETDTOList(@NotNull Board board) {
-        SquareGETDTO[][] squares = new SquareGETDTO[10][10];
+    public List<SquareGETDTO> convertBoardToSquareGETDTOList(@NotNull Board board) {
+        List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
         for(int i = 0; i<10; i++) {
             for(int j=0; j<10; j++) {
-                squares[i][j] = convertSquareToSquareGETDTO(board.getSquare(i, j));
+                squares.add(convertSquareToSquareGETDTO(board.getSquare(i,j)));
             }
         }
         return squares;
     }
+
+
+
+//    SquareGETDTO[][] convertBoardToSquareGETDTOList(@NotNull Board board) {
+//        SquareGETDTO[][] squares = new SquareGETDTO[10][10];
+//        for(int i = 0; i<10; i++) {
+//            for(int j=0; j<10; j++) {
+//                squares[i][j] = convertSquareToSquareGETDTO(board.getSquare(i, j));
+//            }
+//        }
+//        return squares;
+//    }
 
     public Piece[] convertConfigurationToInitialBoard(@NotNull PiecePUTDTO[] pieces) {
         Piece[] configuration = new Piece[40];
