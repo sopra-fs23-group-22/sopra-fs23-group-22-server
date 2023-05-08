@@ -59,3 +59,8 @@ Week 6, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-2
                     - Add fetch user game statistics.
                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/96
                     - Refactor code for frontend and roomController in backend
+
+Week 6, Stefan Plüss,   https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/97
+                        - Added RoomTest.java to test that the room class works properly
+                        https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/98
+                        - Updated DTOMapperTest.java to verify that the data handling works correctly
