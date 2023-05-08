@@ -92,6 +92,7 @@ public class Game {
 
     public void operate(Axis[] sourceAxis, Axis[] targetAxis) {
         if (gameState != IN_PROGRESS) throw new IllegalStateException("The game is not in progress!");
+        if (sourceAxis == targetAxis) return; // ... does nothing if the source and target are the same
         if (board.getSquareViaAxis(sourceAxis).getContent() == null)
             throw new IllegalStateException("The source square has no piece to move!");
         // if the target square has been occupied, then it is an attack
