@@ -1,4 +1,4 @@
-04.04.2023
+## 04.04.2023
 Week 1, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/41 
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/81
@@ -23,7 +23,7 @@ Week 1,Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22
 Week 1, Anqi Xu,      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/6
                       https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/21
 
-25.04.2023
+## 25.04.2023
 Week 4, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27
                      - Created the visual component of piece, square and board.
                      - Set up the default pieces configuration.
@@ -48,7 +48,35 @@ week 4, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-2
 week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23
                     - Refine of backend & some connection parts
 
-01.05.2023
+## 01.05.2023
 Week 5, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/70
                     - Update displaying room list and player list using web socket and complete connection part for displaying the list.
-                    - Refractor code
+                    - Refactor code
+
+## 09.05.2023
+Week 6, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/36
+                    - Add user profile page in frontend to check users' profile and send request to change my personal information.
+                    - Add fetch user game statistics.
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/96
+                    - Refactor code for frontend and roomController in backend
+
+Week 6, Stefan Plüss,   https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/97
+                        - Added RoomTest.java to test that the room class works properly
+                        https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/98
+                        - Updated DTOMapperTest.java to verify that the data handling works correctly
+                        
+Week 6, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/38
+                        - Set up and configurated routers
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/39
+                        - Fixed the image render issue (images cannot show correctly after deployment)
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/99
+                        - Fixed the connection between server and client, so users can enter game with correct order.
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/100
+                        - Fixed the endpoints for create and start a new game, so rooms and games actually match.
+                        
+Week 6, Anqi Xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37
+                 - Add rulePopUp into lobby page, gamepreparing page to inform players of the game rules
+                 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/40
+                 - fix the showing of popUp when players click on confirm button
+                    
+                    
