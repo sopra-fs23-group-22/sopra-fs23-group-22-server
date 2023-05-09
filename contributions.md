@@ -64,3 +64,13 @@ Week 6, Stefan Plüss,   https://github.com/sopra-fs23-group-22/sopra-fs23-group
                         - Added RoomTest.java to test that the room class works properly
                         https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/98
                         - Updated DTOMapperTest.java to verify that the data handling works correctly
+Week 6, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/38
+                        - Set up and configurated routers
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/39
+                        - Fixed the image render issue (images cannot show correctly after deployment)
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/99
+                        - Fixed the connection between server and client, so users can enter game with correct order.
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/100
+                        - Fixed the endpoints for create and start a new game, so rooms and games actually match.
+                    
+                    
