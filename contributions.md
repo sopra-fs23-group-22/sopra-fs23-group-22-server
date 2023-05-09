@@ -64,6 +64,7 @@ Week 6, Stefan Plüss,   https://github.com/sopra-fs23-group-22/sopra-fs23-group
                         - Added RoomTest.java to test that the room class works properly
                         https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/98
                         - Updated DTOMapperTest.java to verify that the data handling works correctly
+                        
 Week 6, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/38
                         - Set up and configurated routers
                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/39
