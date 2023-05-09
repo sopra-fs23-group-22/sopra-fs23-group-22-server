@@ -49,57 +49,56 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
                     - Refine of backend & some connection parts
 
 ## 01.05.2023
-Week 5, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/70
-                    - Update displaying room list and player list using web socket and complete connection part for displaying the list.
-                    - Refactor code
+### Week 5, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/70 | - Update displaying room list and player list using web socket and complete connection part for displaying the list. <br> - Refactor code |
 
-Week 5, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/91
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92
-                    - WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game).
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/93
-                    - Refininig game rules (bug fixes).
-Week 5, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/16\
-                     - Added frontend request that contains the positions of all the placed pieces\
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27\
-                     - Implemented visual component for setting up the board
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/13\
-                     - Implemented frontend request for moving a piece\
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/10\
-                     - Implemented updating the view of the board\
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/83\
-                     - Corporation between front-end and back-end to perform the placement of initial board\
+### Week 5, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/91 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92 | WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game). |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/93 | Refininig game rules (bug fixes). |
+
+### Week 5, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/16 | Added frontend request that contains the positions of all the placed pieces |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27 | Implemented visual component for setting up the board |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/13 | Implemented frontend request for moving a piece |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/10 | Implemented updating the view of the board |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/83 | Corporation between front-end and back-end to perform the placement of initial board |
 
 ## 09.05.2023
-Week 6, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/36
-                    - Add user profile page in frontend to check users' profile and send request to change my personal information.
-                    - Add fetch user game statistics.
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/96
-                    - Refactor code for frontend and roomController in backend
+### Week 6, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/36 | 1. Add user profile page in frontend to check users' profile and send request to change my personal information.<br> 2. Add fetch user game statistics. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/96 | Refactor code for frontend and roomController in backend |
 
-Week 6, Stefan Plüss,   https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/97
-                        - Added RoomTest.java to test that the room class works properly
-                        https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/98
-                        - Updated DTOMapperTest.java to verify that the data handling works correctly
+### Week 6, Stefan Plüss
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/97 | Added RoomTest.java to test that the room class works properly |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/98 | Updated DTOMapperTest.java to verify that the data handling works correctly |
                         
-Week 6, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/38
-                        - Set up and configurated routers
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/39
-                        - Fixed the image render issue (images cannot show correctly after deployment)
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/99
-                        - Fixed the connection between server and client, so users can enter game with correct order.
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/100
-                        - Fixed the endpoints for create and start a new game, so rooms and games actually match.
+### Week 6, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/38 | Set up and configurated routers |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/39 | Fixed the image render issue (images cannot show correctly after deployment) |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/99 | Fixed the connection between server and client, so users can enter game with correct order. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/100 | Fixed the endpoints for create and start a new game, so rooms and games actually match. |
                         
-Week 6, Anqi Xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37
-                 - Add rulePopUp into lobby page, gamepreparing page to inform players of the game rules
-                 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/40
-                 - fix the showing of popUp when players click on confirm button
+### Week 6, Anqi Xu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37 | Add rulePopUp into lobby page, gamepreparing page to inform players of the game rules |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/40 | fix the showing of popUp when players click on confirm button |
 
-Week 6, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/102
-                    - Refining game rules (bug fixing: Scout cannot go across LAKE or other pieces).
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/103
-                    - Front-end and some refactor of backend to check whether the game has ended (by capturing all pieces or capturing flag). A popped up window is shown once there is winner.
-                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/104
-                    - Once one of the two users click "enter game", the game is entered for both players and the pre-play page is shown.
+### Week 6, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/102 | Refining game rules (bug fixing: Scout cannot go across LAKE or other pieces). |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/103 | Front-end and some refactor of backend to check whether the game has ended (by capturing all pieces or capturing flag). A popped up window is shown once there is winner. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/104 | Once one of the two users click "enter game", the game is entered for both players and the pre-play page is shown. |
