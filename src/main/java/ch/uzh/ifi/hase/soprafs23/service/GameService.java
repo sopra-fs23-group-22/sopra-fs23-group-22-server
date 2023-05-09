@@ -89,19 +89,14 @@ public class GameService {
         return game.getOperatingPlayer();
     }
 
-    public SocketMessageDTO getMessage(List<SquareGETDTO> board) {
+    public SocketMessageDTO getMessage(List<SquareGETDTO> board, Game game) {
         SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setBoard(board);
-//        socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
+        socketMessageDTO.setCurrentPlayerId(game.getOperatingPlayer().getUserId());
+        if (game.getWinner() != null)
+            socketMessageDTO.setWinnerId(game.getWinner().getUserId());
+        else socketMessageDTO.setWinnerId(-1L);
         return socketMessageDTO;
     }
 
-    public String asJsonString(final Object object) {
-        try {
-            return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("The request body could not be created.%s", e.toString()));
-        }
-    }
 }

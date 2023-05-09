@@ -85,7 +85,7 @@ public class GameController {
         List<SquareGETDTO> board = this.gameService.operatePiece(roomId, coordinates);
         Game game = Lobby.getInstance().getRoomByRoomId(roomId).getGame();
 
-        SocketMessageDTO messageDTO = this.gameService.getMessage(board);
+        SocketMessageDTO messageDTO = this.gameService.getMessage(board, game);
         System.out.println(this.gameService.getOperatingPlayer(game).getArmy().getType());
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
     }

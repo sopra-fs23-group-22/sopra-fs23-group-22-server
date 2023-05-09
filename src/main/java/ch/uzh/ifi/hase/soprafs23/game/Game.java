@@ -15,8 +15,7 @@ import static ch.uzh.ifi.hase.soprafs23.game.army.ArmyType.BLUE;
 import static ch.uzh.ifi.hase.soprafs23.game.army.ArmyType.RED;
 import static ch.uzh.ifi.hase.soprafs23.game.board.SquareType.LAKE;
 import static ch.uzh.ifi.hase.soprafs23.game.states.AliveState.DOWN;
-import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.IN_PROGRESS;
-import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.PRE_PLAY;
+import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.*;
 
 public class Game {
     private int gameId;
@@ -37,18 +36,22 @@ public class Game {
 
     public void placePieces(Piece[] pieceArray){
         //convert the array with pieces to actual positions on the board
+        Player redPlayer = players.get(0);
+        Player bluePlayer = players.get(1);
         if(pieceArray[0].getArmyType() == RED){
             for(int i=0; i<10; i++){
                 for(int j=6; j<10; j++){
                     board.setPiece(i,j,pieceArray[(j-6)*10+i]);
                 }
             }
+            redPlayer.getArmy().setArmyPieces(pieceArray);
         }else{
             for(int i=0; i<10; i++){
                 for(int j=0; j<4; j++){
                     board.setPiece(i,j,pieceArray[j*10 + i]);
                 }
             }
+            bluePlayer.getArmy().setArmyPieces(pieceArray);
         }
 
     }
@@ -128,33 +131,38 @@ public class Game {
             MoveResult result = board.movePiece(sourceAxis, targetAxis);
             if (result == MoveResult.SUCCESSFUL) switchTurn();
         }
+        // check if there is a winner
+        if (hasWinner()) gameState = WAITING;
     }
 
     public boolean hasWinner(){
         // Two scenarios if there is a winner:
         //  1. if one's Flag is captured, then the other wins
-        boolean hasWinner = false;
         for (Player player : players) {
             for (Piece piece : player.getArmy().getPieces()) {
+                // ... print out whether flag's state is DOWN
+                // code below!
+                //System.out.println(piece.getPieceType() + " " + piece.getAliveState());
                 if (piece.getPieceType() == PieceType.FLAG && piece.getAliveState() == DOWN) {
-                    hasWinner = true;
-                    winner = (player == players.get(0)) ? players.get(1) : players.get(0);
-                    gameState = GameState.WAITING;
-                    break;
+                    System.out.println("The flag of " + player.getUserId() + " is captured!");
+                    this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
+                    gameState = WAITING;
+                    return true;
                 }
             }
         }
         //  2. if all the pieces of one's army are captured, then the other wins
         for (Player player : players) {
-            // if all the pieces of one's army are captured (aliveState == DOWN)
-            if (player.getArmy().getPieces().stream().allMatch(piece -> piece.getAliveState() == DOWN)) {
-                hasWinner = true;
-                winner = (player == players.get(0)) ? players.get(1) : players.get(0);
-                gameState = GameState.WAITING;
-                break;
+            // if all the pieces (except FLAG and BOMB) of one's army are captured (aliveState == DOWN)
+            //if (player.getArmy().getPieces().stream().allMatch(piece -> piece.getAliveState() == DOWN)) {
+            if (player.getArmy().getPieces().stream().filter(piece -> piece.getPieceType() != PieceType.FLAG &&
+                    piece.getPieceType() != PieceType.BOMB).allMatch(piece -> piece.getAliveState() == DOWN)) {
+                this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
+                gameState = WAITING;
+                return true;
             }
         }
-        return hasWinner;
+        return false;
     }
 
     public Player getOperatingPlayer(){ return this.operatingPlayer; }
@@ -165,7 +173,7 @@ public class Game {
         // the player resigned loses the game, another wins
         winner = (playerResigned == players.get(0)) ? players.get(1) : players.get(0);
         // ... change the game state to WAITING
-        gameState = GameState.WAITING;
+        gameState = WAITING;
     }
 
     public int getGameId() {
@@ -179,4 +187,6 @@ public class Game {
     public Board getBoard() {
         return board;
     }
+
+    public Player getWinner() { return winner; }
 }

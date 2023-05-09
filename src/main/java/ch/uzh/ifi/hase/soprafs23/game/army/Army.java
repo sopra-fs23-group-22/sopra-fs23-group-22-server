@@ -56,4 +56,8 @@ public class Army {
     }
 
     public ArrayList<Piece> getPieces() { return this.army; }
+
+    public void setArmyPieces(Piece[] pieceArray) {
+        this.army = new ArrayList<Piece>(Arrays.asList(pieceArray));
+    }
 }
