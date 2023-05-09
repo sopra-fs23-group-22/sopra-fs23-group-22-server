@@ -73,5 +73,10 @@ Week 6, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-
                         - Fixed the connection between server and client, so users can enter game with correct order.
                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/100
                         - Fixed the endpoints for create and start a new game, so rooms and games actually match.
+                        
+Week 6, Anqi Xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37
+                 - Add rulePopUp into lobby page, gamepreparing page to inform players of the game rules
+                 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/40
+                 - fix the showing of popUp when players click on confirm button
                     
                     
