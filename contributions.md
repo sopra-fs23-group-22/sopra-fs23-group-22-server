@@ -52,6 +52,13 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 Week 5, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/70
                     - Update displaying room list and player list using web socket and complete connection part for displaying the list.
                     - Refactor code
+Week 5, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/91
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92
+                    - WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game).
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/93
+                    - Refininig game rules (bug fixes).
 
 ## 09.05.2023
 Week 6, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/36
@@ -78,5 +85,10 @@ Week 6, Anqi Xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-clie
                  - Add rulePopUp into lobby page, gamepreparing page to inform players of the game rules
                  https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/40
                  - fix the showing of popUp when players click on confirm button
-                    
-                    
+
+Week 6, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/102
+                    - Refining game rules (bug fixing: Scout cannot go across LAKE or other pieces).
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/103
+                    - Front-end and some refactor of backend to check whether the game has ended (by capturing all pieces or capturing flag). A popped up window is shown once there is winner.
+                    https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/104
+                    - Once one of the two users click "enter game", the game is entered for both players and the pre-play page is shown.
