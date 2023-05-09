@@ -60,6 +60,16 @@ Week 5, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
                     - WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game).
                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/93
                     - Refininig game rules (bug fixes).
+Week 5, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/16\
+                     - Added frontend request that contains the positions of all the placed pieces\
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27\
+                     - Implemented visual component for setting up the board
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/13\
+                     - Implemented frontend request for moving a piece\
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/10\
+                     - Implemented updating the view of the board\
+                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/83\
+                     - Corporation between front-end and back-end to perform the placement of initial board\
 
 ## 09.05.2023
 Week 6, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/36
