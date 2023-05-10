@@ -32,61 +32,63 @@ public class GameController {
     @Autowired
     SimpMessagingTemplate template;
 //    @GetMapping("/rooms/{roomId}/players/{playerId}")
+
+
     @GetMapping("/rooms/{roomId}/game")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<SquareGETDTO> getBoard(@PathVariable int roomId){
-//        Board board = this.gameService.findBoardByRoomId(roomId);
         Game game = this.gameService.findGameByRoomId(roomId);
         Board board = game.getBoard();
         return DTOMapper.INSTANCE.convertBoardToSquareGETDTOList(board);
     }
 
+
+    // Enter a game for game preparing (setting up board configuration)
+    // This one only works for the enter game button in room page
     @PutMapping("rooms/{roomId}/game/start")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void enterGame(@PathVariable int roomId) {
         this.gameService.enterGame(roomId);
-        template.convertAndSend("/topic/room/" + roomId + "/state", "preplay");
+        Game game = this.gameService.findGameByRoomId(roomId);
+        // It sends the game state (which should be PRE_PLAY) to client for redirecting players to game preparation page
+        template.convertAndSend("/topic/room/" + roomId + "/state", game.getGameState());
     }
 
 
-//    @PutMapping("rooms/{roomId}/start")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @ResponseBody
-//    public void startGame(@PathVariable int roomId) {
-//        this.gameService.startGame(roomId);
-//    }
-
+    // Receiving the configuration from client and set the pieces to the board in server
     @PutMapping("/rooms/{roomId}/setBoard")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public GameState setConfiguration(@PathVariable int roomId, @RequestBody PiecePUTDTO[] configuration){
         Piece[] pieces = DTOMapper.INSTANCE.convertConfigurationToInitialBoard(configuration);
         Game game = this.gameService.findGameByRoomId(roomId);
-//        System.out.println(game.getBoard().getSquare(0,0).getContent());
         this.gameService.setInitialBoard(game, pieces);
-//        System.out.println(game.getBoard().getSquare(0,0).getContent().getPieceType());
         try {
             this.gameService.startGame(roomId);
         } catch (Exception e) {
+            // the catch block works for debugging, might be changed later when we've defined all error messages
             System.out.println("fail");
         }
+        // sending the game state to client, so the players can enter the game board page at the same time when both sides finish setting up
         template.convertAndSend("/topic/loading/"+roomId, game.getGameState());
+        // also sending the game state to client since the first player should see a spinner when the opponent is not ready yet
+        // cannot use web socket here because of some execution order issue
         return game.getGameState();
     }
 
+    // Receiving a moving from client and take action in server
     @PutMapping("/rooms/{roomId}/players/{playerId}/moving")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-//        public List<SquareGETDTO> operatePiece(@RequestBody MovingDTO movingDTO) {
     public void operatePiece(@PathVariable int roomId, @RequestBody MovingDTO movingDTO) {
         Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
         List<SquareGETDTO> board = this.gameService.operatePiece(roomId, coordinates);
         Game game = Lobby.getInstance().getRoomByRoomId(roomId).getGame();
 
         SocketMessageDTO messageDTO = this.gameService.getMessage(board, game);
-        System.out.println(this.gameService.getOperatingPlayer(game).getArmy().getType());
+        // sending back the game status (messageDTO) including current board, player and winner info
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
     }
 

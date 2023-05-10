@@ -71,17 +71,16 @@ public class GameService {
         return game.getBoard();
     }
 
+    // enter game does not mean start game, here we have a game with no piece on board, game status change to PRE_PLAY
     public void enterGame(int roomId) {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-//        Game game = room.getGame();
         room.enterGame();
-//        game.setup(room.getUserIds());
     }
 
+    // start game after all pieces have been placed on board, game status change from PRE_PLAY to IN_PROGRESS
     public void startGame(int roomId) {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
         Game game = room.getGame();
-//        game.setup(room.getUserIds());
         game.start();
     }
 
@@ -89,6 +88,7 @@ public class GameService {
         return game.getOperatingPlayer();
     }
 
+    // converting required info (current board, player and winner info) to DTO
     public SocketMessageDTO getMessage(List<SquareGETDTO> board, Game game) {
         SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setBoard(board);
