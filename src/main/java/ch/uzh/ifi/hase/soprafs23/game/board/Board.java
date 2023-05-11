@@ -122,7 +122,8 @@ public class Board {
             targetSquare.clear();
         }
     }
-
+    //TODO: getSquare and setPiece use inverted Axis, not sure which one is correct but one of both
+    //TODO: methods needs to be refactored
     public Square getSquare(int axisX, int axisY) {
         return square[axisX][axisY];
     }
