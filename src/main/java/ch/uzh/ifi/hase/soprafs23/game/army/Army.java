@@ -16,18 +16,18 @@ public class Army {
 
     // A variable to store the configuration of the number of pieces for each PieceType
     static HashMap<PieceType, Integer> numOfPiecesPerType = new HashMap<PieceType, Integer>() {{
-        numOfPiecesPerType.put(BOMB, 6);
-        numOfPiecesPerType.put(MARSHAL, 1);
-        numOfPiecesPerType.put(GENERAL, 1);
-        numOfPiecesPerType.put(COLONEL, 2);
-        numOfPiecesPerType.put(MAJOR, 3);
-        numOfPiecesPerType.put(CAPTAIN, 4);
-        numOfPiecesPerType.put(LIEUTENANT, 4);
-        numOfPiecesPerType.put(SERGEANT, 4);
-        numOfPiecesPerType.put(MINER, 5);
-        numOfPiecesPerType.put(SCOUT, 8);
-        numOfPiecesPerType.put(SPY, 1);
-        numOfPiecesPerType.put(FLAG, 1);
+        put(BOMB, 6);
+        put(MARSHAL, 1);
+        put(GENERAL, 1);
+        put(COLONEL, 2);
+        put(MAJOR, 3);
+        put(CAPTAIN, 4);
+        put(LIEUTENANT, 4);
+        put(SERGEANT, 4);
+        put(MINER, 5);
+        put(SCOUT, 8);
+        put(SPY, 1);
+        put(FLAG, 1);
     }};
 
     public Army(ArmyType armyType) {
