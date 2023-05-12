@@ -82,14 +82,25 @@ public class GameController {
     @PutMapping("/rooms/{roomId}/players/{playerId}/moving")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void operatePiece(@PathVariable int roomId, @RequestBody MovingDTO movingDTO) {
+    public void operatePiece(@PathVariable int roomId, @PathVariable String playerId, @RequestBody MovingDTO movingDTO) {
         Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
         List<SquareGETDTO> board = this.gameService.operatePiece(roomId, coordinates);
         Game game = Lobby.getInstance().getRoomByRoomId(roomId).getGame();
-
+        System.out.println(roomId);
+        System.out.println(playerId);
         SocketMessageDTO messageDTO = this.gameService.getMessage(board, game);
+        System.out.println(messageDTO.getCurrentPlayerId());
         // sending back the game status (messageDTO) including current board, player and winner info
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
+    }
+
+    @GetMapping("rooms/{roomId}/turn")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public long getOperatingPlayer(@PathVariable int roomId) {
+        Game game = this.gameService.findGameByRoomId(roomId);
+        System.out.println(game.getOperatingPlayer().getArmy().getType());
+        return game.getOperatingPlayer().getUserId();
     }
 
 }

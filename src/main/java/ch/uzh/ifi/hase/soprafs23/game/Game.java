@@ -28,7 +28,7 @@ public class Game {
     public void setup(ArrayList<Long> userIds){
         if (this.board == null) board = new Board();
         else board.clear();
-//        players.clear();
+        players.clear();
         players.add(new Player(userIds.get(0), new Army(RED)));
         players.add(new Player(userIds.get(1), new Army(BLUE)));
         gameState = PRE_PLAY;
