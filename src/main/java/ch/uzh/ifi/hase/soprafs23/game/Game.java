@@ -107,30 +107,34 @@ public class Game {
             // ... check if the path has piece or LAKE
             for (Square square : path) {
                 if (square.getContent() != null)
-                    // throw new IllegalStateException("The path has been blocked by another piece!");
-                    return; // (just for now, should throw exception)
+                    throw new IllegalStateException("The path has been blocked by another piece!");
+                    //return; // (just for now, should throw exception)
                 if (square.getType() == LAKE)
-                    // throw new IllegalStateException("The path has been blocked by a lake!");
-                    return; // (just for now, should throw exception)
+                    throw new IllegalStateException("The path has been blocked by a lake!");
+                    //return; // (just for now, should throw exception)
             }
         }
         // ... if source piece is a bomb or flag, it cannot move, this operation is invalid
         if (board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.BOMB ||
                 board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.FLAG)
-            // throw new IllegalStateException("The source piece cannot move!");
-            return; // (just for now, should throw exception)
+            throw new IllegalStateException("The bomb and flag piece cannot move!");
+            //return; // (just for now, should throw exception)
         if (board.getSquareViaAxis(targetAxis).getContent() != null) {
             // if the target square has a piece of the same army, then it is an invalid move
             if (board.getSquareViaAxis(sourceAxis).getContent().getArmyType() ==
                     board.getSquareViaAxis(targetAxis).getContent().getArmyType())
-                //throw new IllegalStateException("The target square has a piece of the same army!");
-                return; // (just for now, should throw exception)
+                throw new IllegalStateException("You cannot attack your own army!");
+                //return; // (just for now, should throw exception)
             AttackResult result = board.attackPiece(sourceAxis, targetAxis);
-            if (result != AttackResult.ILLEGAL_MOVE) switchTurn();
+            if (result == AttackResult.ILLEGAL_MOVE)
+                throw new IllegalStateException("Illegal move! Can only move one square and not diagonally!");
+            else switchTurn();
         } else {
             // if the target square has not been occupied, then it is a placement
             MoveResult result = board.movePiece(sourceAxis, targetAxis);
             if (result == MoveResult.SUCCESSFUL) switchTurn();
+            if (result == MoveResult.FAILED)
+                throw new IllegalStateException("Illegal move! Can only move one square and not diagonally!");
         }
         // check if there is a winner
         if (hasWinner()) gameState = WAITING;
