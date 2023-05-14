@@ -106,6 +106,7 @@ public class Board {
             System.out.println("movePiece() after attack invoked!");
             //movePiece(sourceAxis, targetAxis);
             targetSquare.setContent(attacker);
+            targetSquare.getContent().setRevealed(true);
             sourceSquare.clear();
         }
         // 2. If attack result is DEFEATED, the attacker is captured.

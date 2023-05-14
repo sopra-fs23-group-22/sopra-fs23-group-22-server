@@ -17,6 +17,7 @@ public class Piece {
     private ArmyType armyType;
     //private Square location;
     private AliveState aliveState;
+    private boolean isRevealed = false;
 
     public Piece(PieceType pieceType, ArmyType armyType) {
         this.pieceType = pieceType;
@@ -31,6 +32,8 @@ public class Piece {
     public void setAliveState(AliveState aliveState) { this.aliveState = aliveState; }
     public AttackResult attack(Square sourceSquare, Square targetSquare) { return this.pieceType.getAttackStrategy().attack(sourceSquare, targetSquare); }
     public MoveResult move(Square sourceSquare, Square targetSquare) { return this.pieceType.getMoveStrategy().move(sourceSquare, targetSquare); }
+    public boolean isRevealed() { return this.isRevealed; }
+    public void setRevealed(boolean revealed) { this.isRevealed = revealed; }
 
     public void setPieceType(PieceType pieceType) {
         this.pieceType = pieceType;
