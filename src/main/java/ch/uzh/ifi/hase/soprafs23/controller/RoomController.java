@@ -64,12 +64,16 @@ public class RoomController {
         long userId = user.getId();
         room.removeUser(userId);
         userService.updateRoomId(null,userId);
-        List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(room);
+        // ... if room is empty, delete room
+        if (room.getUserIds().isEmpty()) {
+            Lobby.getInstance().removeRoom(roomId);
+        }
+        else {
+            List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(room);
+            template.convertAndSend("/topic/room", userGetDTOS);
+        }
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
-
         template.convertAndSend("/topic/rooms", roomGetDTOs);
-        template.convertAndSend("/topic/room", userGetDTOS);
-
     }
     @GetMapping("/rooms/{roomId}")
     @ResponseStatus(HttpStatus.OK)

@@ -30,6 +30,7 @@ public class Game {
         if (this.board == null) board = new Board();
         else board.clear();
         players.clear();
+        this.winner = null;
         players.add(new Player(userIds.get(0), new Army(RED)));
         players.add(new Player(userIds.get(1), new Army(BLUE)));
         gameState = PRE_PLAY;
