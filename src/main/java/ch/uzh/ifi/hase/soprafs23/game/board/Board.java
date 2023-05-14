@@ -112,6 +112,7 @@ public class Board {
         else if (result == DEFEATED) {
             System.out.println("attack fail");
             attacker.setAliveState(DOWN);
+            targetSquare.getContent().setRevealed(true);
             square[sourceAxis[0].getInt()][sourceAxis[1].getInt()].clear();
         }
         //  3. If result is BOTH_DEFEATED, both attacker and target are captured.
