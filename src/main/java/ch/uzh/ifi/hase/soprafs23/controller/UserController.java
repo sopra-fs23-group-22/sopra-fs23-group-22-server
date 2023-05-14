@@ -28,7 +28,6 @@ public class UserController {
     private final UserService userService;
     UserController(UserService userService) {
         this.userService = userService;
-    //    this.roomService = roomService;
       }
 
     @Autowired

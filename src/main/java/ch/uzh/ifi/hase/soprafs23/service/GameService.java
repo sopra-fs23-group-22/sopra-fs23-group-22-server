@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
@@ -44,26 +45,32 @@ public class GameService {
     }
 
     public Game findGameByRoomId(int roomId) {
-        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-        return room.getGame();
-    }
+        String baseErrorMessage = "Room %s provided is not found!";
+        try {
+            Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+            return room.getGame();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, roomId));
+        }
 
-    public void createRoom(){
-        Lobby.getInstance().createRoom();
     }
 
     //this is a test method
     public List<SquareGETDTO> operatePiece(int roomId, Axis[][] coordinates) {
         Game game = findGameByRoomId(roomId);
-        game.operate(coordinates[0], coordinates[1]);
-        Board board = game.getBoard();
-        List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
-        for(int i = 0; i<10; i++) {
-            for(int j=0; j<10; j++) {
-                squares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
+        try {
+            game.operate(coordinates[0], coordinates[1]);
+            Board board = game.getBoard();
+            List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
+            for(int i = 0; i<10; i++) {
+                for(int j=0; j<10; j++) {
+                    squares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
+                }
             }
+            return squares;
+        } catch (IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-        return squares;
     }
 
     public Board findBoardByRoomId(int roomId) {
