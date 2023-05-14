@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 
@@ -124,8 +125,8 @@ public class Game {
                     board.getSquareViaAxis(targetAxis).getContent().getArmyType())
                 //throw new IllegalStateException("The target square has a piece of the same army!");
                 return; // (just for now, should throw exception)
-            board.attackPiece(sourceAxis, targetAxis);
-            switchTurn();
+            AttackResult result = board.attackPiece(sourceAxis, targetAxis);
+            if (result != AttackResult.ILLEGAL_MOVE) switchTurn();
         } else {
             // if the target square has not been occupied, then it is a placement
             MoveResult result = board.movePiece(sourceAxis, targetAxis);

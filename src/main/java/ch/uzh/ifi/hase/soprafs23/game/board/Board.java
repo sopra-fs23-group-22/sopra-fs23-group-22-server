@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static ch.uzh.ifi.hase.soprafs23.game.board.SquareType.LAKE;
-import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult.DEFEATED;
-import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult.SUCCESSFUL;
+import static ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult.*;
 import static ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult.FAILED;
 import static ch.uzh.ifi.hase.soprafs23.game.states.AliveState.DOWN;
 
@@ -91,11 +90,11 @@ public class Board {
         return result;
     }
 
-    public void attackPiece(Axis[] sourceAxis, Axis[] targetAxis) {
+    public AttackResult attackPiece(Axis[] sourceAxis, Axis[] targetAxis) {
         Piece attacker = getPieceViaAxis(sourceAxis);
         Square targetSquare = getSquareViaAxis(targetAxis);
         Square sourceSquare = getSquareViaAxis(sourceAxis);
-        if ( attacker.move(sourceSquare, targetSquare) == FAILED ) { return; }
+        if ( attacker.move(sourceSquare, targetSquare) == FAILED ) { return ILLEGAL_MOVE; }
         AttackResult result = attacker.attack(sourceSquare, targetSquare);
         // 1. If the attack is successful, the target square is cleared.
         //      and the attacker moves to the target square.
@@ -122,6 +121,7 @@ public class Board {
             square[sourceAxis[0].getInt()][sourceAxis[1].getInt()].clear();
             targetSquare.clear();
         }
+        return result;
     }
     //TODO: getSquare and setPiece use inverted Axis, not sure which one is correct but one of both
     //TODO: methods needs to be refactored
