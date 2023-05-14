@@ -127,14 +127,14 @@ public class Game {
                 //return; // (just for now, should throw exception)
             AttackResult result = board.attackPiece(sourceAxis, targetAxis);
             if (result == AttackResult.ILLEGAL_MOVE)
-                throw new IllegalStateException("Illegal move! Can only move one square and not diagonally!");
+                throw new IllegalStateException("Illegal move! Normal pieces other than scout can only move one square and not diagonally!");
             else switchTurn();
         } else {
             // if the target square has not been occupied, then it is a placement
             MoveResult result = board.movePiece(sourceAxis, targetAxis);
             if (result == MoveResult.SUCCESSFUL) switchTurn();
             if (result == MoveResult.FAILED)
-                throw new IllegalStateException("Illegal move! Can only move one square and not diagonally!");
+                throw new IllegalStateException("Illegal move! Normal pieces other than scout can only move one square and not diagonally!");
         }
         // check if there is a winner
         if (hasWinner()) gameState = WAITING;
