@@ -11,6 +11,7 @@ public class UserGetDTO {
   private String token;
   private int wins;
   private int loss;
+  private Integer roomId;
 
   public long getId() {
     return id;
@@ -66,5 +67,13 @@ public class UserGetDTO {
 
     public void setLoss(int loss) {
         this.loss = loss;
+    }
+
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
     }
 }

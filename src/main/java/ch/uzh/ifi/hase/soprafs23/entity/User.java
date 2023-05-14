@@ -41,6 +41,8 @@ public class User implements Serializable {
   private int wins;
   @Column(nullable = false)
   private int loss;
+  @Column
+  private Integer roomId;
 //  @ElementCollection(fetch = FetchType.EAGER)
 //  @CollectionTable(name = "friend_id",
 //                    joinColumns = @JoinColumn(name="user_id"))
@@ -104,6 +106,14 @@ public class User implements Serializable {
 
     public void setLoss(int loss) {
         this.loss = loss;
+    }
+
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
     }
     //  public void addFriend(Long friendId) {
 //      friends.add(friendId);

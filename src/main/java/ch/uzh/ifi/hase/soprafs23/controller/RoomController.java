@@ -35,7 +35,7 @@ public class RoomController {
         Room createdRoom = Lobby.getInstance().createRoom();
         long userId = user.getId();
         createdRoom.addUser(userId);
-
+        userService.updateRoomId(createdRoom.getRoomId(),userId);
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
         template.convertAndSend("/topic/rooms", roomGetDTOs);
         return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
@@ -48,7 +48,7 @@ public class RoomController {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
         long userId = user.getId();
         room.addUser(userId);
-
+        userService.updateRoomId(room.getRoomId(),userId);
         List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(room);
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
 
@@ -63,7 +63,7 @@ public class RoomController {
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
         long userId = user.getId();
         room.removeUser(userId);
-
+        userService.updateRoomId(null,userId);
         List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(room);
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
 

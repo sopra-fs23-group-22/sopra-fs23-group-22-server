@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.game;
 import java.util.ArrayList;
 
 public class Room {
-    private int roomId;
+    private Integer roomId;
     private ArrayList<Long> userIds = new ArrayList<Long>();
     private Game game;
     public Room(int roomId) { this.roomId = roomId; }

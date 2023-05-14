@@ -44,6 +44,7 @@ public abstract class DTOMapper {
     @Mapping(source = "status", target = "status")
     @Mapping(source = "wins", target = "wins")
     @Mapping(source = "loss", target = "loss")
+    @Mapping(source = "roomId", target = "roomId")
     public abstract UserGetDTO convertEntityToUserGetDTO(User user);
 
     @Mapping(source = "pieceType", target = "pieceType")

@@ -134,6 +134,11 @@ public class UserService {
         user.setStatus(status);
         userRepository.flush();
     }
+    public void updateRoomId(Integer roomId, long userId) {
+        User user = findUserById(userId);
+        user.setRoomId(roomId);
+        userRepository.flush();
+    }
 //    public void addFriend(Long userId, Long friendId) {
 //        User user = findUserById(userId);
 //        user.addFriend(friendId);
