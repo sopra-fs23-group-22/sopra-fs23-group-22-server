@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -138,6 +139,18 @@ public class UserService {
         User user = findUserById(userId);
         user.setRoomId(roomId);
         userRepository.flush();
+    }
+
+    public User authorize(User userInput) {
+      User user = findUserByUsername(userInput.getUsername());
+      String password = user.getPassword();
+      if(Objects.equals(userInput.getPassword(), password)) {
+          user.setToken(UUID.randomUUID().toString());
+          userRepository.flush();
+          return user;
+      } else {
+          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password! Please try again.");
+      }
     }
 //    public void addFriend(Long userId, Long friendId) {
 //        User user = findUserById(userId);

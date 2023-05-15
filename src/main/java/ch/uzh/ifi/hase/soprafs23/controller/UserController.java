@@ -3,13 +3,17 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +116,26 @@ public class UserController {
     public UserGetDTO getUserByUsername(@PathVariable String username){
         User user = userService.findUserByUsername(username);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+    }
+
+    @PutMapping("/users/login")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserPutDTO userLogin(@RequestBody UserPostDTO userPostDTO, HttpServletResponse response){
+        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+        User authorizedUser = userService.authorize(userInput);
+//        response.addHeader("Authorization",token);
+        System.out.println(authorizedUser.getToken());
+        response.addHeader("Authorization", authorizedUser.getToken());
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("Authorization", authorizedUser.getToken());
+//        request.setAttribute("Authorization", "Bearer " + token);
+//        try{
+//
+//        } catch (ResponseStatusException e) {
+//            throw e;
+//        }
+        return DTOMapper.INSTANCE.convertEntityToUserPutDTO(authorizedUser);
     }
 
 }
