@@ -119,3 +119,14 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/112 | Pop-up window to show game result |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/115 | (backend part of) Detailed info to convey information of illegal move |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/113 | (backend part of) Revealing if it captures an opponent's piece |
+
+
+### Week 7, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/43 | Hide oponents half of the board |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/46 | Prevent players from attacking their own pieces, and dragging opponent's pieces |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/47 | Restrict the movement of pieces by the non-operating player |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/48 | After attacking operation, reveal the winning piece to opponent |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/106 | Set the correct error message for failed moving/attacking operation |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/105 | Update user authentication by verifying user information on the backend. Generate a new token after each login and transfer it to the front-end via the header. ｜
