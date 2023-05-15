@@ -111,3 +111,11 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/41 | reformat basic scss styles. |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/107 | Fix user cannot join/create two rooms. |
 
+### Week 7, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/118 | when both player have left the room, this room should disappear from the room list |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/116 | Resign functionality, pop-up window for resign and resign confirmation |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/112 | Pop-up window to show game result |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/115 | (backend part of) Detailed info to convey information of illegal move |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/113 | (backend) Revealing if it captures an opponent's piece |
