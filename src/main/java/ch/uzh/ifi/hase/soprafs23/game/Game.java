@@ -195,4 +195,11 @@ public class Game {
     }
 
     public Player getWinner() { return winner; }
+
+    public Player getPlayerByUserId(long userId) {
+        for (Player player : players) {
+            if (player.getUserId() == userId) return player;
+        }
+        return null;
+    }
 }

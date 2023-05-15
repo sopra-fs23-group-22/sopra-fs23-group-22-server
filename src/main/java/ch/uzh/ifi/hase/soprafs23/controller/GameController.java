@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.game.Game;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
-import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
@@ -10,12 +9,8 @@ import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.GameService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,5 +97,24 @@ public class GameController {
         System.out.println(game.getOperatingPlayer().getArmy().getType());
         return game.getOperatingPlayer().getUserId();
     }
+
+    @PutMapping("rooms/{roomId}/resign")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void resign(@PathVariable int roomId, @RequestBody ResignPutDTO resignPutDTO) {
+        Game game = this.gameService.findGameByRoomId(roomId);
+        Board board =  game.getBoard();
+        List<SquareGETDTO> boardInSquares = new ArrayList<SquareGETDTO>();
+        for(int i = 0; i<10; i++) {
+            for(int j=0; j<10; j++) {
+                boardInSquares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
+            }
+        }
+        this.gameService.resign(game, resignPutDTO);
+        SocketMessageDTO messageDTO = this.gameService.getMessage(boardInSquares, game);
+        messageDTO.setPlayerIdResigned(resignPutDTO.getPlayerIdResigned());
+        template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
+    }
+
 
 }

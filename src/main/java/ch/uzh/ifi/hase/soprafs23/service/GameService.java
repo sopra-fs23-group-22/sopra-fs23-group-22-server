@@ -11,6 +11,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.ResignPutDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SocketMessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SquareGETDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
@@ -106,4 +107,8 @@ public class GameService {
         return socketMessageDTO;
     }
 
+    public void resign(Game game, ResignPutDTO resignPutDTO) {
+        Player playerResigned = game.getPlayerByUserId(resignPutDTO.getPlayerIdResigned());
+        game.resign(playerResigned);
+    }
 }
