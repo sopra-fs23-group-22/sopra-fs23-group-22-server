@@ -102,3 +102,12 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/102 | Refining game rules (bug fixing: Scout cannot go across LAKE or other pieces). |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/103 | Front-end and some refactor of backend to check whether the game has ended (by capturing all pieces or capturing flag). A popped up window is shown once there is winner. |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/104 | Once one of the two users click "enter game", the game is entered for both players and the pre-play page is shown. |
+
+## 16.05.2023
+### Week 7, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/42 | Fix return to lobby in NavBar component for profile page. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/41 | reformat basic scss styles. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/107 | Fix user cannot join/create two rooms. |
+
