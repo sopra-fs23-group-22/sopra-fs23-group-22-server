@@ -116,5 +116,13 @@ public class GameController {
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
     }
 
+//    @GetMapping("rooms/{roomId}/availableMovingOptions")
+//    @ResponseStatus(HttpStatus.OK)
+//    @ResponseBody
+//    public List<SquareGETDTO> getAvailableMovingOptions(@PathVariable int roomId, @RequestBody 包姐，我们要传进去啥) {
+//        Game game = this.gameService.findGameByRoomId(roomId);
+//        List<SquareGETDTO> availableMovingOptions = this.gameService.getAvailableMovingOptions(game, sourceAxis);
+//        return availableMovingOptions;
+//    }
 
 }

@@ -156,4 +156,110 @@ public class Board {
         }
         return path;
     }
+
+    public ArrayList<Square> getAvailableTargets(Axis[] sourceAxis) {
+        // This is the method to get the available moving options for a piece
+        ArrayList<Square> availableTargets = new ArrayList<>();
+        Piece piece = getPieceViaAxis(sourceAxis);
+        if (piece == null) throw new IllegalStateException("No piece on the source square!");
+        // ... get the available targets based on the piece type and surrounding squares
+        switch (piece.getPieceType()) {
+            // ... Bomb and Flag cannot move
+            case BOMB:
+            case FLAG:
+                break;
+            // ... Scout can move any number of squares in a straight line, until it reaches the edge of the board, another piece or LAKE
+            case SCOUT:
+                // ... get the path from source to the edge of the board
+                ArrayList<Square> squaresAlongFourDirections = getSquareAlongFourDirectionsViaAxis(sourceAxis);
+                // ... add the squares along the path to the available targets
+                for (Square square : squaresAlongFourDirections) {
+                    availableTargets.add(square);
+                }
+                break;
+            // ... for other pieces, they can only move one square in any direction, except LAKE, another piece or edge of the board
+            default:
+                // ... get the surrounding squares
+                ArrayList<Square> surroundingSquares = getSurroundingSquaresViaAxis(sourceAxis);
+                // ... add the squares to the available targets if they are empty
+                for (Square square : surroundingSquares) {
+                    if (square.getType() == LAKE) continue;
+                    if (square.getContent() == null) availableTargets.add(square);
+                }
+                break;
+        }
+        return availableTargets;
+    }
+
+    private ArrayList<Square> getSurroundingSquaresViaAxis(Axis[] sourceAxis) {
+        // This is the method to get the surrounding squares of a square
+        ArrayList<Square> surroundingSquares = new ArrayList<>();
+        int x = sourceAxis[0].getInt();
+        int y = sourceAxis[1].getInt();
+        // ... get the surrounding squares
+        if (x == 0 || x == 9) {
+            if (y == 0) {
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y+1]);
+            } else if (y == 9) {
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y-1]);
+            } else {
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y-1]);
+                surroundingSquares.add(square[x][y+1]);
+            }
+        }
+        else if (y == 0 || y == 9) {
+            if (x == 0) {
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y+1]);
+            } else if (x == 9) {
+                surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x][y+1]);
+            } else {
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x][y+1]);
+            }
+        }
+        else {
+            surroundingSquares.add(square[x+1][y]);
+            surroundingSquares.add(square[x-1][y]);
+            surroundingSquares.add(square[x][y+1]);
+            surroundingSquares.add(square[x][y-1]);
+        }
+        return surroundingSquares;
+    }
+
+    private ArrayList<Square> getSquareAlongFourDirectionsViaAxis(Axis[] sourceAxis) {
+        // This is the method to get the squares along the four directions of a square
+        ArrayList<Square> squaresAlongFourDirections = new ArrayList<>();
+        int x = sourceAxis[0].getInt();
+        int y = sourceAxis[1].getInt();
+        // ... get the squares along the four directions
+        boolean continueDirectionLeft = true;
+        boolean continueDirectionRight = true;
+        boolean continueDirectionUp = true;
+        boolean continueDirectionDown = true;
+        for (int i = 1; i < 10; i++) {
+            if (x+i < 10) {
+                if (square[x+i][y].getType() == LAKE || square[x+i][y].getContent() != null) continueDirectionRight = false;
+                if (continueDirectionRight) squaresAlongFourDirections.add(square[x+i][y]);
+            }
+            if (x-i >= 0) {
+                if (square[x-i][y].getType() == LAKE || square[x-i][y].getContent() != null) continueDirectionLeft = false;
+                if (continueDirectionLeft)  squaresAlongFourDirections.add(square[x-i][y]);
+            }
+            if (y+i < 10) {
+                if (square[x][y+i].getType() == LAKE || square[x][y+i].getContent() != null) continueDirectionUp = false;
+                if (continueDirectionUp) squaresAlongFourDirections.add(square[x][y+i]);
+            }
+            if (y-i >= 0) {
+                if (square[x][y-i].getType() == LAKE || square[x][y-i].getContent() != null) continueDirectionDown = false;
+                if (continueDirectionDown) squaresAlongFourDirections.add(square[x][y-i]);
+            }
+        }
+        return squaresAlongFourDirections;
+    }
 }

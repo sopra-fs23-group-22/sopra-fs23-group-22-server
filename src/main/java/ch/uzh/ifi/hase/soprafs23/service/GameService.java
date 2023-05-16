@@ -111,4 +111,8 @@ public class GameService {
         Player playerResigned = game.getPlayerByUserId(resignPutDTO.getPlayerIdResigned());
         game.resign(playerResigned);
     }
+
+    public ArrayList<Square> getAvailableMovingOptions(Game game, Axis[] sourceSquareCoordinates) {
+        return game.getAvailableTargets(sourceSquareCoordinates);
+    }
 }

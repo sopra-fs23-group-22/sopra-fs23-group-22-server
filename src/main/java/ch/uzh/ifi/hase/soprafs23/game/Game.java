@@ -95,6 +95,11 @@ public class Game {
     }
      */
 
+    // used for displaying available options for an operation
+    public ArrayList<Square> getAvailableTargets(Axis[] sourceAxis) {
+        return board.getAvailableTargets(sourceAxis);
+    }
+
     public void operate(Axis[] sourceAxis, Axis[] targetAxis) {
         if (gameState != IN_PROGRESS) throw new IllegalStateException("The game is not in progress!");
         if (sourceAxis == targetAxis) return; // ... does nothing if the source and target are the same
