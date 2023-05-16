@@ -144,6 +144,11 @@ public class Board {
         int deltaY = y2 - y1;
         int xStep = 0;
         int yStep = 0;
+        if(deltaX != 0 && deltaY != 0){
+            throw new IllegalArgumentException("The move can't be diagonal");
+        }else if(deltaX == 0 && deltaY == 0){
+            throw new IllegalArgumentException("Source and target square is equal");
+        }
         if (deltaX != 0) xStep = deltaX / Math.abs(deltaX);
         if (deltaY != 0) yStep = deltaY / Math.abs(deltaY);
         int x = x1 + xStep;

@@ -102,3 +102,44 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/102 | Refining game rules (bug fixing: Scout cannot go across LAKE or other pieces). |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/103 | Front-end and some refactor of backend to check whether the game has ended (by capturing all pieces or capturing flag). A popped up window is shown once there is winner. |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/104 | Once one of the two users click "enter game", the game is entered for both players and the pre-play page is shown. |
+
+## 16.05.2023
+### Week 7, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/42 | Fix return to lobby in NavBar component for profile page. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/41 | reformat basic scss styles. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/107 | Fix user cannot join/create two rooms. |
+
+### Week 7, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/118 | when both player have left the room, this room should disappear from the room list |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/116 | Resign functionality, pop-up window for resign and resign confirmation |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/112 | Pop-up window to show game result |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/115 | (backend part of) Detailed info to convey information of illegal move |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/113 | (backend part of) Revealing if it captures an opponent's piece |
+
+
+### Week 7, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/43 | Hide oponents half of the board |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/46 | Prevent players from attacking their own pieces, and dragging opponent's pieces |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/47 | Restrict the movement of pieces by the non-operating player |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/48 | After attacking operation, reveal the winning piece to opponent |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/106 | Set the correct error message for failed moving/attacking operation |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/105 | Update user authentication by verifying user information on the backend. Generate a new token after each login and transfer it to the front-end via the header. ｜
+
+### Week 7, Anqi Xu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37 | specify different info and rule PopUps acccording to different pages |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/49 | PopUp for resign confirmation and resign result|
+
+### Week 7, Stefan Plüss
+| Issue No.           |                Description                |
+| :---------: |:-----------------------------------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/119 | Add Boardtest class to verify Board class |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/120 |            Add Lobbytest class            |
+

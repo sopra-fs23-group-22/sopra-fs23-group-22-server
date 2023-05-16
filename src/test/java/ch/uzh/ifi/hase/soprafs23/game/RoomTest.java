@@ -39,4 +39,5 @@ public class RoomTest {
 
         assertThrows(IllegalStateException.class , room::enterGame);
     }
+
 }
