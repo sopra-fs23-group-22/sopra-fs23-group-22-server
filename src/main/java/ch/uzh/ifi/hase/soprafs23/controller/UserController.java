@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
@@ -91,7 +92,14 @@ public class UserController {
             userService.updateUsername(user.getUsername(), userId);
         }
         if (user.getStatus()!=null) {
-            userService.updateUserStatus(user.getStatus(), userId);
+            if(user.getStatus() == UserStatus.OFFLINE) {
+                userService.updateUserStatus(user.getStatus(), userId);
+                // make sure that roomId will be removed if the user logout;
+                userService.updateRoomId(null, userId);
+            }
+            else {
+                userService.updateUserStatus(user.getStatus(), userId);
+            }
         }
         List<User> onlineUsers = userService.getOnlineUsers();
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
