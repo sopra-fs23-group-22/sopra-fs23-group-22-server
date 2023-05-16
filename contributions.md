@@ -130,3 +130,10 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/48 | After attacking operation, reveal the winning piece to opponent |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/106 | Set the correct error message for failed moving/attacking operation |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/105 | Update user authentication by verifying user information on the backend. Generate a new token after each login and transfer it to the front-end via the header. ｜
+
+### Week 7, Anqi Xu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37 | specify different info and rule PopUps acccording to different pages |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/49 | PopUp for resign confirmation and resign result|
+
