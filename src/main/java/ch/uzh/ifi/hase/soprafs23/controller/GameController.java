@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs23.game.Game;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
+import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,13 +116,26 @@ public class GameController {
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
     }
 
-//    @GetMapping("rooms/{roomId}/availableMovingOptions")
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public List<SquareGETDTO> getAvailableMovingOptions(@PathVariable int roomId, @RequestBody 包姐，我们要传进去啥) {
-//        Game game = this.gameService.findGameByRoomId(roomId);
-//        List<SquareGETDTO> availableMovingOptions = this.gameService.getAvailableMovingOptions(game, sourceAxis);
-//        return availableMovingOptions;
-//    }
+    // e.g: rooms/{roomId}/availableMovements?x=_1&y=_2
+    // receive source coordinate as request parameters in url
+    @GetMapping("rooms/{roomId}/availableMovements")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<SquareGETDTO> getAvailableMovingOptions(@PathVariable int roomId,
+                                                        @RequestParam(value = "x", required = true) Axis axisX,
+                                                        @RequestParam(value = "y", required = true) Axis axisY) {
+        System.out.println(axisX);
+        System.out.println(axisY);
+        Game game = this.gameService.findGameByRoomId(roomId);
+        Axis[] coordinate = new Axis[2];
+        coordinate[0] = axisX;
+        coordinate[1] = axisY;
+        System.out.println(coordinate);
+        ArrayList<SquareGETDTO> availableMovements = new ArrayList<>();
+        for(Square square: this.gameService.getAvailableMovingOptions(game, coordinate)) {
+            availableMovements.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(square));
+        }
+        return availableMovements;
+    }
 
 }
