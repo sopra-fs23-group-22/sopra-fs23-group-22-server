@@ -137,3 +137,9 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/37 | specify different info and rule PopUps acccording to different pages |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/49 | PopUp for resign confirmation and resign result|
 
+### Week 7, Stefan Plüss
+| Issue No.           |                Description                |
+| :---------: |:-----------------------------------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/119 | Add Boardtest class to verify Board class |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/120 |            Add Lobbytest class            |
+
