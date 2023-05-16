@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.game.board;
 
 
 import ch.uzh.ifi.hase.soprafs23.game.Player;
+import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
@@ -190,6 +191,8 @@ public class Board {
                 for (Square square : surroundingSquares) {
                     if (square.getType() == LAKE) continue;
                     if (square.getContent() == null) availableTargets.add(square);
+                    if (square.getContent() != null && square.getContent().getArmyType() != piece.getArmyType())
+                        availableTargets.add(square);
                 }
                 break;
         }
@@ -202,7 +205,7 @@ public class Board {
         int x = sourceAxis[0].getInt();
         int y = sourceAxis[1].getInt();
         // ... get the surrounding squares
-        if (x == 0 || x == 9) {
+        if (x == 0) {
             if (y == 0) {
                 surroundingSquares.add(square[x+1][y]);
                 surroundingSquares.add(square[x][y+1]);
@@ -214,25 +217,33 @@ public class Board {
                 surroundingSquares.add(square[x][y-1]);
                 surroundingSquares.add(square[x][y+1]);
             }
-        }
-        else if (y == 0 || y == 9) {
-            if (x == 0) {
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y+1]);
-            } else if (x == 9) {
+        } else if (x == 9) {
+            if (y == 0) {
                 surroundingSquares.add(square[x-1][y]);
                 surroundingSquares.add(square[x][y+1]);
+            } else if (y == 9) {
+                surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x][y-1]);
             } else {
-                surroundingSquares.add(square[x+1][y]);
                 surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x][y-1]);
                 surroundingSquares.add(square[x][y+1]);
             }
-        }
-        else {
-            surroundingSquares.add(square[x+1][y]);
-            surroundingSquares.add(square[x-1][y]);
-            surroundingSquares.add(square[x][y+1]);
-            surroundingSquares.add(square[x][y-1]);
+        } else {
+            if (y == 0) {
+                surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y+1]);
+            } else if (y == 9) {
+                surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y-1]);
+            } else {
+                surroundingSquares.add(square[x-1][y]);
+                surroundingSquares.add(square[x+1][y]);
+                surroundingSquares.add(square[x][y-1]);
+                surroundingSquares.add(square[x][y+1]);
+            }
         }
         return surroundingSquares;
     }
@@ -243,26 +254,67 @@ public class Board {
         int x = sourceAxis[0].getInt();
         int y = sourceAxis[1].getInt();
         // ... get the squares along the four directions
-        boolean continueDirectionLeft = true;
-        boolean continueDirectionRight = true;
-        boolean continueDirectionUp = true;
-        boolean continueDirectionDown = true;
+        boolean continueLeft = true;
+        boolean continueRight = true;
+        boolean continueUp = true;
+        boolean continueDown = true;
+        ArmyType armyType = square[x][y].getContent().getArmyType();
         for (int i = 1; i < 10; i++) {
-            if (x+i < 10) {
-                if (square[x+i][y].getType() == LAKE || square[x+i][y].getContent() != null) continueDirectionRight = false;
-                if (continueDirectionRight) squaresAlongFourDirections.add(square[x+i][y]);
+            if (continueLeft) {
+                if (x - i < 0) {
+                    continueLeft = false;
+                } else {
+                    if (square[x-i][y].getContent() == null && square[x-i][y].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x-i][y]);
+                    } else if (square[x-i][y].getContent() != null && square[x-i][y].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x-i][y]);
+                        continueLeft = false;
+                    } else {
+                        continueLeft = false;
+                    }
+                }
             }
-            if (x-i >= 0) {
-                if (square[x-i][y].getType() == LAKE || square[x-i][y].getContent() != null) continueDirectionLeft = false;
-                if (continueDirectionLeft)  squaresAlongFourDirections.add(square[x-i][y]);
+            if (continueRight) {
+                if (x + i > 9) {
+                    continueRight = false;
+                } else {
+                    if (square[x+i][y].getContent() == null && square[x+i][y].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x+i][y]);
+                    } else if (square[x+i][y].getContent() != null && square[x+i][y].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x+i][y]);
+                        continueRight = false;
+                    } else {
+                        continueRight = false;
+                    }
+                }
             }
-            if (y+i < 10) {
-                if (square[x][y+i].getType() == LAKE || square[x][y+i].getContent() != null) continueDirectionUp = false;
-                if (continueDirectionUp) squaresAlongFourDirections.add(square[x][y+i]);
+            if (continueUp) {
+                if (y - i < 0) {
+                    continueUp = false;
+                } else {
+                    if (square[x][y-i].getContent() == null && square[x][y-i].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x][y-i]);
+                    } else if (square[x][y-i].getContent() != null && square[x][y-i].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x][y-i]);
+                        continueUp = false;
+                    } else {
+                        continueUp = false;
+                    }
+                }
             }
-            if (y-i >= 0) {
-                if (square[x][y-i].getType() == LAKE || square[x][y-i].getContent() != null) continueDirectionDown = false;
-                if (continueDirectionDown) squaresAlongFourDirections.add(square[x][y-i]);
+            if (continueDown) {
+                if (y + i > 9) {
+                    continueDown = false;
+                } else {
+                    if (square[x][y+i].getContent() == null && square[x][y+i].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x][y+i]);
+                    } else if (square[x][y+i].getContent() != null && square[x][y+i].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x][y+i]);
+                        continueDown = false;
+                    } else {
+                        continueDown = false;
+                    }
+                }
             }
         }
         return squaresAlongFourDirections;
