@@ -60,7 +60,6 @@ public abstract class DTOMapper {
     @Mapping(source = "content", target = "content")
     public abstract SquareGETDTO convertSquareToSquareGETDTO(Square square);
 
-
     @Mapping(source = "roomId", target = "roomId")
     @Mapping(source = "userIds", target = "userIds")
     public abstract RoomGetDTO convertEntityToRoomGetDTO(Room room);

@@ -38,6 +38,14 @@ public class GameController {
         return DTOMapper.INSTANCE.convertBoardToSquareGETDTOList(board);
     }
 
+    @GetMapping("/rooms/{roomId}/gameState")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public GameState getGameState(@PathVariable int roomId){
+        Game game = this.gameService.findGameByRoomId(roomId);
+        GameState gameState = game.getGameState();
+        return game.getGameState();
+    }
 
     // Enter a game for game preparing (setting up board configuration)
     // This one only works for the enter game button in room page
