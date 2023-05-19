@@ -53,7 +53,7 @@ public class RoomController {
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
 
         template.convertAndSend("/topic/rooms", roomGetDTOs); // send list of rooms to all clients
-        template.convertAndSend("/topic/room", userGetDTOS); // send list of users in room
+        template.convertAndSend("/topic/room/"+roomId, userGetDTOS); // send list of users in room
     }
     @PutMapping("/rooms/{roomId}/remove")
     @ResponseStatus(HttpStatus.OK)
@@ -70,7 +70,7 @@ public class RoomController {
         }
         else {
             List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(room);
-            template.convertAndSend("/topic/room", userGetDTOS);
+            template.convertAndSend("/topic/room/"+roomId, userGetDTOS);
         }
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
         template.convertAndSend("/topic/rooms", roomGetDTOs);

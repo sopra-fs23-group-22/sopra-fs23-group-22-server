@@ -140,6 +140,13 @@ public class UserService {
         user.setRoomId(roomId);
         userRepository.flush();
     }
+    // update user stats at the end of the game;
+    public void updateStatistics(long userIdOfWiner, long userIdOfLoser) {
+        User winner = findUserById(userIdOfWiner);
+        User loser = findUserById(userIdOfLoser);
+        winner.setWins(winner.getWins() + 1);
+        loser.setLoss(loser.getLoss() + 1);
+    }
 
     public User authorize(User userInput) {
       User user = findUserByUsername(userInput.getUsername());

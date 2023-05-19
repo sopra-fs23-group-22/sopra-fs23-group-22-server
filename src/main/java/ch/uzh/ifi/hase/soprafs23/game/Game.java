@@ -25,12 +25,14 @@ public class Game {
     private Player operatingPlayer;
     private GameState gameState;
     private Player winner;
+    private Player loser;
 
     public void setup(ArrayList<Long> userIds){
         if (this.board == null) board = new Board();
         else board.clear();
         players.clear();
         this.winner = null;
+        this.loser = null;
         players.add(new Player(userIds.get(0), new Army(RED)));
         players.add(new Player(userIds.get(1), new Army(BLUE)));
         gameState = PRE_PLAY;
@@ -157,6 +159,7 @@ public class Game {
                 if (piece.getPieceType() == PieceType.FLAG && piece.getAliveState() == DOWN) {
                     System.out.println("The flag of " + player.getUserId() + " is captured!");
                     this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
+                    this.loser = (player == players.get(0)) ? players.get(0) : players.get(1);
                     gameState = WAITING;
                     return true;
                 }
@@ -169,6 +172,7 @@ public class Game {
             if (player.getArmy().getPieces().stream().filter(piece -> piece.getPieceType() != PieceType.FLAG &&
                     piece.getPieceType() != PieceType.BOMB).allMatch(piece -> piece.getAliveState() == DOWN)) {
                 this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
+                this.loser = (player == players.get(0)) ? players.get(0) : players.get(1);
                 gameState = WAITING;
                 return true;
             }
@@ -183,6 +187,7 @@ public class Game {
     public void resign(Player playerResigned){
         // the player resigned loses the game, another wins
         winner = (playerResigned == players.get(0)) ? players.get(1) : players.get(0);
+        loser = (playerResigned == players.get(0)) ? players.get(0) : players.get(1);
         // ... change the game state to WAITING
         gameState = WAITING;
     }
@@ -200,6 +205,7 @@ public class Game {
     }
 
     public Player getWinner() { return winner; }
+    public Player getLoser() { return loser; }
 
     public Player getPlayerByUserId(long userId) {
         for (Player player : players) {
