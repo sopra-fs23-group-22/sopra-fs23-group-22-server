@@ -80,7 +80,20 @@ public class UserController {
     // create user
     User createdUser = userService.createUser(userInput);
     // convert internal representation of user back to API
-    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
+
+      // fetch all users in the internal representation
+      List<User> users = userService.getUsers();
+      List<UserGetDTO> userGetDTOs = new ArrayList<>();
+
+      // convert each user to the API representation
+      for (User user : users) {
+          userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+      }
+
+    // send to frontend if there is new user
+      template.convertAndSend("/topic/users",userGetDTOs);
+
+      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
     @PutMapping("/users/{userId}")
