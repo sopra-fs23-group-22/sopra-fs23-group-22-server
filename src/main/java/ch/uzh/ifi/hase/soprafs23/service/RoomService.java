@@ -29,10 +29,11 @@ public class RoomService {
         this.userRepository = userRepository;
         this.userService = userService;
     }
-    public RoomGetDTO findRoomById(int roomId){
-        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-        RoomGetDTO roomGetDTO = DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
-        return roomGetDTO;
+    public Room findRoomById(int roomId){
+//        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+//        RoomGetDTO roomGetDTO = DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
+//        return roomGetDTO;
+        return Lobby.getInstance().getRoomByRoomId(roomId);
     }
     public List<RoomGetDTO> getAllRooms(){
 
@@ -44,7 +45,8 @@ public class RoomService {
         }
         return roomGetDTOs;
     }
-    public List<UserGetDTO> getUserInRoom(Room room){
+    public List<UserGetDTO> getUserInRoom(int roomId){
+        Room room = findRoomById(roomId);
         List<UserGetDTO> userGetDTOS = new ArrayList<UserGetDTO>();
         for(long id: room.getUserIds()){
             User user1 = userService.findUserById(id);
@@ -52,4 +54,29 @@ public class RoomService {
         }
         return userGetDTOS;
     }
+
+    public RoomGetDTO createRoom(long userId) {
+        Room createdRoom = Lobby.getInstance().createRoom();
+        createdRoom.addUser(userId);
+        userService.updateRoomId(createdRoom.getRoomId(), userId);
+        return DTOMapper.INSTANCE.convertEntityToRoomGetDTO(createdRoom);
+    }
+
+    public void addAUserToRoom(int roomId, long userId) {
+        Room room = findRoomById(roomId);
+        room.addUser(userId);
+        userService.updateRoomId(room.getRoomId(),userId);
+    }
+
+    public void removeAUserFromRoom(int roomId, long userId) {
+        Room room = findRoomById(roomId);
+        room.removeUser(userId);
+        userService.updateRoomId(null, userId);
+    }
+
+    public void removeRoomFromLobby(int roomId) {
+        Lobby.getInstance().removeRoom(roomId);
+    }
+
 }
+
