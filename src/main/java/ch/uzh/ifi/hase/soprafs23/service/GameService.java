@@ -71,10 +71,10 @@ public class GameService {
         }
     }
 
-    public Board findBoardByRoomId(int roomId) {
-        Game game = findGameByRoomId(roomId);
-        return game.getBoard();
-    }
+//    public Board findBoardByRoomId(int roomId) {
+//        Game game = findGameByRoomId(roomId);
+//        return game.getBoard();
+//    }
 
     // enter game does not mean start game, here we have a game with no piece on board, game status change to PRE_PLAY
     public void enterGame(int roomId) {

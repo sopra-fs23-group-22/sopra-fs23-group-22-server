@@ -43,13 +43,12 @@ public class GameController {
     @ResponseBody
     public GameState getGameState(@PathVariable int roomId){
         Game game = this.gameService.findGameByRoomId(roomId);
-        GameState gameState = game.getGameState();
         return game.getGameState();
     }
 
     // Enter a game for game preparing (setting up board configuration)
     // This one only works for the enter game button in room page
-    @PutMapping("rooms/{roomId}/game/start")
+    @PutMapping("/rooms/{roomId}/game/start")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void enterGame(@PathVariable int roomId) {
@@ -85,14 +84,15 @@ public class GameController {
     @PutMapping("/rooms/{roomId}/players/{playerId}/moving")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void operatePiece(@PathVariable int roomId, @PathVariable String playerId, @RequestBody MovingDTO movingDTO) {
+    public void operatePiece(@PathVariable int roomId, @PathVariable int playerId, @RequestBody MovingDTO movingDTO) {
         Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
         List<SquareGETDTO> board = this.gameService.operatePiece(roomId, coordinates);
-        Game game = Lobby.getInstance().getRoomByRoomId(roomId).getGame();
-        System.out.println(roomId);
-        System.out.println(playerId);
+        Game game = gameService.findGameByRoomId(roomId);
+//        Game game = Lobby.getInstance().getRoomByRoomId(roomId).getGame();
+//        System.out.println(roomId);
+//        System.out.println(playerId);
         SocketMessageDTO messageDTO = this.gameService.getMessage(board, game);
-        System.out.println(messageDTO.getCurrentPlayerId());
+//        System.out.println(messageDTO.getCurrentPlayerId());
         // sending back the game status (messageDTO) including current board, player and winner info
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
     }

@@ -36,6 +36,9 @@ public abstract class DTOMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "token", ignore = true)
+    @Mapping(target = "wins", ignore = true)
+    @Mapping(target = "loss", ignore = true)
+    @Mapping(target = "roomId", ignore = true)
     public abstract User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
 
     @Mapping(source = "id", target = "id")
