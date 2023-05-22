@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.game.Game;
-import ch.uzh.ifi.hase.soprafs23.game.Lobby;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.board.Square;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +48,9 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void confirmResult(@PathVariable int roomId) {
-        Game game = this.gameService.findGameByRoomId(roomId);
-        game.decrementPendingPlayersConfirmation();
+//        Game game = this.gameService.findGameByRoomId(roomId);
+//        game.decrementPendingPlayersConfirmation();
+        this.gameService.decrementPendingPlayersConfirmationByRoomId(roomId);
     }
 
     // Enter a game for game preparing (setting up board configuration)
@@ -60,14 +59,16 @@ public class GameController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void enterGame(@PathVariable int roomId) {
-        try {
-            this.gameService.enterGame(roomId);
-        } catch (IllegalStateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-        Game game = this.gameService.findGameByRoomId(roomId);
+        this.gameService.enterGame(roomId);
+//        try {
+//            this.gameService.enterGame(roomId);
+//        } catch (IllegalStateException e) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+//        }
+        GameState gameState = this.gameService.findGameStateByRoomId(roomId);
+//        Game game = this.gameService.findGameByRoomId(roomId);
         // It sends the game state (which should be PRE_PLAY) to client for redirecting players to game preparation page
-        template.convertAndSend("/topic/room/" + roomId + "/state", game.getGameState());
+        template.convertAndSend("/topic/room/" + roomId + "/state", gameState);
     }
 
 
@@ -77,19 +78,21 @@ public class GameController {
     @ResponseBody
     public GameState setConfiguration(@PathVariable int roomId, @RequestBody PiecePUTDTO[] configuration){
         Piece[] pieces = DTOMapper.INSTANCE.convertConfigurationToInitialBoard(configuration);
-        Game game = this.gameService.findGameByRoomId(roomId);
-        this.gameService.setInitialBoard(game, pieces);
-        try {
-            this.gameService.startGame(roomId);
-        } catch (Exception e) {
-            // the catch block works for debugging, might be changed later when we've defined all error messages
-            System.out.println("fail");
-        }
+//        Game game = this.gameService.findGameByRoomId(roomId);
+        this.gameService.setInitialBoard(roomId, pieces);
+        this.gameService.startGame(roomId);
+        GameState gameState = this.gameService.findGameStateByRoomId(roomId);
+//        try {
+
+//        } catch (Exception e) {
+//            // the catch block works for debugging, might be changed later when we've defined all error messages
+//            System.out.println("fail");
+//        }
         // sending the game state to client, so the players can enter the game board page at the same time when both sides finish setting up
-        template.convertAndSend("/topic/loading/"+roomId, game.getGameState());
+        template.convertAndSend("/topic/loading/"+roomId, gameState);
         // also sending the game state to client since the first player should see a spinner when the opponent is not ready yet
         // cannot use web socket here because of some execution order issue
-        return game.getGameState();
+        return gameState;
     }
 
     // Receiving a moving from client and take action in server
@@ -98,12 +101,14 @@ public class GameController {
     @ResponseBody
     public void operatePiece(@PathVariable int roomId, @PathVariable int playerId, @RequestBody MovingDTO movingDTO) {
         Axis[][] coordinates = DTOMapper.INSTANCE.convertMovingDTOtoCoordinates(movingDTO);
-        List<SquareGETDTO> board = this.gameService.operatePiece(roomId, coordinates);
-        Game game = gameService.findGameByRoomId(roomId);
+//        List<SquareGETDTO> board = this.gameService.operatePiece(roomId, coordinates);
+        this.gameService.operatePiece(roomId, coordinates);
+//        Game game = gameService.findGameByRoomId(roomId);
 //        Game game = Lobby.getInstance().getRoomByRoomId(roomId).getGame();
 //        System.out.println(roomId);
 //        System.out.println(playerId);
-        SocketMessageDTO messageDTO = this.gameService.getMessage(board, game);
+//        SocketMessageDTO messageDTO = this.gameService.getMessage(board, roomId);
+        SocketMessageDTO messageDTO = this.gameService.getGameInfo(roomId);
 //        System.out.println(messageDTO.getCurrentPlayerId());
         // sending back the game status (messageDTO) including current board, player and winner info
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
@@ -112,26 +117,28 @@ public class GameController {
     @GetMapping("rooms/{roomId}/turn")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public long getOperatingPlayer(@PathVariable int roomId) {
-        Game game = this.gameService.findGameByRoomId(roomId);
-        System.out.println(game.getOperatingPlayer().getArmy().getType());
-        return game.getOperatingPlayer().getUserId();
+    public long getOperatingPlayerId(@PathVariable int roomId) {
+//        Game game = this.gameService.findGameByRoomId(roomId);
+//        System.out.println(game.getOperatingPlayer().getArmy().getType());
+//        return game.getOperatingPlayer().getUserId();
+        return this.gameService.getOperatingPlayerId(roomId);
     }
 
     @PutMapping("rooms/{roomId}/resign")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void resign(@PathVariable int roomId, @RequestBody ResignPutDTO resignPutDTO) {
-        Game game = this.gameService.findGameByRoomId(roomId);
-        Board board =  game.getBoard();
-        List<SquareGETDTO> boardInSquares = new ArrayList<SquareGETDTO>();
-        for(int i = 0; i<10; i++) {
-            for(int j=0; j<10; j++) {
-                boardInSquares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
-            }
-        }
-        this.gameService.resign(game, resignPutDTO);
-        SocketMessageDTO messageDTO = this.gameService.getMessage(boardInSquares, game);
+//        Game game = this.gameService.findGameByRoomId(roomId);
+//        Board board =  game.getBoard();
+//        List<SquareGETDTO> boardInSquares = new ArrayList<SquareGETDTO>();
+//        for(int i = 0; i<10; i++) {
+//            for(int j=0; j<10; j++) {
+//                boardInSquares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
+//            }
+//        }
+        this.gameService.resign(roomId, resignPutDTO);
+//        SocketMessageDTO messageDTO = this.gameService.getMessage(boardInSquares, roomId);
+        SocketMessageDTO messageDTO = this.gameService.getGameInfo(roomId);
         messageDTO.setPlayerIdResigned(resignPutDTO.getPlayerIdResigned());
         template.convertAndSend("/topic/ongoingGame/"+roomId, messageDTO);
     }
@@ -144,18 +151,19 @@ public class GameController {
     public List<SquareGETDTO> getAvailableMovingOptions(@PathVariable int roomId,
                                                         @RequestParam(value = "x", required = true) Axis axisX,
                                                         @RequestParam(value = "y", required = true) Axis axisY) {
-        System.out.println(axisX);
-        System.out.println(axisY);
-        Game game = this.gameService.findGameByRoomId(roomId);
-        Axis[] coordinate = new Axis[2];
-        coordinate[0] = axisX;
-        coordinate[1] = axisY;
-        System.out.println(coordinate);
-        ArrayList<SquareGETDTO> availableMovements = new ArrayList<>();
-        for(Square square: this.gameService.getAvailableMovingOptions(game, coordinate)) {
-            availableMovements.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(square));
-        }
-        return availableMovements;
+//        System.out.println(axisX);
+//        System.out.println(axisY);
+//        Game game = this.gameService.findGameByRoomId(roomId);
+//        Axis[] coordinate = new Axis[2];
+//        coordinate[0] = axisX;
+//        coordinate[1] = axisY;
+//        System.out.println(coordinate);
+        return gameService.getAvailableMovingOptions(roomId, axisX, axisY);
+
+//        for(Square square: this.gameService.getAvailableMovingOptions(game, coordinate)) {
+//            availableMovements.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(square));
+//        }
+//        return availableMovements;
     }
 
 }

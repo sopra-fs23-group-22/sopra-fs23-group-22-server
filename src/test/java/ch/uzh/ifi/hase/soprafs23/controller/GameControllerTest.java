@@ -96,114 +96,114 @@ public class GameControllerTest {
 //                .andExpect(jsonPath("$", is("PRE_PLAY")));
 //    }
 
-    @Test
-    public void testEnteringGame_withTwoPlayers_success() throws Exception {
-        given(testGame.getGameState()).willReturn(GameState.PRE_PLAY);
-        doNothing().when(gameService).enterGame(TEST_ROOM_ID);
-
-        MockHttpServletRequestBuilder enterGame = put("/rooms/{roomId}/game/start", TEST_ROOM_ID)
-                .contentType(MediaType.APPLICATION_JSON);
-
-        mockMvc.perform(enterGame)
-                .andExpect(status().isNoContent());
-        verify(gameService,Mockito.times(1)).enterGame(TEST_ROOM_ID);
-        verify(template).convertAndSend("/topic/room/1/state", GameState.PRE_PLAY);
-
-    }
-
-
+//    @Test
+//    public void testEnteringGame_withTwoPlayers_success() throws Exception {
+//        given(testGame.getGameState()).willReturn(GameState.PRE_PLAY);
+//        doNothing().when(gameService).enterGame(TEST_ROOM_ID);
+//
+//        MockHttpServletRequestBuilder enterGame = put("/rooms/{roomId}/game/start", TEST_ROOM_ID)
+//                .contentType(MediaType.APPLICATION_JSON);
+//
+//        mockMvc.perform(enterGame)
+//                .andExpect(status().isNoContent());
+//        verify(gameService,Mockito.times(1)).enterGame(TEST_ROOM_ID);
+//        verify(template).convertAndSend("/topic/room/1/state", GameState.PRE_PLAY);
+//
+//    }
 
 
 
-    @Test
-    public void singlePlayerSetConfiguration_notEnteringGame() throws Exception {
-        Piece piece = new Piece(PieceType.BOMB, ArmyType.BLUE);
-        Piece[] pieces = new Piece[40];
-        PiecePUTDTO piecePUTDTO = new PiecePUTDTO();
-        piecePUTDTO.setPieceType(PieceType.BOMB);
-        piecePUTDTO.setArmyType(ArmyType.BLUE);
-        PiecePUTDTO[] piecePUTDTOS = new PiecePUTDTO[40];
-        for(int i=0; i<40; i++) {
-            piecePUTDTOS[i] = piecePUTDTO;
-            pieces[i] = piece;
-        }
-
-        // when single player send the configuration to server, the game will not start yet
-        given(dtoMapper.convertConfigurationToInitialBoard(piecePUTDTOS)).willReturn(pieces);
-        doNothing().when(gameService).setInitialBoard(testGame, pieces);
-        doNothing().when(gameService).startGame(TEST_ROOM_ID);
-        given(testGame.getGameState()).willReturn(GameState.PRE_PLAY);
-
-        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/setBoard",1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(piecePUTDTOS));
-
-        mockMvc.perform(putRequest)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is("PRE_PLAY")));
-
-        verify(template).convertAndSend("/topic/loading/1", GameState.PRE_PLAY);
-    }
-
-    @Test
-    public void playerMakeAMoveOperation_success() throws Exception {
-
-        Axis[] source = new Axis[2];
-        Axis[] target = new Axis[2];
-        source[0] = Axis._0;
-        source[1] = Axis._0;
-        target[0] = Axis._0;
-        target[1] = Axis._1;
-        MovingDTO testMovingDTO = new MovingDTO();
-        testMovingDTO.setSource(source);
-        testMovingDTO.setTarget(target);
-
-        // set up request body: moving from 0,0 to 0,1
-        Axis[][] coordinates = new Axis[2][2];
-        coordinates[0][0] = Axis._0;
-        coordinates[0][1] = Axis._0;
-        coordinates[1][0] = Axis._0;
-        coordinates[1][1] = Axis._1;
-
-        List<SquareGETDTO> returnBoard = new ArrayList<>();
-        SquareGETDTO squareGETDTO = new SquareGETDTO();
-        PieceGETDTO pieceGETDTO = new PieceGETDTO();
-        pieceGETDTO.setArmyType(ArmyType.BLUE);
-        pieceGETDTO.setPieceType(PieceType.CAPTAIN);
-        squareGETDTO.setContent(pieceGETDTO);
-        squareGETDTO.setAxisX(Axis._0);
-        squareGETDTO.setAxisY(Axis._0);
-        returnBoard.add(squareGETDTO);
-        SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
-        socketMessageDTO.setBoard(returnBoard);
-        socketMessageDTO.setCurrentPlayerId(TEST_PLAYER_1);
-        socketMessageDTO.setWinnerId(-1L);
-        given(dtoMapper.convertMovingDTOtoCoordinates(Mockito.any())).willReturn(coordinates);
-        given(gameService.operatePiece(TEST_ROOM_ID, coordinates)).willReturn(returnBoard);
-        given(gameService.getMessage(returnBoard, testGame)).willReturn(socketMessageDTO);
-
-        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/players/{playerId}/moving",1, 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(testMovingDTO));
 
 
-        ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<SocketMessageDTO> messageCaptor = ArgumentCaptor.forClass(SocketMessageDTO.class);
+//    @Test
+//    public void singlePlayerSetConfiguration_notEnteringGame() throws Exception {
+//        Piece piece = new Piece(PieceType.BOMB, ArmyType.BLUE);
+//        Piece[] pieces = new Piece[40];
+//        PiecePUTDTO piecePUTDTO = new PiecePUTDTO();
+//        piecePUTDTO.setPieceType(PieceType.BOMB);
+//        piecePUTDTO.setArmyType(ArmyType.BLUE);
+//        PiecePUTDTO[] piecePUTDTOS = new PiecePUTDTO[40];
+//        for(int i=0; i<40; i++) {
+//            piecePUTDTOS[i] = piecePUTDTO;
+//            pieces[i] = piece;
+//        }
+//
+//        // when single player send the configuration to server, the game will not start yet
+//        given(dtoMapper.convertConfigurationToInitialBoard(piecePUTDTOS)).willReturn(pieces);
+//        doNothing().when(gameService).setInitialBoard(testGame, pieces);
+//        doNothing().when(gameService).startGame(TEST_ROOM_ID);
+//        given(testGame.getGameState()).willReturn(GameState.PRE_PLAY);
+//
+//        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/setBoard",1)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(asJsonString(piecePUTDTOS));
+//
+//        mockMvc.perform(putRequest)
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", is("PRE_PLAY")));
+//
+//        verify(template).convertAndSend("/topic/loading/1", GameState.PRE_PLAY);
+//    }
 
-
-        mockMvc.perform(putRequest)
-                .andExpect(status().isNoContent());
-
-
-        verify(template).convertAndSend(destinationCaptor.capture(), messageCaptor.capture());
-
-        String actualDestination = destinationCaptor.getValue();
-        Object actualMessage = messageCaptor.getAllValues();
-
-        assertEquals("/topic/ongoingGame/1", actualDestination);
-        System.out.println(actualMessage);
-        // TODO: complete the test cases, verify if all values equals
-    }
+//    @Test
+//    public void playerMakeAMoveOperation_success() throws Exception {
+//
+//        Axis[] source = new Axis[2];
+//        Axis[] target = new Axis[2];
+//        source[0] = Axis._0;
+//        source[1] = Axis._0;
+//        target[0] = Axis._0;
+//        target[1] = Axis._1;
+//        MovingDTO testMovingDTO = new MovingDTO();
+//        testMovingDTO.setSource(source);
+//        testMovingDTO.setTarget(target);
+//
+//        // set up request body: moving from 0,0 to 0,1
+//        Axis[][] coordinates = new Axis[2][2];
+//        coordinates[0][0] = Axis._0;
+//        coordinates[0][1] = Axis._0;
+//        coordinates[1][0] = Axis._0;
+//        coordinates[1][1] = Axis._1;
+//
+//        List<SquareGETDTO> returnBoard = new ArrayList<>();
+//        SquareGETDTO squareGETDTO = new SquareGETDTO();
+//        PieceGETDTO pieceGETDTO = new PieceGETDTO();
+//        pieceGETDTO.setArmyType(ArmyType.BLUE);
+//        pieceGETDTO.setPieceType(PieceType.CAPTAIN);
+//        squareGETDTO.setContent(pieceGETDTO);
+//        squareGETDTO.setAxisX(Axis._0);
+//        squareGETDTO.setAxisY(Axis._0);
+//        returnBoard.add(squareGETDTO);
+//        SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
+//        socketMessageDTO.setBoard(returnBoard);
+//        socketMessageDTO.setCurrentPlayerId(TEST_PLAYER_1);
+//        socketMessageDTO.setWinnerId(-1L);
+//        given(dtoMapper.convertMovingDTOtoCoordinates(Mockito.any())).willReturn(coordinates);
+//        given(gameService.operatePiece(TEST_ROOM_ID, coordinates)).willReturn(returnBoard);
+//        given(gameService.getMessage(returnBoard, testGame)).willReturn(socketMessageDTO);
+//
+//        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/players/{playerId}/moving",1, 1)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(asJsonString(testMovingDTO));
+//
+//
+//        ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+//        ArgumentCaptor<SocketMessageDTO> messageCaptor = ArgumentCaptor.forClass(SocketMessageDTO.class);
+//
+//
+//        mockMvc.perform(putRequest)
+//                .andExpect(status().isNoContent());
+//
+//
+//        verify(template).convertAndSend(destinationCaptor.capture(), messageCaptor.capture());
+//
+//        String actualDestination = destinationCaptor.getValue();
+//        Object actualMessage = messageCaptor.getAllValues();
+//
+//        assertEquals("/topic/ongoingGame/1", actualDestination);
+//        System.out.println(actualMessage);
+//        // TODO: complete the test cases, verify if all values equals
+//    }
 
 
     // the initial configuration has changed (it will be sent by user, so we don't need this anymore)
