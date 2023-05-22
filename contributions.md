@@ -143,3 +143,11 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/119 | Add Boardtest class to verify Board class |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/120 |            Add Lobbytest class            |
 
+
+## 23.05.2023
+### Week 8, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/50 | Implement update user statistics and displayed on profile page |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/58 | Add handling if user navigate page to other page while game is preparing/ongoing and then join another room. |
+
