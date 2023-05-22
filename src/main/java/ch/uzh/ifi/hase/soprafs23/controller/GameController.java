@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +48,25 @@ public class GameController {
         return game.getGameState();
     }
 
+    @PutMapping("/rooms/{roomId}/game/confirmResult")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void confirmResult(@PathVariable int roomId) {
+        Game game = this.gameService.findGameByRoomId(roomId);
+        game.decrementPendingPlayersConfirmation();
+    }
+
     // Enter a game for game preparing (setting up board configuration)
     // This one only works for the enter game button in room page
     @PutMapping("/rooms/{roomId}/game/start")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void enterGame(@PathVariable int roomId) {
-        this.gameService.enterGame(roomId);
+        try {
+            this.gameService.enterGame(roomId);
+        } catch (IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
         Game game = this.gameService.findGameByRoomId(roomId);
         // It sends the game state (which should be PRE_PLAY) to client for redirecting players to game preparation page
         template.convertAndSend("/topic/room/" + roomId + "/state", game.getGameState());

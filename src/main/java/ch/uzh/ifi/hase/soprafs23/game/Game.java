@@ -23,9 +23,10 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<Player>();
     private Board board;
     private Player operatingPlayer;
-    private GameState gameState;
+    private GameState gameState = WAITING;
     private Player winner;
     private Player loser;
+    private int numPlayersPendingResultConfirmation = 0;
 
     public void setup(ArrayList<Long> userIds){
         if (this.board == null) board = new Board();
@@ -145,7 +146,7 @@ public class Game {
                 throw new IllegalStateException("Illegal move! Normal pieces other than scout can only move one square and not diagonally!");
         }
         // check if there is a winner
-        if (hasWinner()) gameState = WAITING;
+        if (hasWinner()) gameState = FINISHED;
     }
 
     public boolean hasWinner(){
@@ -160,7 +161,8 @@ public class Game {
                     System.out.println("The flag of " + player.getUserId() + " is captured!");
                     this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
                     this.loser = (player == players.get(0)) ? players.get(0) : players.get(1);
-                    gameState = WAITING;
+                    //gameState = FINISHED;
+                    numPlayersPendingResultConfirmation = 2;
                     return true;
                 }
             }
@@ -173,7 +175,8 @@ public class Game {
                     piece.getPieceType() != PieceType.BOMB).allMatch(piece -> piece.getAliveState() == DOWN)) {
                 this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
                 this.loser = (player == players.get(0)) ? players.get(0) : players.get(1);
-                gameState = WAITING;
+                //gameState = FINISHED;
+                numPlayersPendingResultConfirmation = 2;
                 return true;
             }
         }
@@ -188,8 +191,9 @@ public class Game {
         // the player resigned loses the game, another wins
         winner = (playerResigned == players.get(0)) ? players.get(1) : players.get(0);
         loser = (playerResigned == players.get(0)) ? players.get(0) : players.get(1);
-        // ... change the game state to WAITING
-        gameState = WAITING;
+        // ... change the game state to FINISHED
+        gameState = FINISHED;
+        numPlayersPendingResultConfirmation = 2;
     }
 
     public int getGameId() {
@@ -213,4 +217,21 @@ public class Game {
         }
         return null;
     }
+
+    public ArrayList<Player> getPlayers() { return players; }
+
+    public void setGameState(GameState gameState) { this.gameState = gameState; }
+
+//    public void setPendingPlayersConfirmation() { this.numPlayersPendingResultConfirmation = 2; }
+    public void decrementPendingPlayersConfirmation() {
+        this.numPlayersPendingResultConfirmation--;
+        if (this.numPlayersPendingResultConfirmation == 0) {
+            this.gameState = WAITING;
+        }
+    }
+//    public int getNumPlayersPendingResultConfirmation() { return this.numPlayersPendingResultConfirmation; }
+//    public void clearPlayersPendingResultConfirmation() {
+//        this.numPlayersPendingResultConfirmation = 0;
+//        this.gameState = WAITING;
+//    }
 }
