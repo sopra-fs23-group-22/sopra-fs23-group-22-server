@@ -54,8 +54,10 @@ public class GameControllerTest {
     private GameService gameService;
     @MockBean
     private DTOMapper dtoMapper;
+    @MockBean
     private Game testGame;
     private Board testBoard;
+    private GameState gameState;
 
     private int TEST_ROOM_ID = 1;
     private Long TEST_PLAYER_1 = 1L;
@@ -64,24 +66,36 @@ public class GameControllerTest {
 
     @BeforeEach
     void setUp() {
-        testGame = mock(Game.class);
+//        testGame = mock(Game.class);
+        testGame = new Game();
         testBoard = new Board();
-        given(gameService.findGameByRoomId(Mockito.anyInt())).willReturn(testGame);
-        given(testGame.getBoard()).willReturn(testBoard);
+        gameState = GameState.WAITING;
+        given(gameService.findGameByRoomId(TEST_ROOM_ID)).willReturn(testGame);
+        given(gameService.findBoardByRoomId(TEST_ROOM_ID)).willReturn(testBoard);
+        given(gameService.findGameStateByRoomId(TEST_ROOM_ID)).willReturn(gameState);
     }
 
-//    @Test
-//    public void givenRoomIdAsPathVariable_thenReturnBoard() throws Exception {
+    @Test
+    public void givenRoomIdAsPathVariable_thenReturnBoard() throws Exception {
 
-//        MockHttpServletRequestBuilder getRequest = get("/rooms/{roomId}/game", TEST_ROOM_ID)
-//                .contentType(MediaType.APPLICATION_JSON);
-//
-//        mockMvc.perform(getRequest)
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$").isArray())
-//                .andExpect(jsonPath("$.length()", is(100)));
-//        }
+        MockHttpServletRequestBuilder getRequest = get("/rooms/{roomId}/game", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON);
 
+        mockMvc.perform(getRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", is(100)));
+        }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenReturnGameState() throws Exception {
+        MockHttpServletRequestBuilder getRequest = get("/rooms/{roomId}/gameState", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(getRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isString());
+    }
 
 //    @Test
 //    public void givenRoomIdAsPathVariable_startGame_thenReturnStateIs_PRE_PLAY() throws Exception {
