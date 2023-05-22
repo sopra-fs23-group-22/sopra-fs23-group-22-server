@@ -45,6 +45,9 @@ public class GameController {
     @ResponseBody
     public GameState getGameState(@PathVariable int roomId){
         Game game = this.gameService.findGameByRoomId(roomId);
+        if ( game == null ) {
+            return GameState.WAITING;
+        }
         return game.getGameState();
     }
 
