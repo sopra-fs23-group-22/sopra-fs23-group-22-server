@@ -79,6 +79,11 @@ public abstract class DTOMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "status", target = "status")
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "token", ignore = true)
+    @Mapping(target = "wins", ignore = true)
+    @Mapping(target = "loss", ignore = true)
+    @Mapping(target = "roomId", ignore = true)
     public abstract User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
     public List<SquareGETDTO> convertBoardToSquareGETDTOList(@NotNull Board board) {
