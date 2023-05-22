@@ -35,21 +35,16 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<SquareGETDTO> getBoard(@PathVariable int roomId){
-        Game game = this.gameService.findGameByRoomId(roomId);
-        Board board = game.getBoard();
+//        Game game = this.gameService.findGameByRoomId(roomId);
+//        Board board = game.getBoard();
+        Board board = this.gameService.findBoardByRoomId(roomId);
         return DTOMapper.INSTANCE.convertBoardToSquareGETDTOList(board);
     }
 
     @GetMapping("/rooms/{roomId}/gameState")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public GameState getGameState(@PathVariable int roomId){
-        Game game = this.gameService.findGameByRoomId(roomId);
-        if ( game == null ) {
-            return GameState.WAITING;
-        }
-        return game.getGameState();
-    }
+    public GameState getGameState(@PathVariable int roomId){ return gameService.findGameStateByRoomId(roomId); }
 
     @PutMapping("/rooms/{roomId}/game/confirmResult")
     @ResponseStatus(HttpStatus.OK)

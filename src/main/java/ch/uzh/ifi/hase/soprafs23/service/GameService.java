@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
+import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.ResignPutDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.SocketMessageDTO;
@@ -71,10 +72,16 @@ public class GameService {
         }
     }
 
-//    public Board findBoardByRoomId(int roomId) {
-//        Game game = findGameByRoomId(roomId);
-//        return game.getBoard();
-//    }
+    public Board findBoardByRoomId(int roomId) {
+        Game game = findGameByRoomId(roomId);
+        return game.getBoard();
+    }
+
+    public GameState findGameStateByRoomId(int roomId) {
+         Game game = findGameByRoomId(roomId);
+         if (game == null) return GameState.WAITING;
+         return game.getGameState();
+    }
 
     // enter game does not mean start game, here we have a game with no piece on board, game status change to PRE_PLAY
     public void enterGame(int roomId) {
