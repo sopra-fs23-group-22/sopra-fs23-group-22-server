@@ -1,52 +1,70 @@
 ## 04.04.2023
-Week 1, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/41 
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/81
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/86
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/84
-                      
-Week 1, Shiran Liu,   https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/37
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/27
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/26
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/82
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/85
+### Week 1, Stefan Plüss
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/41 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/81 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/86 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/84 |  |
 
-Week 1, Jiachen Bao,  https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/63
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/66
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/33
-                      
-Week 1,Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/7
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/20
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/5
+### Week 1, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/37 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/27 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/26 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/82 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/85 |  |
 
-Week 1, Anqi Xu,      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/6
-                      https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/21
+### Week 1, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/63 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/66 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/33 |  |
+
+### Week 1, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/7  |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/20 |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/5  |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/3  | -implement profile page |
+
+### Week 1, Anqi Xu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/6  |  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/21 |  |
+
 
 ## 25.04.2023
-Week 4, Jiachen Bao, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27
-                     - Created the visual component of piece, square and board.
-                     - Set up the default pieces configuration.
-                     - Added click functionality to piece component, so players can swap two pieces by clicking and change the board configuration.
-                     https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/87
-                     - Added frontend request to fetch data and render the board correctly
-                     
-Week 4, Chenfei Xiong, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/77
-                        - Created a users search bar on lobby page
-                        https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/25
-                        - Add visual component of creating a room
-                        - Add frontend requests to fetch data and display the list of existing rooms
-                        - Add Endpoints to create a room and add user to the room
-                        
-week 4, Anqi xu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34
-                 - Modify gamePreparing page format
-                 - Add frontend requests to fetch data and display the player and the opponent
+### Week 4, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/27  | - Created the visual component of piece, square and board. - Set up the default pieces configuration. - Added click functionality to piece component, so players can swap two pieces by clicking and change the board configuration. |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/87 | - Added frontend request to fetch data and render the board correctly |
 
-week 4, Stefan Plüss, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/88
-                    - Start with implementing the websocket
+### Week 4, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/77 | - Created a users search bar on lobby page |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/25 | - Add visual component of creating a room. - Add frontend requests to fetch data and display the list of existing rooms. - Add Endpoints to create a room and add user to the room |
 
-week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23
-                    - Refine of backend & some connection parts
+### Week 4, Anqi Xu
+| Issue No.           | Description  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34 | - Modify gamePreparing page format. - Add frontend requests to fetch data and display the player and the opponent |
+
+### Week 4, Stefan Plüss
+| Issue No.           | Description  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/88 | - Start with implementing the websocket |
+
+### Week 4, Shiran Liu
+| Issue No.           | Description  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23 | - Refine of backend & some connection parts |
+
 
 ## 01.05.2023
 ### Week 5, Chenfei Xiong
