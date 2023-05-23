@@ -159,3 +159,9 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/23 | Add highlighting effect for available moving positions |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/59 | Display player’s army type (blue/red) in player list |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/60 | Add highlighting effect to selected piece in game preparing page |
+
+### Week 8, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23  | Fully the backend side implementation to calculate and display legal move/attack options for a given piece at a given location |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36  | Fixing: When one player is still on result page, but another player can still enter a new game, which causes issues |
