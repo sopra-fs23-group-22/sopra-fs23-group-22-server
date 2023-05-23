@@ -165,3 +165,9 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | :---------: |:-------------:|
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23  | Fully the backend side implementation to calculate and display legal move/attack options for a given piece at a given location |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36  | Fixing: When one player is still on result page, but another player can still enter a new game, which causes issues |
+
+### Week 8, Anqi Xu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/133 | Add GameController test |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/60  | add guidelines to provide info and hints to players to enhance gaming experience |
