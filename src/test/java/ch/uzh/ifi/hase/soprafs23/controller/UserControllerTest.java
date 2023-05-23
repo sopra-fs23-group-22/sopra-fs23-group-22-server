@@ -2,7 +2,10 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,20 +17,27 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.HeaderResultMatchers;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.springframework.http.RequestEntity.head;
+import static org.springframework.http.RequestEntity.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * UserControllerTest
@@ -45,6 +55,8 @@ public class UserControllerTest {
 
   @MockBean
   private UserService userService;
+
+
 
   @Test
   public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
@@ -99,6 +111,131 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.password", is(user.getPassword())))
         .andExpect(jsonPath("$.username", is(user.getUsername())))
         .andExpect(jsonPath("$.status", is(user.getStatus().toString())));
+
+    Mockito.verify(simpMessagingTemplate, Mockito.times(1)).convertAndSend(Mockito.anyString(), (Object) Mockito.any());
+  }
+
+  @Test
+  public void testGetOnlineUsers() throws Exception {
+
+      User user = new User();
+      user.setId(1L);
+      user.setPassword("Test User");
+      user.setUsername("testUsername");
+      user.setStatus(UserStatus.ONLINE);
+
+      UserGetDTO userGetDTO = new UserGetDTO();
+      userGetDTO.setId(1L);
+      userGetDTO.setPassword("Test User");
+      userGetDTO.setUsername("testUsername");
+      userGetDTO.setStatus(UserStatus.ONLINE);
+      ArrayList<User> users = new ArrayList<>();
+      users.add(user);
+      MockHttpServletRequestBuilder getRequest = get("/users/online");
+
+
+      given(userService.getOnlineUsers()).willReturn(users);
+
+
+      mockMvc.perform(getRequest)
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$[0].id", is((int) userGetDTO.getId())))
+              .andExpect(jsonPath("$[0].password", is(userGetDTO.getPassword())))
+              .andExpect(jsonPath("$[0].username", is(userGetDTO.getUsername())))
+              .andExpect(jsonPath("$[0].status", is(userGetDTO.getStatus().toString())));
+
+
+      Mockito.verify(simpMessagingTemplate, Mockito.times(1)).convertAndSend(Mockito.anyString(), (Object) Mockito.any());
+  }
+
+  @Test
+  public void testUpdateInfo_NOCHANGES() throws Exception {
+      UserPutDTO userPutDTO = new UserPutDTO();
+      long id = 1L;
+      ArrayList<User> users = new ArrayList<>();
+      given(userService.getOnlineUsers()).willReturn(users);
+
+      MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/users/" + id)
+              .contentType(MediaType.APPLICATION_JSON)
+              .accept(MediaType.APPLICATION_JSON)
+              .content(asJsonString(userPutDTO));
+
+      mockMvc.perform(putRequest)
+              .andExpect(status().isNoContent());
+      Mockito.verify(simpMessagingTemplate, Mockito.times(1)).convertAndSend(Mockito.anyString(), (Object) Mockito.any());
+      Mockito.verify(userService, Mockito.times(0)).updateUsername(Mockito.anyString(), Mockito.anyLong());
+      Mockito.verify(userService, Mockito.times(0)).updateUserStatus((UserStatus) Mockito.any(), Mockito.anyLong());
+  }
+
+  @Test
+  public void testUpdateInfo_CHANGEINFO() throws Exception {
+      UserPutDTO userPutDTO = new UserPutDTO();
+      userPutDTO.setUsername("test");
+      userPutDTO.setStatus(UserStatus.OFFLINE);
+      long id = 1L;
+      ArrayList<User> users = new ArrayList<>();
+      given(userService.getOnlineUsers()).willReturn(users);
+
+      MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/users/" + id)
+              .contentType(MediaType.APPLICATION_JSON)
+              .accept(MediaType.APPLICATION_JSON)
+              .content(asJsonString(userPutDTO));
+
+      mockMvc.perform(putRequest)
+              .andExpect(status().isNoContent());
+
+      Mockito.verify(simpMessagingTemplate, Mockito.times(1)).convertAndSend(Mockito.anyString(), (Object) Mockito.any());
+      Mockito.verify(userService, Mockito.times(1)).updateUsername(Mockito.anyString(), Mockito.anyLong());
+      Mockito.verify(userService, Mockito.times(1)).updateUserStatus((UserStatus) Mockito.any(), Mockito.anyLong());
+      Mockito.verify(userService, Mockito.times(1)).updateRoomId(null, id);
+  }
+
+  @Test
+  public void testGetUserById() throws Exception {
+      //setup user
+      long id = 1L;
+      User user = new User();
+
+      given(userService.findUserById(Mockito.anyLong())).willReturn(user);
+
+      MockHttpServletRequestBuilder getRequest = get("/users/" + id);
+      mockMvc.perform(getRequest)
+              .andExpect(status().isOk());
+
+      Mockito.verify(userService, Mockito.times(1)).findUserById(id);
+  }
+
+  @Test
+  public void testGetUserByUsername() throws Exception {
+      String username = "test";
+      User user = new User();
+      given(userService.findUserByUsername(Mockito.anyString())).willReturn(user);
+
+      MockHttpServletRequestBuilder getRequest = get("/users/" + username + "/login");
+      mockMvc.perform(getRequest)
+              .andExpect(status().isOk());
+
+      Mockito.verify(userService, Mockito.times(1)).findUserByUsername(username);
+  }
+
+  @Test
+  public void testUserLogin() throws Exception {
+      User user = new User();
+      user.setToken("test");
+      UserPutDTO userPutDTO = new UserPutDTO();
+      given(userService.authorize(Mockito.any())).willReturn(user);
+      MockHttpServletResponse response = new MockHttpServletResponse();
+
+      MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/users/login",response)
+              .contentType(MediaType.APPLICATION_JSON)
+              .accept(MediaType.APPLICATION_JSON)
+              .content(asJsonString(userPutDTO));
+
+      mockMvc.perform(putRequest)
+              .andExpect(status().isOk())
+              .andExpect(header().string("Authorization", user.getToken()));
+
+      Mockito.verify(userService, Mockito.times(1)).authorize(Mockito.any());
   }
 
   /**
