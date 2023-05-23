@@ -36,20 +36,20 @@ public class UserController {
     @Autowired
     SimpMessagingTemplate template;
 
-      @GetMapping("/users")
-      @ResponseStatus(HttpStatus.OK)
-      @ResponseBody
-      public List<UserGetDTO> getAllUsers() {
-        // fetch all users in the internal representation
-        List<User> users = userService.getUsers();
-        List<UserGetDTO> userGetDTOs = new ArrayList<>();
+  @GetMapping("/users")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<UserGetDTO> getAllUsers() {
+    // fetch all users in the internal representation
+    List<User> users = userService.getUsers();
+    List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
-        // convert each user to the API representation
-        for (User user : users) {
-          userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
-        }
-        return userGetDTOs;
-      }
+    // convert each user to the API representation
+    for (User user : users) {
+      userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+    }
+    return userGetDTOs;
+  }
 
     @GetMapping("/users/online")
     @ResponseStatus(HttpStatus.OK)
@@ -66,28 +66,28 @@ public class UserController {
         return userGetDTOs;
     }
 
-      @PostMapping("/users")
-      @ResponseStatus(HttpStatus.CREATED)
-      @ResponseBody
-      public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
-        // convert API user to internal representation
-        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+  @PostMapping("/users")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseBody
+  public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
+    // convert API user to internal representation
+    User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
 
-        // create user
-        User createdUser = userService.createUser(userInput);
-
+    // create user
+    User createdUser = userService.createUser(userInput);
+    // convert internal representation of user back to API
 
       // fetch all users in the internal representation
-      List<User> allUsers = userService.getUsers();
-      List<User> onlineUsers = userService.getOnlineUsers();
+      List<User> users = userService.getUsers();
+      List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
-          // convert internal representation of user back to API
-      List<UserGetDTO> allUserGetDTOs = userService.convertUsersToUserGetDTOs(allUsers);
-      List<UserGetDTO> onlineUserGetDTOs = userService.convertUsersToUserGetDTOs(onlineUsers);
+      // convert each user to the API representation
+      for (User user : users) {
+          userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+      }
 
-      // send to frontend if there is new user
-      template.convertAndSend("/topic/users", allUserGetDTOs);
-      template.convertAndSend("/topic/users/online", onlineUserGetDTOs);
+    // send to frontend if there is new user
+      template.convertAndSend("/topic/users",userGetDTOs);
 
       return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
@@ -108,17 +108,12 @@ public class UserController {
             }
         }
         List<User> onlineUsers = userService.getOnlineUsers();
-        List<UserGetDTO> onlineUserGetDTOs = userService.convertUsersToUserGetDTOs(onlineUsers);
+        List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
-        User findUser = userService.findUserById(userId);
-        UserGetDTO userGetDTO = DTOMapper.INSTANCE.convertEntityToUserGetDTO(findUser);
-
-        List<User> allUsers = userService.getUsers();
-        List<UserGetDTO> allUserGetDTOs = userService.convertUsersToUserGetDTOs(allUsers);
-
-        template.convertAndSend("/topic/users/online", onlineUserGetDTOs);
-        template.convertAndSend("/topic/users/" + userId, userGetDTO);
-        template.convertAndSend("/topic/users", allUserGetDTOs);
+        for (User user1 : onlineUsers) {
+            userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user1));
+        }
+        template.convertAndSend("/topic/users/online",userGetDTOs);
     }
 
     @GetMapping("/users/{userId}")
