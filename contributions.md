@@ -171,3 +171,9 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | :---------: |:-------------:|
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/133 | Add GameController test |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/61  | add guidelines to provide info and hints to players to enhance gaming experience |
+
+### Week 8, Stefan Plüss
+| Issue No.           |                    Description                     |
+| :---------: |:--------------------------------------------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/119 |        updated BoardTest to latest changes         |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/134  | Finish Gametest to test core mechanics of the game |
