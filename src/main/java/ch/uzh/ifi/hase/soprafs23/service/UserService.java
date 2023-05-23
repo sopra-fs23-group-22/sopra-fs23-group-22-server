@@ -3,6 +3,8 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,9 +161,14 @@ public class UserService {
           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password! Please try again.");
       }
     }
-//    public void addFriend(Long userId, Long friendId) {
-//        User user = findUserById(userId);
-//        user.addFriend(friendId);
-//        userRepository.flush();
-//    }
+    // convert List of Users to UserGetDTOs
+    public List<UserGetDTO> convertUsersToUserGetDTOs(List<User> users) {
+
+        List<UserGetDTO> userGetDTOs = new ArrayList<>();
+
+        for (User user : users) {
+            userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        }
+      return userGetDTOs;
+    }
 }
