@@ -1,15 +1,9 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-
 public class UserPutDTO {
 
     private String username;
     private long id;
-
-    private UserStatus status;
-
-
 
     public String getUsername() {
         return username;
@@ -23,14 +17,7 @@ public class UserPutDTO {
         return id;
     }
 
-    public void setId(long id) { this.id = id; }
-
-    public UserStatus getStatus() {
-        return status;
+    public void setId(long id) {
+        this.id = id;
     }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
-    }
-
 }

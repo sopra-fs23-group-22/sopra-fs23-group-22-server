@@ -57,9 +57,11 @@ public class UserController {
     public List<UserGetDTO> getOnlineUsers() {
         // fetch all online users in the internal representation
 
+        List<User> users = userService.getOnlineUsers();
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
+
         // convert each user to the API representation
-        for (User user : userService.getOnlineUsers()) {
+        for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
         template.convertAndSend("/topic/users/online",userGetDTOs);
@@ -95,16 +97,19 @@ public class UserController {
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void updateInfo(@PathVariable long userId, @RequestBody UserPutDTO userPutDTO) {
-        User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
-        if(userInput.getUsername()!=null) {
-            userService.updateUsername(userInput.getUsername(), userId);
+    public void updateInfo(@PathVariable long userId, @RequestBody User user) {
+//        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+        if(user.getUsername()!=null) {
+            userService.updateUsername(user.getUsername(), userId);
         }
-        if (userInput.getStatus()!=null) {
-            userService.updateUserStatus(userInput.getStatus(), userId);
-            if(userInput.getStatus() == UserStatus.OFFLINE) {
+        if (user.getStatus()!=null) {
+            if(user.getStatus() == UserStatus.OFFLINE) {
+                userService.updateUserStatus(user.getStatus(), userId);
                 // make sure that roomId will be removed if the user logout;
                 userService.updateRoomId(null, userId);
+            }
+            else {
+                userService.updateUserStatus(user.getStatus(), userId);
             }
         }
         List<User> onlineUsers = userService.getOnlineUsers();
@@ -135,10 +140,20 @@ public class UserController {
     @PutMapping("/users/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserPutDTO userLogin(@RequestBody UserPutDTO userPutDTO, HttpServletResponse response){
-        User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
+    public UserPutDTO userLogin(@RequestBody UserPostDTO userPostDTO, HttpServletResponse response){
+        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
         User authorizedUser = userService.authorize(userInput);
+//        response.addHeader("Authorization",token);
+        System.out.println(authorizedUser.getToken());
         response.addHeader("Authorization", authorizedUser.getToken());
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("Authorization", authorizedUser.getToken());
+//        request.setAttribute("Authorization", "Bearer " + token);
+//        try{
+//
+//        } catch (ResponseStatusException e) {
+//            throw e;
+//        }
         return DTOMapper.INSTANCE.convertEntityToUserPutDTO(authorizedUser);
     }
 
