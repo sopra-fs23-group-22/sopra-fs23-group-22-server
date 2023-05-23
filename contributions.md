@@ -57,7 +57,7 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 ### Week 5, Shiran Liu
 | Issue No.           | Description  |
 | :---------: |:-------------:|
-| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/91 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92 | WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game). |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92 | WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game). |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/93 | Refininig game rules (bug fixes). |
 
 ### Week 5, Jiachen Bao
