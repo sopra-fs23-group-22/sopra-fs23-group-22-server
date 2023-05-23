@@ -111,6 +111,8 @@ public class Game {
         // if the target square has been occupied, then it is an attack
         //  ... if source piece is a Scout, the path it moves over should not be LAKE and should have no piece
         if (board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.SCOUT) {
+            if (board.getSquareViaAxis(sourceAxis).calculateDistanceTo(board.getSquareViaAxis(targetAxis)) == -1)
+                throw new IllegalStateException("The Scout cannot move diagonally!");
             // ... get squares along the path
             Square[] path = board.getPath(sourceAxis, targetAxis);
             // ... check if the path has piece or LAKE

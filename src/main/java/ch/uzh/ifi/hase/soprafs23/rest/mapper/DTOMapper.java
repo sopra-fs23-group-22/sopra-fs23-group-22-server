@@ -110,10 +110,10 @@ public abstract class DTOMapper {
         // a better way maybe using a hashmap, but I don't exactly know much about hashmap...
         coordinates[0] = movingDTO.getSource();
         coordinates[1] = movingDTO.getTarget();
-        System.out.println(coordinates[0][0]);
-        System.out.println(coordinates[0][1]);
-        System.out.println(coordinates[1][0]);
-        System.out.println(coordinates[1][1]);
+//        System.out.println(coordinates[0][0]);
+//        System.out.println(coordinates[0][1]);
+//        System.out.println(coordinates[1][0]);
+//        System.out.println(coordinates[1][1]);
         return coordinates;
     }
 

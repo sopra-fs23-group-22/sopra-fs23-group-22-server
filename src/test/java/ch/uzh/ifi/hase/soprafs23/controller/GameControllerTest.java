@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -58,8 +59,8 @@ public class GameControllerTest {
     private Board testBoard;
 
     private int TEST_ROOM_ID = 1;
-    private Long TEST_PLAYER_1 = 1L;
-    private Long TEST_PLAYER_2 = 2L;
+    private long TEST_PLAYER_1 = 1L;
+    private long TEST_PLAYER_2 = 2L;
     private ArrayList<Long> players;
 
     @BeforeEach
@@ -82,6 +83,108 @@ public class GameControllerTest {
 //                .andExpect(jsonPath("$.length()", is(100)));
 //        }
 
+
+    @Test
+    public void givenRoomIdAndPlayerId_thenOperatePiece() throws Exception {
+        // setup the coordinates variable
+        Axis[] source = new Axis[2];
+        Axis[] target = new Axis[2];
+        source[0] = Axis._0;
+        source[1] = Axis._0;
+        target[0] = Axis._0;
+        target[1] = Axis._1;
+        MovingDTO movingDTO = new MovingDTO();
+        movingDTO.setSource(source);
+        movingDTO.setTarget(target);
+        Axis[][] coordinates = new Axis[2][1];
+        coordinates[0] = movingDTO.getSource();
+        coordinates[1] = movingDTO.getTarget();
+
+        // mock the behaviour of convertMovingDTOtoCoordinates
+        given(dtoMapper.convertMovingDTOtoCoordinates(movingDTO)).willReturn(coordinates);
+
+        // mock the behaviour of functions invoked by the http request
+        doNothing().when(gameService).operatePiece(TEST_ROOM_ID, coordinates);
+        // (here I don't care about what's actually inside socketMessageDTO, it's whether it is invoked matters)
+        SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
+        given(gameService.getGameInfo(TEST_ROOM_ID)).willReturn(socketMessageDTO);
+
+        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/players/{playerId}/moving",
+                TEST_ROOM_ID, TEST_PLAYER_1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(movingDTO));
+
+        mockMvc.perform(putRequest)
+                .andExpect(status().isNoContent());
+
+        verify(template).convertAndSend("/topic/ongoingGame/"+TEST_ROOM_ID, socketMessageDTO);
+    }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenGetPlayerIdOfCurrentTurn() throws Exception {
+        // ... mock the behaviour of getPlayerIdOfCurrentTurn
+        given(gameService.getOperatingPlayerId(TEST_ROOM_ID)).willReturn(TEST_PLAYER_1);
+
+        MockHttpServletRequestBuilder getRequest = get("/rooms/{roomId}/turn", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(getRequest)
+                .andExpect(status().isOk())
+                // ... the response body should be a string and equal to TEST_PLAYER_1
+                .andExpect(jsonPath("$").isNumber())
+                .andExpect(jsonPath("$").value(TEST_PLAYER_1));
+    }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenResign() throws Exception {
+        ResignPutDTO testResignPutDTO = new ResignPutDTO();
+        testResignPutDTO.setPlayerIdResigned(TEST_PLAYER_1);
+        SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
+        socketMessageDTO.setPlayerIdResigned(TEST_PLAYER_1);
+//        ResignPutDTO resignPutDTOReturned = new ResignPutDTO();
+//        resignPutDTOReturned.setPlayerIdResigned(TEST_PLAYER_1);
+
+        doNothing().when(gameService).resign(TEST_ROOM_ID, testResignPutDTO);
+//        doNothing().when(gameService).resign(Mockito.anyInt(), Mockito.any());
+        given(gameService.getGameInfo(TEST_ROOM_ID)).willReturn(socketMessageDTO);
+
+        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/resign", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testResignPutDTO));
+
+        mockMvc.perform(putRequest)
+                .andExpect(status().isOk());
+
+//        verify(gameService, times(1)).resign(TEST_ROOM_ID, any(ResignPutDTO.class));
+//        verify(gameService, times(1)).resign(TEST_ROOM_ID, Mockito.any());
+        verify(template).convertAndSend("/topic/ongoingGame/"+TEST_ROOM_ID, socketMessageDTO);
+    }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenGetAvailableMovingOptions() throws Exception {
+        // mock the input
+        Axis TEST_AXIS_X = Axis._0;
+        Axis TEST_AXIS_Y = Axis._0;
+        // mock the output
+        ArrayList<SquareGETDTO> availableMovingOptionsDTO = new ArrayList<>();
+        given(dtoMapper.convertBoardToSquareGETDTOList(Mockito.any())).willReturn(availableMovingOptionsDTO);
+        given(gameService.getAvailableMovingOptions(TEST_ROOM_ID, TEST_AXIS_X, TEST_AXIS_Y)).willReturn(availableMovingOptionsDTO);
+
+        MockHttpServletRequestBuilder getRequest = get("/rooms/{roomId}/availableMovements",
+                TEST_ROOM_ID)
+                .param("x", String.valueOf(TEST_AXIS_X.toString())) // assuming Axis has a getValue() method
+                .param("y", String.valueOf(TEST_AXIS_Y.toString()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(getRequest)
+                .andExpect(status().isOk())
+                // ... expect the returned value is availableMovingOptionsDTO
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").value(availableMovingOptionsDTO));
+
+        verify(gameService, times(1)).getAvailableMovingOptions(TEST_ROOM_ID, TEST_AXIS_X, TEST_AXIS_Y);
+    }
 
 //    @Test
 //    public void givenRoomIdAsPathVariable_startGame_thenReturnStateIs_PRE_PLAY() throws Exception {
