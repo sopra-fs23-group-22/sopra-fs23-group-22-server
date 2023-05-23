@@ -169,9 +169,10 @@ public class UserControllerTest {
 
   @Test
   public void testUpdateInfo_CHANGEINFO() throws Exception {
-      UserPutDTO userPutDTO = new UserPutDTO();
-      userPutDTO.setUsername("test");
-      userPutDTO.setStatus(UserStatus.OFFLINE);
+      User user = new User();
+      user.setUsername("test");
+      user.setToken("test");
+      user.setStatus(UserStatus.OFFLINE);
       long id = 1L;
       ArrayList<User> users = new ArrayList<>();
       given(userService.getOnlineUsers()).willReturn(users);
@@ -179,7 +180,7 @@ public class UserControllerTest {
       MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/users/" + id)
               .contentType(MediaType.APPLICATION_JSON)
               .accept(MediaType.APPLICATION_JSON)
-              .content(asJsonString(userPutDTO));
+              .content(asJsonString(user));
 
       mockMvc.perform(putRequest)
               .andExpect(status().isNoContent());
