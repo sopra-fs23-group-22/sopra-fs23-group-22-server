@@ -98,8 +98,8 @@ public class RoomController {
     public List<UserGetDTO> getPlayers(@PathVariable int roomId) {
 
 //        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-        List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(roomId);
-        return userGetDTOS;
+//        List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(roomId);
+        return roomService.getUserInRoom(roomId);
 
     }
     @GetMapping("/rooms")

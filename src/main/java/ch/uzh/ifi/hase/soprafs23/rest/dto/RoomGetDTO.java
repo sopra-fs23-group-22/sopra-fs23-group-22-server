@@ -7,7 +7,7 @@ public class RoomGetDTO {
     private int roomId;
     private ArrayList<Long> userIds = new ArrayList<>();
 
-    public long getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 

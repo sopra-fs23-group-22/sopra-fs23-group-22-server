@@ -11,7 +11,7 @@ public class RoomPostDTO {
     private int currentGameId;
     private GameState gameState;
 
-    public long getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
     private ArrayList<Long> userIds = new ArrayList<Long>();
