@@ -151,3 +151,11 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/50 | Implement update user statistics and displayed on profile page |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/58 | Add handling if user navigate page to other page while game is preparing/ongoing and then join another room. |
 
+### Week 8, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/51, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/52, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/53,  https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/55, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/56, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/57 | Implementing the external API |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/24 | Add frontend request for fetching available moving positions |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/23 | Add highlighting effect for available moving positions |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/59 | Display player’s army type (blue/red) in player list |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/60 | Add highlighting effect to selected piece in game preparing page |
