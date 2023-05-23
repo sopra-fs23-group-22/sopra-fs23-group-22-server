@@ -85,7 +85,7 @@ public class GameControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", is(100)));
-        }
+    }
 
     @Test
     public void givenRoomIdAsPathVariable_thenReturnGameState() throws Exception {
@@ -94,7 +94,68 @@ public class GameControllerTest {
 
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isString());
+                .andExpect(jsonPath("$").isString())
+                // ... and expect the correct response body to be WAITING
+                .andExpect(jsonPath("$", is("WAITING")));
+    }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenConfirmResult() throws Exception {
+        // ... do nothing when the save method on the mocked Game object is called
+        doNothing().when(gameService).decrementPendingPlayersConfirmationByRoomId(TEST_ROOM_ID);
+
+        MockHttpServletRequestBuilder getRequest = put("/rooms/{roomId}/game/confirmResult", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(getRequest)
+                .andExpect(status().isOk());
+        // ... verify that decrementPendingPlayersConfirmationByRoomId was called exactly once
+        verify(gameService, times(1)).decrementPendingPlayersConfirmationByRoomId(TEST_ROOM_ID);
+    }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenEnterGame() throws Exception {
+        // ... do nothing when the save method on the mocked Game object is called
+        doNothing().when(gameService).enterGame(TEST_ROOM_ID);
+
+        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/game/start", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(putRequest)
+                .andExpect(status().isNoContent());
+
+        verify(gameService, times(1)).enterGame(TEST_ROOM_ID);
+        verify(template).convertAndSend("/topic/room/1/state", GameState.WAITING);
+    }
+
+    @Test
+    public void givenRoomIdAsPathVariable_thenSetConfiguration() throws Exception {
+        // ... mock the behaviour of convertConfigurationToInitialBoard
+
+        Piece[] testPieces = new Piece[1];
+        testPieces[0] = new Piece(PieceType.BOMB, ArmyType.BLUE);
+
+        PiecePUTDTO[] testPiecePUTDTOs = new PiecePUTDTO[1];
+        testPiecePUTDTOs[0] = new PiecePUTDTO();
+
+        given(dtoMapper.convertConfigurationToInitialBoard(Mockito.any())).willReturn(testPieces);
+        doNothing().when(gameService).setInitialBoard(Mockito.anyInt(), Mockito.any());
+        doNothing().when(gameService).startGame(Mockito.anyInt());
+
+        MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/setBoard", TEST_ROOM_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testPiecePUTDTOs));
+
+        mockMvc.perform(putRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isString())
+                // ... and expect the correct response body to be WAITING
+                .andExpect(jsonPath("$", is("WAITING")));
+
+
+        verify(gameService, times(1)).setInitialBoard(Mockito.anyInt(), Mockito.any());
+        verify(gameService, times(1)).startGame(Mockito.anyInt());
+        verify(template).convertAndSend("/topic/loading/"+TEST_ROOM_ID, GameState.WAITING);
     }
 
 //    @Test
