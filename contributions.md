@@ -57,7 +57,7 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 ### Week 5, Shiran Liu
 | Issue No.           | Description  |
 | :---------: |:-------------:|
-| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/91 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92 | WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game). |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/89 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/90 https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/92 | WebSocket communication parts: room list (Lobby), initial board, move/attack (ongoing game). |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/93 | Refininig game rules (bug fixes). |
 
 ### Week 5, Jiachen Bao
@@ -143,3 +143,37 @@ week 4, Shiran Liu, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-s
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/119 | Add Boardtest class to verify Board class |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/120 |            Add Lobbytest class            |
 
+
+## 23.05.2023
+### Week 8, Chenfei Xiong
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/50 | Implement update user statistics and displayed on profile page |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/58 | Add handling if user navigate page to other page while game is preparing/ongoing and then join another room. |
+
+### Week 8, Jiachen Bao
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/51, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/52, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/53,  https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/55, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/56, https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/57 | Implementing the external API |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/24 | Add frontend request for fetching available moving positions |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/23 | Add highlighting effect for available moving positions |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/59 | Display player’s army type (blue/red) in player list |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/60 | Add highlighting effect to selected piece in game preparing page |
+
+### Week 8, Shiran Liu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/23  | Fully the backend side implementation to calculate and display legal move/attack options for a given piece at a given location |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/36  | Fixing: When one player is still on result page, but another player can still enter a new game, which causes issues |
+
+### Week 8, Anqi Xu
+| Issue No.           | Description  |
+| :---------: |:-------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/133 | Add GameController test |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/61  | add guidelines to provide info and hints to players to enhance gaming experience |
+
+### Week 8, Stefan Plüss
+| Issue No.           |                    Description                     |
+| :---------: |:--------------------------------------------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/119 |        updated BoardTest to latest changes         |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/134  | Finish Gametest to test core mechanics of the game |
