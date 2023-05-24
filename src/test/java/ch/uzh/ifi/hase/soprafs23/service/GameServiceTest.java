@@ -81,41 +81,45 @@ class GameServiceTest {
         assertEquals(PieceType.BOMB, testGame.getBoard().getSquare(0,9).getContent().getPieceType());
     }
 
-    // (4,0) is a blue scout, moving to (5,0) which is an empty square -> success
+//     (4,0) is a blue scout, moving to (5,0) which is an empty square -> success
 //    @Test
 //    public void movingAPiece_toEmptySquare_operationSuccess() {
+//        setUpMockBoard();
 //        testGame.setGameState(GameState.IN_PROGRESS);
-//        // set up the board: (0,0) -> blueScout
-//        Piece blueScout = new Piece(PieceType.SCOUT, ArmyType.BLUE);
-//        testGame.getBoard().setPiece(0,0, blueScout);
-//        assertEquals(PieceType.SCOUT, testGame.getBoard().getSquare(0,0).getContent().getPieceType());
-//        // check if (0,1) is empty
-//        assertNull(testGame.getBoard().getSquare(0,1).getContent());
+//        // check: (3,0) -> blue scout, (4,0) -> empty square
+//        assertEquals(PieceType.SCOUT, testGame.getBoard().getSquare(3,0).getContent().getPieceType());
+//        assertEquals(ArmyType.BLUE, testGame.getBoard().getSquare(3,0).getContent().getArmyType());
+//        assertNull(testGame.getBoard().getSquare(4,0).getContent());
 //
 //        Axis[][] testMoving = new Axis[2][2];
+//        testMoving[0][1] = Axis._3;
 //        testMoving[0][0] = Axis._0;
-//        testMoving[0][1] = Axis._0;
+//        testMoving[1][1] = Axis._4;
 //        testMoving[1][0] = Axis._0;
-//        testMoving[1][1] = Axis._1;
 //
 //        gameService.operatePiece(testRoom.getRoomId(), testMoving);
-//        assertNull(testGame.getBoard().getSquare(0,0).getContent());
-//        assertEquals(blueScout, testGame.getBoard().getSquare(0,0).getContent());
-//        setUpInitialBoardAndStartGame();
+//        System.out.println(testGame.getBoard().getSquare(3,0).getContent());
+//        System.out.println(testGame.getBoard().getSquare(4,0).getContent());
+////        System.out.println(testGame.getBoard().getSquare(3,0).getContent().getArmyType());
+////        assertNull(testGame.getBoard().getSquare(0,0).getContent());
+////        assertEquals(blueScout, testGame.getBoard().getSquare(0,0).getContent());
+////        setUpInitialBoardAndStartGame();
 //    }
 
 
     // helper method
-    private void setUpInitialBoardAndStartGame() {
+    private void setUpMockBoard() {
         Board testBoard = testGame.getBoard();
         Piece blueScout = new Piece(PieceType.SCOUT, ArmyType.BLUE);
         Piece redScout = new Piece(PieceType.SCOUT, ArmyType.RED);
-        for(int i=0; i<4; i++) {
-            for(int j=0; j<10; j++) {
+        for(int i=0; i<10; i++) {
+            for(int j=0; j<4; j++) {
                 testBoard.setPiece(i,j,blueScout);
-                testBoard.setPiece(6+i, j, redScout);
+                testBoard.setPiece(i, j+6, redScout);
             }
         }
+        System.out.println(testBoard.getSquare(3,0).getContent().getPieceType());
+        System.out.println(testBoard.getSquare(4,0).getContent());
 //        System.out.println(testBoard.getSquare(0,1).getContent().getPieceType());
 //        System.out.println(testBoard.getSquare(4,1).getContent().getPieceType());
 //        System.out.println(testBoard.getSquare(6,1).getContent().getPieceType());

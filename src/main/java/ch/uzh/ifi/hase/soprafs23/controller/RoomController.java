@@ -38,7 +38,7 @@ public class RoomController {
 //        userService.updateRoomId(createdRoom.getRoomId(),userId);
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
         template.convertAndSend("/topic/rooms", roomGetDTOs);
-        template.convertAndSend("/topic/users/"+user.getId(), user.getRoomId());
+        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         return createdRoom;
     }
 
@@ -57,7 +57,7 @@ public class RoomController {
 
         template.convertAndSend("/topic/rooms", roomGetDTOs); // send list of rooms to all clients
         template.convertAndSend("/topic/room/"+roomId, userGetDTOS); // send list of users in room
-        template.convertAndSend("/topic/users/"+user.getId(), user.getRoomId());
+        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
     }
 
     @PutMapping("/rooms/{roomId}/remove")
@@ -85,7 +85,7 @@ public class RoomController {
         }
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
         template.convertAndSend("/topic/rooms", roomGetDTOs);
-        template.convertAndSend("/topic/users/"+user.getId(), user.getRoomId());
+        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
     }
     @GetMapping("/rooms/{roomId}")
     @ResponseStatus(HttpStatus.OK)

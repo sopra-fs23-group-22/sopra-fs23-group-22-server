@@ -4,12 +4,14 @@ import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.RoomService;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -48,6 +50,8 @@ class RoomControllerTest {
     private UserService userService;
     @MockBean
     private User user;
+    @MockBean
+    private DTOMapper dtoMapper;
     private final int TEST_ROOM_ID = 1;
     private final Long TEST_USER_ID = 1L;
     private List<RoomGetDTO> testRoomsList = new ArrayList<>();
@@ -81,6 +85,7 @@ class RoomControllerTest {
         given(roomService.findRoomById(TEST_ROOM_ID)).willReturn(testRoom);
         given(roomService.getAllRooms()).willReturn(testRoomsList);
         given(roomService.getUserInRoom(TEST_ROOM_ID)).willReturn(userGetDTOS);
+        given(dtoMapper.convertEntityToUserGetDTO(Mockito.any())).willReturn(userGetDTO);
     }
 
     @Test
@@ -96,7 +101,14 @@ class RoomControllerTest {
                 .andExpect(jsonPath("$.roomId", is(testRoomDTO.getRoomId())))
                 .andExpect(jsonPath("$.userIds[0]", is(testRoomDTO.getUserIds().get(0).intValue())));
 
+//        ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
+//        ArgumentCaptor<UserGetDTO> messageCaptor = ArgumentCaptor.forClass(UserGetDTO.class);
+
+//        System.out.println(destinationCaptor.capture());
+//        System.out.println(messageCaptor.capture());
+
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
+//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
         verify(roomService, Mockito.times(1)).createRoom(TEST_USER_ID);
         verify(roomService, Mockito.times(1)).getAllRooms();
     }
@@ -104,6 +116,9 @@ class RoomControllerTest {
     @Test
     void addAUserToARoomWithValidRoomId_success() throws Exception {
         doNothing().when(roomService).addAUserToRoom(TEST_ROOM_ID, TEST_USER_ID);
+
+        System.out.println(userGetDTO);
+        System.out.println(dtoMapper.convertEntityToUserGetDTO(user));
 
         MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/add", TEST_ROOM_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -117,6 +132,7 @@ class RoomControllerTest {
         verify(roomService, Mockito.times(1)).getAllRooms();
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
         verify(template).convertAndSend("/topic/room/1", userGetDTOS);
+//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
     }
 
     @Test
@@ -142,6 +158,7 @@ class RoomControllerTest {
         verify(roomService, Mockito.times(1)).removeRoomFromLobby(TEST_ROOM_ID);
         verify(roomService, Mockito.times(1)).getAllRooms();
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
+//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
     }
 
     @Test
@@ -161,6 +178,7 @@ class RoomControllerTest {
         verify(roomService, Mockito.times(1)).getAllRooms();
         verify(template).convertAndSend("/topic/room/1", userGetDTOS);
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
+//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
     }
 
     @Test
