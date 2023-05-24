@@ -32,13 +32,12 @@ public class RoomController {
     @ResponseBody
     public RoomGetDTO createRoom(@RequestBody User user) {
         RoomGetDTO createdRoom = roomService.createRoom(user.getId());
-//        Room createdRoom = Lobby.getInstance().createRoom();
-//        long userId = user.getId();
-//        createdRoom.addUser(userId);
-//        userService.updateRoomId(createdRoom.getRoomId(),userId);
+
+        User userInRoom = userService.findUserById(user.getId());
+
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
         template.convertAndSend("/topic/rooms", roomGetDTOs);
-        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(userInRoom));
         return createdRoom;
     }
 
@@ -47,17 +46,14 @@ public class RoomController {
     @ResponseBody
     public void addAUser(@RequestBody User user, @PathVariable int roomId) {
         roomService.addAUserToRoom(roomId, user.getId());
-
-//        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-//        long userId = user.getId();
-//        room.addUser(userId);
-//        userService.updateRoomId(room.getRoomId(),userId);
         List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(roomId);
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
 
+        User userInRoom = userService.findUserById(user.getId());
+
         template.convertAndSend("/topic/rooms", roomGetDTOs); // send list of rooms to all clients
         template.convertAndSend("/topic/room/"+roomId, userGetDTOS); // send list of users in room
-        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(userInRoom));
     }
 
     @PutMapping("/rooms/{roomId}/remove")
@@ -67,25 +63,17 @@ public class RoomController {
 
         roomService.removeAUserFromRoom(roomId, user.getId());
 
-//        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-//        long userId = user.getId();
-//        room.removeUser(userId);
-//        userService.updateRoomId(null,userId);
-        // ... if room is empty, delete room
+        User userInRoom = userService.findUserById(user.getId());
         List<UserGetDTO> usersInRoom = roomService.getUserInRoom(roomId);
-//        Room room = roomService.findRoomById(roomId);
-//        if (room.getUserIds().isEmpty()) {
         if(usersInRoom.isEmpty()) {
             roomService.removeRoomFromLobby(roomId);
-//            Lobby.getInstance().removeRoom(roomId);
         }
         else {
-//            List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(roomId);
             template.convertAndSend("/topic/room/"+roomId, usersInRoom);
         }
         List<RoomGetDTO> roomGetDTOs = roomService.getAllRooms();
         template.convertAndSend("/topic/rooms", roomGetDTOs);
-        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        template.convertAndSend("/topic/users/"+user.getId(), DTOMapper.INSTANCE.convertEntityToUserGetDTO(userInRoom));
     }
     @GetMapping("/rooms/{roomId}")
     @ResponseStatus(HttpStatus.OK)
@@ -99,9 +87,6 @@ public class RoomController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<UserGetDTO> getPlayers(@PathVariable int roomId) {
-
-//        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-//        List<UserGetDTO> userGetDTOS = roomService.getUserInRoom(roomId);
         return roomService.getUserInRoom(roomId);
 
     }

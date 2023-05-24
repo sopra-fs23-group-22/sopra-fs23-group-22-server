@@ -81,7 +81,7 @@ class GameServiceTest {
         assertEquals(PieceType.BOMB, testGame.getBoard().getSquare(0,9).getContent().getPieceType());
     }
 
-//     (4,0) is a blue scout, moving to (5,0) which is an empty square -> success
+////     (3,0) is a blue scout, moving to (4,0) which is an empty square -> success
 //    @Test
 //    public void movingAPiece_toEmptySquare_operationSuccess() {
 //        setUpMockBoard();
@@ -96,6 +96,9 @@ class GameServiceTest {
 //        testMoving[0][0] = Axis._0;
 //        testMoving[1][1] = Axis._4;
 //        testMoving[1][0] = Axis._0;
+//
+//        System.out.println(testGame.getBoard().getSquareViaAxis(testMoving[0]).getContent());
+//        testGame.getBoard().getSquareViaAxis(testMoving[1]).getContent();
 //
 //        gameService.operatePiece(testRoom.getRoomId(), testMoving);
 //        System.out.println(testGame.getBoard().getSquare(3,0).getContent());

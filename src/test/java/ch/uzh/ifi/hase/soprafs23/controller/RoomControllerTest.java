@@ -101,14 +101,7 @@ class RoomControllerTest {
                 .andExpect(jsonPath("$.roomId", is(testRoomDTO.getRoomId())))
                 .andExpect(jsonPath("$.userIds[0]", is(testRoomDTO.getUserIds().get(0).intValue())));
 
-//        ArgumentCaptor<String> destinationCaptor = ArgumentCaptor.forClass(String.class);
-//        ArgumentCaptor<UserGetDTO> messageCaptor = ArgumentCaptor.forClass(UserGetDTO.class);
-
-//        System.out.println(destinationCaptor.capture());
-//        System.out.println(messageCaptor.capture());
-
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
-//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
         verify(roomService, Mockito.times(1)).createRoom(TEST_USER_ID);
         verify(roomService, Mockito.times(1)).getAllRooms();
     }
@@ -132,7 +125,6 @@ class RoomControllerTest {
         verify(roomService, Mockito.times(1)).getAllRooms();
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
         verify(template).convertAndSend("/topic/room/1", userGetDTOS);
-//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
     }
 
     @Test
@@ -158,7 +150,6 @@ class RoomControllerTest {
         verify(roomService, Mockito.times(1)).removeRoomFromLobby(TEST_ROOM_ID);
         verify(roomService, Mockito.times(1)).getAllRooms();
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
-//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
     }
 
     @Test
@@ -178,7 +169,6 @@ class RoomControllerTest {
         verify(roomService, Mockito.times(1)).getAllRooms();
         verify(template).convertAndSend("/topic/room/1", userGetDTOS);
         verify(template).convertAndSend("/topic/rooms", testRoomsList);
-//        verify(template).convertAndSend("/topic/users/"+user.getId(), userGetDTO);
     }
 
     @Test
