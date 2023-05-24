@@ -14,7 +14,7 @@ public enum PieceType {
     CAPTAIN(_6, "Captain", new BasicMoveStrategy(), new BasicAttackStrategy(_6)),
     LIEUTENANT(_5, "Lieutenant", new BasicMoveStrategy(), new BasicAttackStrategy(_5)),
     SERGEANT(_4, "Sergeant", new BasicMoveStrategy(), new BasicAttackStrategy(_4)),
-    MINER(_3, "Miner", new BasicMoveStrategy(), new MinerAttackStrategy()),
+    MINER(_3, "Miner", new BasicMoveStrategy(), new MinerAttackStrategy(_3)),
     SCOUT(_2, "Scout", new ScoutMoveStrategy(), new BasicAttackStrategy(_2)),
     SPY(_1, "Spy", new BasicMoveStrategy(), new SpyAttackStrategy()),
     FLAG(F, "Flag", new NonMoveStrategy(), new BasicAttackStrategy(F));
