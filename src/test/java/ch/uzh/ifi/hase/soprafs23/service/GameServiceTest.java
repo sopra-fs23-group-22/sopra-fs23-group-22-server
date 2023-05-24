@@ -3,8 +3,11 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.game.Game;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
+import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
+import ch.uzh.ifi.hase.soprafs23.game.board.Board;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
+import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -64,7 +67,7 @@ class GameServiceTest {
     }
 
     @Test
-    public void givenPieces_success() {
+    public void givenPieces_setInitialBoard_success() {
         assertNull(testGame.getBoard().getSquare(0,0).getContent());
         assertNull(testGame.getBoard().getSquare(0,9).getContent());
 
@@ -76,6 +79,47 @@ class GameServiceTest {
         gameService.setInitialBoard(testRoom.getRoomId(), bluePieces);
         assertEquals(PieceType.BOMB, testGame.getBoard().getSquare(0,0).getContent().getPieceType());
         assertEquals(PieceType.BOMB, testGame.getBoard().getSquare(0,9).getContent().getPieceType());
+    }
+
+    // (4,0) is a blue scout, moving to (5,0) which is an empty square -> success
+//    @Test
+//    public void movingAPiece_toEmptySquare_operationSuccess() {
+//        testGame.setGameState(GameState.IN_PROGRESS);
+//        // set up the board: (0,0) -> blueScout
+//        Piece blueScout = new Piece(PieceType.SCOUT, ArmyType.BLUE);
+//        testGame.getBoard().setPiece(0,0, blueScout);
+//        assertEquals(PieceType.SCOUT, testGame.getBoard().getSquare(0,0).getContent().getPieceType());
+//        // check if (0,1) is empty
+//        assertNull(testGame.getBoard().getSquare(0,1).getContent());
+//
+//        Axis[][] testMoving = new Axis[2][2];
+//        testMoving[0][0] = Axis._0;
+//        testMoving[0][1] = Axis._0;
+//        testMoving[1][0] = Axis._0;
+//        testMoving[1][1] = Axis._1;
+//
+//        gameService.operatePiece(testRoom.getRoomId(), testMoving);
+//        assertNull(testGame.getBoard().getSquare(0,0).getContent());
+//        assertEquals(blueScout, testGame.getBoard().getSquare(0,0).getContent());
+//        setUpInitialBoardAndStartGame();
+//    }
+
+
+    // helper method
+    private void setUpInitialBoardAndStartGame() {
+        Board testBoard = testGame.getBoard();
+        Piece blueScout = new Piece(PieceType.SCOUT, ArmyType.BLUE);
+        Piece redScout = new Piece(PieceType.SCOUT, ArmyType.RED);
+        for(int i=0; i<4; i++) {
+            for(int j=0; j<10; j++) {
+                testBoard.setPiece(i,j,blueScout);
+                testBoard.setPiece(6+i, j, redScout);
+            }
+        }
+//        System.out.println(testBoard.getSquare(0,1).getContent().getPieceType());
+//        System.out.println(testBoard.getSquare(4,1).getContent().getPieceType());
+//        System.out.println(testBoard.getSquare(6,1).getContent().getPieceType());
+//        System.out.println(testBoard.getSquare(9,1).getContent().getPieceType());
     }
 
 }
