@@ -81,6 +81,24 @@ class GameServiceTest {
         assertEquals(PieceType.BOMB, testGame.getBoard().getSquare(0,9).getContent().getPieceType());
     }
 
+    @Test
+    public void givenRoomId_findGame_success() {
+        Board actual = gameService.findBoardByRoomId(testRoom.getRoomId());
+        assertEquals(testGame.getBoard(), actual);
+    }
+
+    @Test
+    public void givenRoomId_findGameState_success() {
+        GameState actual = gameService.findGameStateByRoomId(testRoom.getRoomId());
+        assertEquals(testGame.getGameState(), actual);
+    }
+
+//    @Test
+//    public void givenRoomId_findOperatingPlayer_success() {
+//        testGame.setGameState(GameState.IN_PROGRESS);
+//        System.out.println(testGame.getOperatingPlayer());
+//    }
+
 ////     (3,0) is a blue scout, moving to (4,0) which is an empty square -> success
 //    @Test
 //    public void movingAPiece_toEmptySquare_operationSuccess() {
@@ -108,6 +126,8 @@ class GameServiceTest {
 ////        assertEquals(blueScout, testGame.getBoard().getSquare(0,0).getContent());
 ////        setUpInitialBoardAndStartGame();
 //    }
+
+
 
 
     // helper method

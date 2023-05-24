@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.game.Game;
-import ch.uzh.ifi.hase.soprafs23.game.Lobby;
 import ch.uzh.ifi.hase.soprafs23.game.Player;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
@@ -49,7 +48,6 @@ public class GameService {
     public Game findGameByRoomId(int roomId) {
         String baseErrorMessage = "Room %s provided is not found!";
         try {
-//            Room room = Lobby.getInstance().getRoomByRoomId(roomId);
             Room room = roomService.findRoomById(roomId);
             return room.getGame();
         } catch (Exception e) {
@@ -58,37 +56,12 @@ public class GameService {
 
     }
 
-    //this is a test method
-//    public List<SquareGETDTO> operatePiece(int roomId, Axis[][] coordinates) {
-//        Game game = findGameByRoomId(roomId);
-//        try {
-//            game.operate(coordinates[0], coordinates[1]);
-//            Board board = game.getBoard();
-////            List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
-////            for(int i = 0; i<10; i++) {
-////                for(int j=0; j<10; j++) {
-////                    squares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
-////                }
-////            }
-//            return convertBoardToSquareGETDTOList(board);
-//        } catch (IllegalStateException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-//        }
-//    }
 
     //this is a test method
     public void operatePiece(int roomId, Axis[][] coordinates) {
         Game game = findGameByRoomId(roomId);
         try {
             game.operate(coordinates[0], coordinates[1]);
-//            Board board = game.getBoard();
-//            List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
-//            for(int i = 0; i<10; i++) {
-//                for(int j=0; j<10; j++) {
-//                    squares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
-//                }
-//            }
-//            return convertBoardToSquareGETDTOList(board);
         } catch (IllegalStateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -108,7 +81,7 @@ public class GameService {
     // enter game does not mean start game, here we have a game with no piece on board, game status change to PRE_PLAY
     public void enterGame(int roomId) {
         try {
-            Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+            Room room = roomService.findRoomById(roomId);
             room.enterGame();
         } catch (IllegalStateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -117,8 +90,6 @@ public class GameService {
 
     // start game after all pieces have been placed on board, game status change from PRE_PLAY to IN_PROGRESS
     public void startGame(int roomId) {
-//        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-//        Game game = room.getGame();
         Game game = findGameByRoomId(roomId);
         try {
             game.start();
@@ -132,7 +103,6 @@ public class GameService {
     }
 
     // converting required info (current board, player and winner info) to DTO
-//    public SocketMessageDTO getMessage(List<SquareGETDTO> board, int roomId) {
     public SocketMessageDTO getGameInfo(int roomId) {
         Game game = findGameByRoomId(roomId);
         List<SquareGETDTO> board = convertBoardToSquareGETDTOList(game.getBoard());
