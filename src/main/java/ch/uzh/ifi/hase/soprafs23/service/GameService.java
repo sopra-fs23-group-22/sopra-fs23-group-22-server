@@ -32,11 +32,13 @@ public class GameService {
     private final Logger log = LoggerFactory.getLogger(GameService.class);
     private final UserRepository userRepository;
     private final UserService userService;
+    private final RoomService roomService;
 
     @Autowired
-    public GameService(UserRepository userRepository, UserService userService) {
+    public GameService(UserRepository userRepository, UserService userService, RoomService roomService) {
         this.userRepository = userRepository;
         this.userService = userService;
+        this.roomService = roomService;
     }
 
     public void setInitialBoard(int roomId, Piece[] configuration) {
@@ -47,7 +49,8 @@ public class GameService {
     public Game findGameByRoomId(int roomId) {
         String baseErrorMessage = "Room %s provided is not found!";
         try {
-            Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+//            Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+            Room room = roomService.findRoomById(roomId);
             return room.getGame();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, roomId));
