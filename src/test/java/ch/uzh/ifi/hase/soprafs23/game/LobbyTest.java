@@ -1,7 +1,10 @@
 package ch.uzh.ifi.hase.soprafs23.game;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 public class LobbyTest {
 
     //
@@ -12,7 +15,7 @@ public class LobbyTest {
     //
 
     @Test
-    public void testCreateRoom_thenRemoveRoom_thenReuseOfRoomID(){
+    public void testCreateRoom_thenRemoveRoom_thenReuseOfRoomID() {
         //create Lobby
         Lobby lobby = Lobby.getInstance();
 
@@ -25,7 +28,7 @@ public class LobbyTest {
         lobby.removeRoom(1);
 
         //verify that roomMap is empty
-        assert(lobby.getRooms().isEmpty());
+        assert (lobby.getRooms().isEmpty());
 
         //test if roomIDs are reused
         Room reusedRoom = lobby.createRoom();

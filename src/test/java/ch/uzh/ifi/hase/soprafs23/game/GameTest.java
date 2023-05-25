@@ -10,60 +10,54 @@ import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.ArrayList;
 
-
 import static org.junit.jupiter.api.Assertions.*;
-
-
 
 
 public class GameTest {
 
 
-
     @Test
-    public void testGameSetup(){
+    public void testGameSetup() {
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
         input.add(1L);
         input.add(2L);
         game.setup(input);
         //check if the game has been put in gamestate Pre play
-        assert(game.getGameState().equals(GameState.PRE_PLAY));
+        assert (game.getGameState().equals(GameState.PRE_PLAY));
 
         //check if Board initialisation worked
         //if this square is of type lake we know that the board was set up correctly
-        assert(game.getBoard().getSquare(4, 2).getSquareType().equals(SquareType.LAKE));
+        assert (game.getBoard().getSquare(4, 2).getSquareType().equals(SquareType.LAKE));
     }
 
     @Test
-    public void testPlacePieces(){
+    public void testPlacePieces() {
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
         input.add(1L);
         input.add(2L);
         game.setup(input);
         Piece[] pieces = new Piece[40];
-        for(int i=0; i<40; i++){
+        for (int i = 0; i < 40; i++) {
             pieces[i] = new Piece(PieceType.BOMB, ArmyType.BLUE);
 
         }
 
         game.placePieces(pieces);
         //check the outer points of the blue army
-        assert(game.getBoard().getSquare(0, 0).getContent().getPieceType().equals(PieceType.BOMB));
-        assert(game.getBoard().getSquare(3, 9).getContent().getPieceType().equals(PieceType.BOMB));
+        assert (game.getBoard().getSquare(0, 0).getContent().getPieceType().equals(PieceType.BOMB));
+        assert (game.getBoard().getSquare(3, 9).getContent().getPieceType().equals(PieceType.BOMB));
         //check the outer points of where red pieces would be placed
         assertNull(game.getBoard().getSquare(6, 0).getContent());
 
     }
 
 
-
     @Test
-    public void testSwitchTurn(){
+    public void testSwitchTurn() {
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
         input.add(1L);
@@ -73,9 +67,9 @@ public class GameTest {
         Piece red = new Piece(PieceType.BOMB, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<40; i++){
-                redArmy[i] = red;
-                blueArmy[i] = blue;
+        for (int i = 0; i < 40; i++) {
+            redArmy[i] = red;
+            blueArmy[i] = blue;
         }
 
         Player player1 = game.getPlayerByUserId(1L);
@@ -91,7 +85,7 @@ public class GameTest {
     }
 
     @Test
-    public void testHasWinner_FLAGDOWN(){
+    public void testHasWinner_FLAGDOWN() {
         //set game up
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -106,7 +100,7 @@ public class GameTest {
         Piece redFlag = new Piece(PieceType.FLAG, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -124,7 +118,7 @@ public class GameTest {
     }
 
     @Test
-    public void testHasWinner_NOMOVINGPIECES(){
+    public void testHasWinner_NOMOVINGPIECES() {
         //set game up
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -139,7 +133,7 @@ public class GameTest {
         Piece redCaptain = new Piece(PieceType.CAPTAIN, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -157,7 +151,7 @@ public class GameTest {
     }
 
     @Test
-    public void testResign(){
+    public void testResign() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -179,7 +173,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_GAMENOTINPROGRESS(){
+    public void testOperate_GAMENOTINPROGRESS() {
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
         input.add(1L);
@@ -189,7 +183,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_EMPTYSQUARE(){
+    public void testOperate_EMPTYSQUARE() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -202,7 +196,7 @@ public class GameTest {
         Piece redFlag = new Piece(PieceType.FLAG, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -216,7 +210,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_SCOUT_EXCEPTIONS(){
+    public void testOperate_SCOUT_EXCEPTIONS() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -229,7 +223,7 @@ public class GameTest {
         Piece redFlag = new Piece(PieceType.FLAG, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -243,7 +237,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_BOMBANDFLAG(){
+    public void testOperate_BOMBANDFLAG() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -257,7 +251,7 @@ public class GameTest {
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
         Board board = game.getBoard();
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -275,7 +269,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_ILLEGAL_MOVE_TO_OCCUPIED_SQUARE(){
+    public void testOperate_ILLEGAL_MOVE_TO_OCCUPIED_SQUARE() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -288,7 +282,7 @@ public class GameTest {
         Piece redFlag = new Piece(PieceType.FLAG, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -302,7 +296,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_FRIENDLY_FIRE(){
+    public void testOperate_FRIENDLY_FIRE() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -315,7 +309,7 @@ public class GameTest {
         Piece redFlag = new Piece(PieceType.FLAG, ArmyType.RED);
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -329,7 +323,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_VALID_ATTACK(){
+    public void testOperate_VALID_ATTACK() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -345,7 +339,7 @@ public class GameTest {
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
         Board board = game.getBoard();
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -366,7 +360,7 @@ public class GameTest {
     }
 
     @Test
-    public void testOperate_VALID_MOVE(){
+    public void testOperate_VALID_MOVE() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -382,7 +376,7 @@ public class GameTest {
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
         Board board = game.getBoard();
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }
@@ -399,8 +393,9 @@ public class GameTest {
         assertNull(board.getSquareViaAxis(new Axis[]{Axis._3, Axis._4}).getContent());
         assertSame(player2, game.getOperatingPlayer());
     }
+
     @Test
-    public void testOperate_FAILEDMOVE(){
+    public void testOperate_FAILEDMOVE() {
         //setup
         Game game = new Game();
         ArrayList<Long> input = new ArrayList<>();
@@ -415,7 +410,7 @@ public class GameTest {
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
         Board board = game.getBoard();
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = red;
             blueArmy[i] = blue;
         }

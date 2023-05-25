@@ -5,14 +5,12 @@ import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 public class ArmyTest {
     private Piece[] pieces = new Piece[5];
+
     @BeforeEach
 
     private void setUp() {
@@ -24,26 +22,27 @@ public class ArmyTest {
     }
 
     @Test
-    public void testGetAliveStateALIVE(){
+    public void testGetAliveStateALIVE() {
         Army army = new Army(ArmyType.BLUE);
         army.setArmyPieces(pieces);
-        for(Piece piece : army.getPieces()){
+        for (Piece piece : army.getPieces()) {
             piece.setAliveState(AliveState.DOWN);
         }
         army.getPieces().get(0).setAliveState(AliveState.ALIVE);
-        assert(army.getAliveState().equals(AliveState.ALIVE));
+        assert (army.getAliveState().equals(AliveState.ALIVE));
     }
+
     @Test
-    public void testGetAliveStateDOWN(){
+    public void testGetAliveStateDOWN() {
         Army army = new Army(ArmyType.BLUE);
         army.setArmyPieces(pieces);
         Piece[] pieces = new Piece[1];
         pieces[0] = new Piece(PieceType.MARSHAL, ArmyType.BLUE);
         army.setArmyPieces(pieces);
 
-        for(Piece piece : army.getPieces()){
+        for (Piece piece : army.getPieces()) {
             piece.setAliveState(AliveState.DOWN);
         }
-        assert(army.getAliveState().equals(AliveState.DOWN));
+        assert (army.getAliveState().equals(AliveState.DOWN));
     }
 }

@@ -15,9 +15,6 @@ public class ScoutMoveStrategy implements MoveStrategy {
 
         if (targetSquare.getType() == LAKE)
             throw new IllegalArgumentException("Cannot move to a lake");
-        // check if the squares along the path has content or is lake
-        //boolean hasLakeOrPiece = false;
-        //for ()
         return MoveResult.SUCCESSFUL;
     }
 }

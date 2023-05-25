@@ -4,7 +4,6 @@ import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Internal User Representation
@@ -20,77 +19,69 @@ import java.util.List;
 @Table(name = "USER")
 public class User implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue
-  private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-  @Column(nullable = false)
-  private String password;
+    @Column(nullable = false)
+    private String password;
 
-  @Column(nullable = false, unique = true)
-  private String username;
+    @Column(nullable = false, unique = true)
+    private String username;
 
-  @Column(nullable = false, unique = true)
-  private String token;
+    @Column(nullable = false, unique = true)
+    private String token;
 
-  @Column(nullable = false)
-  private UserStatus status;
-  @Column(nullable = false)
-  private int wins;
-  @Column(nullable = false)
-  private int loss;
-  @Column
-  private Integer roomId;
-//  @ElementCollection(fetch = FetchType.EAGER)
-//  @CollectionTable(name = "friend_id",
-//                    joinColumns = @JoinColumn(name="user_id"))
-//  private List<Long> friends;
-//
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "friend_request",
-//            joinColumns = @JoinColumn(name="user_id"))
-//    private List<Integer> friendRequests;
-  public Long getId() {
-    return id;
-  }
+    @Column(nullable = false)
+    private UserStatus status;
+    @Column(nullable = false)
+    private int wins;
+    @Column(nullable = false)
+    private int loss;
+    @Column
+    private Integer roomId;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public String getToken() {
-    return token;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public void setToken(String token) {
-    this.token = token;
-  }
+    public String getToken() {
+        return token;
+    }
 
-  public UserStatus getStatus() {
-    return status;
-  }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-  public void setStatus(UserStatus status) {
-    this.status = status;
-  }
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
 
     public int getWins() {
         return wins;
@@ -115,18 +106,5 @@ public class User implements Serializable {
     public void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
-    //  public void addFriend(Long friendId) {
-//      friends.add(friendId);
-//  }
-//  public void removeFriend(Long friendId) {
-//      friends.remove(friendId);
-//  }
-//
-//    public List<Long> getFriends() {
-//        return friends;
-//    }
-//
-//    public List<Integer> getFriendRequests() {
-//        return friendRequests;
-//    }
+
 }

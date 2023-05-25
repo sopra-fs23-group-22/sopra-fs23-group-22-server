@@ -25,7 +25,6 @@ public class GameController {
     @Autowired
     SimpMessagingTemplate template;
 
-
     @GetMapping("/rooms/{roomId}/game")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -57,7 +56,6 @@ public class GameController {
         // It sends the game state (which should be PRE_PLAY) to client for redirecting players to game preparation page
         template.convertAndSend("/topic/room/" + roomId + "/state", gameState);
     }
-
 
     // Receiving the configuration from client and set the pieces to the board in server
     @PutMapping("/rooms/{roomId}/setBoard")

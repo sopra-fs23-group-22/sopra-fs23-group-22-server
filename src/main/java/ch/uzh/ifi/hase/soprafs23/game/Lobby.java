@@ -1,11 +1,16 @@
 package ch.uzh.ifi.hase.soprafs23.game;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Lobby {
     // Singleton Pattern
     private static final Lobby lobby = new Lobby();
-    public static Lobby getInstance() { return lobby; }
+
+    public static Lobby getInstance() {
+        return lobby;
+    }
 
     // To store Room instances, keyed by room ID
     private HashMap<Integer, Room> roomMap = new HashMap<Integer, Room>();
@@ -19,7 +24,8 @@ public class Lobby {
             // Reuse the ID of a closed room if available
             roomId = closedRoomIds.iterator().next();
             closedRoomIds.remove(roomId);
-        } else {
+        }
+        else {
             // Generate a new auto-generated ID
             roomId = nextRoomId;
             nextRoomId++;
@@ -30,9 +36,13 @@ public class Lobby {
         return room;
     }
 
-    public Room getRoomByRoomId(int roomId) { return roomMap.get(roomId); }
+    public Room getRoomByRoomId(int roomId) {
+        return roomMap.get(roomId);
+    }
 
-    public HashMap<Integer, Room> getRooms() { return this.roomMap; }
+    public HashMap<Integer, Room> getRooms() {
+        return this.roomMap;
+    }
 
     public void removeRoom(int roomId) {
         closedRoomIds.add(roomId);

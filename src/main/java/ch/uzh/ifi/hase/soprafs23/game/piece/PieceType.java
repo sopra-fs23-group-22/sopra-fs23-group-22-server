@@ -1,7 +1,13 @@
 package ch.uzh.ifi.hase.soprafs23.game.piece;
 
-import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.*;
-import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.*;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.BasicAttackStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.MinerAttackStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.SpyAttackStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.BasicMoveStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.NonMoveStrategy;
+import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.ScoutMoveStrategy;
 
 import static ch.uzh.ifi.hase.soprafs23.game.piece.Rank.*;
 
@@ -24,19 +30,26 @@ public enum PieceType {
     private final MoveStrategy moveStrategy;
     private final AttackStrategy attackStrategy;
 
-    PieceType(Rank rank, String name, MoveStrategy moveStrategy, AttackStrategy attackStrategy){
+    PieceType(Rank rank, String name, MoveStrategy moveStrategy, AttackStrategy attackStrategy) {
         this.rank = rank;
         this.name = name;
         this.moveStrategy = moveStrategy;
         this.attackStrategy = attackStrategy;
     }
 
-    public Rank getRank(){
+    public Rank getRank() {
         return this.rank;
     }
-    public String getName(){
+
+    public String getName() {
         return this.name;
     }
-    public MoveStrategy getMoveStrategy() { return this.moveStrategy; }
-    public AttackStrategy getAttackStrategy() { return this.attackStrategy; }
+
+    public MoveStrategy getMoveStrategy() {
+        return this.moveStrategy;
+    }
+
+    public AttackStrategy getAttackStrategy() {
+        return this.attackStrategy;
+    }
 }

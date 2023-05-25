@@ -11,7 +11,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,10 +28,11 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(RoomController.class)
@@ -59,6 +59,7 @@ class RoomControllerTest {
     private ArrayList<Long> userIds;
     private List<UserGetDTO> userGetDTOS;
     private UserGetDTO userGetDTO;
+
     @BeforeEach
     void setUp() {
         userGetDTO = new UserGetDTO();
@@ -89,7 +90,7 @@ class RoomControllerTest {
     }
 
     @Test
-    void givenAUser_createRoom_success() throws Exception{
+    void givenAUser_createRoom_success() throws Exception {
         given(roomService.createRoom(TEST_USER_ID)).willReturn(testRoomDTO);
 
         MockHttpServletRequestBuilder postRequest = post("/rooms")
@@ -109,9 +110,6 @@ class RoomControllerTest {
     @Test
     void addAUserToARoomWithValidRoomId_success() throws Exception {
         doNothing().when(roomService).addAUserToRoom(TEST_ROOM_ID, TEST_USER_ID);
-
-        System.out.println(userGetDTO);
-        System.out.println(dtoMapper.convertEntityToUserGetDTO(user));
 
         MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/add", TEST_ROOM_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -192,13 +190,13 @@ class RoomControllerTest {
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", is((int)userGetDTO.getId())));
+                .andExpect(jsonPath("$[0].id", is((int) userGetDTO.getId())));
 
         verify(roomService, Mockito.times(1)).getUserInRoom(TEST_ROOM_ID);
     }
 
     @Test
-    void getAllRoomsInLobby_success() throws Exception{
+    void getAllRoomsInLobby_success() throws Exception {
 
         MockHttpServletRequestBuilder getRequest = get("/rooms")
                 .contentType(MediaType.APPLICATION_JSON);
@@ -215,7 +213,8 @@ class RoomControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("The request body could not be created.%s", e.toString()));
         }

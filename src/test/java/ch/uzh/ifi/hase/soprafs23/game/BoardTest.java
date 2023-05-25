@@ -8,7 +8,6 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.board.SquareType;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
-import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
 import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ public class BoardTest {
 
     //This test probably can be omitted, usually the setPiece method is used
     @Test
-    public void testPlace(){
+    public void testPlace() {
         //create Board
         Board board = new Board();
         //create Piece to Place
@@ -35,13 +34,13 @@ public class BoardTest {
     }
 
     @Test
-    public void testIsPlayerPiecesPlacedTrue(){
+    public void testIsPlayerPiecesPlacedTrue() {
         //create Board
         Board board = new Board();
 
         //set 40 Pieces
-        for(int i=0; i<10; i++){
-            for(int j=0; j<4; j++){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 4; j++) {
                 board.setPiece(i, j, new Piece(PieceType.CAPTAIN, ArmyType.BLUE));
             }
         }
@@ -50,17 +49,17 @@ public class BoardTest {
     }
 
     @Test
-    public void testIsPlayerPiecesPlacedFalse(){
+    public void testIsPlayerPiecesPlacedFalse() {
         //create Board
         Board board = new Board();
 
         //set 39 Pieces
         int count = 0;
         //set 40 Pieces
-        for(int i=0; i<10; i++){
-            for(int j=0; j<4; j++){
-                count +=1;
-                if(count < 40){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 4; j++) {
+                count += 1;
+                if (count < 40) {
                     board.setPiece(i, j, new Piece(PieceType.CAPTAIN, ArmyType.BLUE));
                 }
             }
@@ -71,31 +70,29 @@ public class BoardTest {
     }
 
     @Test
-    public void testClear(){
+    public void testClear() {
         //create board
         Board board = new Board();
         //fill whole board
-        for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 board.setPiece(i, j, new Piece(PieceType.CAPTAIN, ArmyType.BLUE));
-                //TODO j and i are exchanged, might need to refactor so that getSquare and setPiece use the same coordinate Axis
                 assertNotNull(board.getSquare(j, i).getContent());
             }
         }
         board.clear();
-        for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
-                assertNull(board.getSquare(i,j).getContent());
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                assertNull(board.getSquare(i, j).getContent());
             }
         }
     }
 
     @Test
-    public void testMovePieceIllegalTarget_LAKE(){
+    public void testMovePieceIllegalTarget_LAKE() {
         //create board
         Board board = new Board();
         Piece piece = new Piece(PieceType.GENERAL, ArmyType.BLUE);
-        //TODO:setPiece axis coordinate change
         board.setPiece(4, 4, piece);
 
         //verify that Square 4, 3 is of Type lake
@@ -111,13 +108,12 @@ public class BoardTest {
     }
 
     @Test
-    public void testMovePieceIllegalTarget_OCCUPIED(){
+    public void testMovePieceIllegalTarget_OCCUPIED() {
         Board board = new Board();
         Piece piece = new Piece(PieceType.GENERAL, ArmyType.BLUE);
         Piece piece2 = new Piece(PieceType.CAPTAIN, ArmyType.BLUE);
-        //TODO:setPiece axis coordinate change
         board.setPiece(4, 4, piece);
-        board.setPiece(5,4, piece2);
+        board.setPiece(5, 4, piece2);
         //verify that Square 4, 5 is of Type Battlefield to avoid wrong exception
         assertEquals(board.getSquare(4, 5).getType(), SquareType.BATTLE_FIELD);
         //verify that Square 4, 5 is occupied
@@ -132,7 +128,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testMoveSUCCESFUL(){
+    public void testMoveSUCCESFUL() {
         Board board = new Board();
         Piece piece = new Piece(PieceType.GENERAL, ArmyType.BLUE);
         board.setPiece(4, 4, piece);
@@ -143,17 +139,16 @@ public class BoardTest {
         assertNull(board.getSquare(4, 5).getContent());
         assertEquals(board.movePiece(source, target), MoveResult.SUCCESSFUL);
     }
-    //TODO: There will probably need to be additional checks to ensure a piece is not attacking
-    //TODO: a piece of their own army!
+
     @Test
-    public void testAttackPieceSUCCESFUL(){
+    public void testAttackPieceSUCCESFUL() {
         //create board
         Board board = new Board();
         //Captain has rank 6, general has rank 9 so the attacker should win
         Piece attacker = new Piece(PieceType.GENERAL, ArmyType.BLUE);
         Piece targetPiece = new Piece(PieceType.CAPTAIN, ArmyType.RED);
-        board.setPiece(4,4,attacker);
-        board.setPiece(5,4,targetPiece);
+        board.setPiece(4, 4, attacker);
+        board.setPiece(5, 4, targetPiece);
         Axis[] sourceSquare = {Axis._4, Axis._4};
         Axis[] targetSquare = {Axis._4, Axis._5};
 
@@ -163,18 +158,18 @@ public class BoardTest {
         assertEquals(AliveState.ALIVE, attacker.getAliveState());
         //verify that attacker moved to the target square
         assertNull(board.getSquare(4, 4).getContent());
-        assertEquals(board.getSquare(4,5).getContent(), attacker);
+        assertEquals(board.getSquare(4, 5).getContent(), attacker);
     }
 
     @Test
-    public void testAttackPieceDEFEATED(){
+    public void testAttackPieceDEFEATED() {
         //create board
         Board board = new Board();
         //Lieutenant has rank 5, Marshal has rank 10 so the attacker should lose
         Piece attacker = new Piece(PieceType.LIEUTENANT, ArmyType.BLUE);
         Piece targetPiece = new Piece(PieceType.MARSHAL, ArmyType.RED);
-        board.setPiece(4,4,attacker);
-        board.setPiece(5,4,targetPiece);
+        board.setPiece(4, 4, attacker);
+        board.setPiece(5, 4, targetPiece);
         Axis[] sourceSquare = {Axis._4, Axis._4};
         Axis[] targetSquare = {Axis._4, Axis._5};
 
@@ -184,18 +179,18 @@ public class BoardTest {
         assertEquals(AliveState.ALIVE, targetPiece.getAliveState());
         //verify that attacker moved to the target square
         assertNull(board.getSquare(4, 4).getContent());
-        assertEquals(board.getSquare(4,5).getContent(), targetPiece);
+        assertEquals(board.getSquare(4, 5).getContent(), targetPiece);
     }
 
     @Test
-    public void testAttackPieceDRAW(){
+    public void testAttackPieceDRAW() {
         //create board
         Board board = new Board();
         //Both Pieces have the same rank so both of them should be removed
         Piece attacker = new Piece(PieceType.LIEUTENANT, ArmyType.BLUE);
         Piece targetPiece = new Piece(PieceType.LIEUTENANT, ArmyType.RED);
-        board.setPiece(4,4,attacker);
-        board.setPiece(5,4,targetPiece);
+        board.setPiece(4, 4, attacker);
+        board.setPiece(5, 4, targetPiece);
         Axis[] sourceSquare = {Axis._4, Axis._4};
         Axis[] targetSquare = {Axis._4, Axis._5};
 
@@ -206,11 +201,11 @@ public class BoardTest {
         assertEquals(AliveState.DOWN, targetPiece.getAliveState());
         //verify that both squares are empty now
         assertNull(board.getSquare(4, 4).getContent());
-        assertNull(board.getSquare(4,5).getContent());
+        assertNull(board.getSquare(4, 5).getContent());
     }
 
     @Test
-    public void testGetPathLegalInputs(){
+    public void testGetPathLegalInputs() {
         //create Board
         Board board = new Board();
         Axis[] sourceSquare = {Axis._0, Axis._0};
@@ -218,17 +213,17 @@ public class BoardTest {
 
         //define array of legal inputs
         Axis[][][] input = {{{Axis._0, Axis._9}, {Axis._9, Axis._9}}, {{Axis._9, Axis._9}, {Axis._9, Axis._0}}, {{Axis._0, Axis._0}, {Axis._0, Axis._9}}, {{Axis._3, Axis._3}, {Axis._5, Axis._3}}};
-        int[][][] expected = {{{1,9}, {2,9}, {3,9}, {4,9}, {5,9}, {6,9}, {7,9}, {8,9}},{{9,8}, {9,7}, {9,6}, {9,5}, {9,4}, {9,3}, {9,2}, {9,1}}, {{0,1}, {0,2}, {0,3},{0,4},{0,5},{0,6},{0,7},{0,8}}, {{4,3}}};
-        for(int i=0; i<input.length; i++){
+        int[][][] expected = {{{1, 9}, {2, 9}, {3, 9}, {4, 9}, {5, 9}, {6, 9}, {7, 9}, {8, 9}}, {{9, 8}, {9, 7}, {9, 6}, {9, 5}, {9, 4}, {9, 3}, {9, 2}, {9, 1}}, {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}, {0, 8}}, {{4, 3}}};
+        for (int i = 0; i < input.length; i++) {
             Square[] result = board.getPath(input[i][0], input[i][1]);
-            for(int j=0; j<result.length; j++){
+            for (int j = 0; j < result.length; j++) {
                 assertEquals(expected[i][j][0], result[j].getAxisX().getInt());
                 assertEquals(expected[i][j][1], result[j].getAxisY().getInt());
             }
         }
     }
 
-    private Board setupAvailableTargets(){
+    private Board setupAvailableTargets() {
         Board board = new Board();
         Piece bombBlue = new Piece(PieceType.BOMB, ArmyType.BLUE);
         Piece flagBlue = new Piece(PieceType.FLAG, ArmyType.BLUE);
@@ -239,10 +234,10 @@ public class BoardTest {
         Piece bombRed2 = new Piece(PieceType.BOMB, ArmyType.RED);
         board.setPiece(0, 5, bombBlue);
         board.setPiece(1, 5, captainBlue);
-        board.setPiece(1,6, bombRed1);
-        board.setPiece(0,7,generalBlue);
-        board.setPiece(3,7,scoutBlue);
-        board.setPiece(8,7,bombRed2);
+        board.setPiece(1, 6, bombRed1);
+        board.setPiece(0, 7, generalBlue);
+        board.setPiece(3, 7, scoutBlue);
+        board.setPiece(8, 7, bombRed2);
 
         /*This is how the set up board looks like:
 x - empty squares, L - lake squares, B - blue bombs, C - blue captain, G - blue general, S - blue scout, R - Red Pieces
@@ -261,7 +256,7 @@ x - empty squares, L - lake squares, B - blue bombs, C - blue captain, G - blue 
     }
 
     @Test
-    public void test_getAvailableTargets(){
+    public void test_getAvailableTargets() {
         //setup Board
         Board board = setupAvailableTargets();
         //getAvailableTargets for the bomb should return empty list
@@ -273,17 +268,17 @@ x - empty squares, L - lake squares, B - blue bombs, C - blue captain, G - blue 
         actual = board.getAvailableTargets(new Axis[]{Axis._5, Axis._1});
         assertTrue(actual.containsAll(expected) && actual.size() == expected.size());
         //getAvailableTargets for the general should return Axis (6,0), (7,1), (8,0)
-        expected = Arrays.asList(board.getSquare(6,0), board.getSquare(7,1), board.getSquare(8,0));
+        expected = Arrays.asList(board.getSquare(6, 0), board.getSquare(7, 1), board.getSquare(8, 0));
         actual = board.getAvailableTargets(new Axis[]{Axis._7, Axis._0});
         assertTrue(actual.containsAll(expected) && actual.size() == expected.size());
         //getAvailableTargets for the scout should return Axis (7,1),(7,2),(6,3),(8,3),(9,3),(7,4),(7,5),(7,6),(7,7),(7,8)
-        expected = Arrays.asList(board.getSquare(7,1),board.getSquare(7,2),board.getSquare(6,3),board.getSquare(8,3),board.getSquare(9,3), board.getSquare(7,4),board.getSquare(7,5),board.getSquare(7,6),board.getSquare(7,7),board.getSquare(7,8));
+        expected = Arrays.asList(board.getSquare(7, 1), board.getSquare(7, 2), board.getSquare(6, 3), board.getSquare(8, 3), board.getSquare(9, 3), board.getSquare(7, 4), board.getSquare(7, 5), board.getSquare(7, 6), board.getSquare(7, 7), board.getSquare(7, 8));
         actual = board.getAvailableTargets(new Axis[]{Axis._7, Axis._3});
         assertTrue(actual.containsAll(expected) && actual.size() == expected.size());
     }
 
     @Test
-    public void test_getSurroundingSquaresViaAxis(){
+    public void test_getSurroundingSquaresViaAxis() {
         //Since this is a private method we will test it Via getAvailableTargets
         //There are 9 distinct cases to cover so we will create 9 pieces
         Board board = new Board();

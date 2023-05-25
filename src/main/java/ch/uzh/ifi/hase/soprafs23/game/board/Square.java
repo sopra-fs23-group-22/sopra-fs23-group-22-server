@@ -11,6 +11,7 @@ public class Square {
     private Axis axisY;
     private SquareType type;
     private Piece content;
+
     public Square(Axis axisX, Axis axisY) {
         this.axisX = axisX;
         this.axisY = axisY;
@@ -25,13 +26,21 @@ public class Square {
         return axisPair;
     }
 
-    public void setType(SquareType type) { this.type = type; }
+    public void setType(SquareType type) {
+        this.type = type;
+    }
 
-    public void setContent(Piece piece) { this.content = piece; }
+    public void setContent(Piece piece) {
+        this.content = piece;
+    }
 
-    public Piece getContent(){ return this.content; }
+    public Piece getContent() {
+        return this.content;
+    }
 
-    public SquareType getType() { return this.type; }
+    public SquareType getType() {
+        return this.type;
+    }
 
     public int calculateDistanceTo(Square targetSquare) {
         Axis[] tagetAxis = targetSquare.getAxis();
@@ -48,7 +57,9 @@ public class Square {
         }
     }
 
-    public void clear() { this.content = null; }
+    public void clear() {
+        this.content = null;
+    }
 
     public Axis getAxisX() {
         return axisX;
@@ -58,5 +69,7 @@ public class Square {
         return axisY;
     }
 
-    public SquareType getSquareType() { return this.type; }
+    public SquareType getSquareType() {
+        return this.type;
+    }
 }

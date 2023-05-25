@@ -50,7 +50,8 @@ public class GameService {
         try {
             Room room = roomService.findRoomById(roomId);
             return room.getGame();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, roomId));
         }
 
@@ -62,7 +63,8 @@ public class GameService {
         Game game = findGameByRoomId(roomId);
         try {
             game.operate(coordinates[0], coordinates[1]);
-        } catch (IllegalStateException e) {
+        }
+        catch (IllegalStateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -73,9 +75,9 @@ public class GameService {
     }
 
     public GameState findGameStateByRoomId(int roomId) {
-         Game game = findGameByRoomId(roomId);
-         if (game == null) return GameState.WAITING;
-         return game.getGameState();
+        Game game = findGameByRoomId(roomId);
+        if (game == null) return GameState.WAITING;
+        return game.getGameState();
     }
 
     // enter game does not mean start game, here we have a game with no piece on board, game status change to PRE_PLAY
@@ -83,7 +85,8 @@ public class GameService {
         try {
             Room room = roomService.findRoomById(roomId);
             room.enterGame();
-        } catch (IllegalStateException e) {
+        }
+        catch (IllegalStateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -93,7 +96,8 @@ public class GameService {
         Game game = findGameByRoomId(roomId);
         try {
             game.start();
-        } catch (IllegalStateException e) {
+        }
+        catch (IllegalStateException e) {
             // do nothing,
         }
     }
@@ -140,9 +144,9 @@ public class GameService {
     // helper method
     private List<SquareGETDTO> convertBoardToSquareGETDTOList(Board board) {
         List<SquareGETDTO> boardInSquares = new ArrayList<SquareGETDTO>();
-        for(int i = 0; i<10; i++) {
-            for(int j=0; j<10; j++) {
-                boardInSquares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i,j)));
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                boardInSquares.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(board.getSquare(i, j)));
             }
         }
         return boardInSquares;
@@ -150,7 +154,7 @@ public class GameService {
 
     private ArrayList<SquareGETDTO> convertSquareListToSquareGETDTOList(ArrayList<Square> squares) {
         ArrayList<SquareGETDTO> squareGETDTOS = new ArrayList<>();
-        for(Square square: squares) {
+        for (Square square : squares) {
             squareGETDTOS.add(DTOMapper.INSTANCE.convertSquareToSquareGETDTO(square));
         }
         return squareGETDTOS;

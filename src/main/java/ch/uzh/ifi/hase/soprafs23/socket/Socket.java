@@ -7,30 +7,30 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-    @Configuration
-    @EnableWebSocketMessageBroker
+@Configuration
+@EnableWebSocketMessageBroker
 public class Socket implements WebSocketMessageBrokerConfigurer {
 
-        private static final String WEBSOCKET_PREFIX = "/topic";
+    private static final String WEBSOCKET_PREFIX = "/topic";
 
-        private static final String WEBSOCKET_SUFFIX = "/sopra-websocket";
+    private static final String WEBSOCKET_SUFFIX = "/sopra-websocket";
 
-        private static final String ORIGIN_LOCALHOST = "http://localhost:3000";
+    private static final String ORIGIN_LOCALHOST = "http://localhost:3000";
 
-        private static final String ORIGIN_PROD = "https://sopra-fs23-group-22-client.oa.r.appspot.com";
+    private static final String ORIGIN_PROD = "https://sopra-fs23-group-22-client.oa.r.appspot.com";
 
-        @Override
-        public void configureMessageBroker(@NotNull MessageBrokerRegistry config) {
+    @Override
+    public void configureMessageBroker(@NotNull MessageBrokerRegistry config) {
 
-            config.enableSimpleBroker(WEBSOCKET_PREFIX);
+        config.enableSimpleBroker(WEBSOCKET_PREFIX);
 
-        }
-
-        @Override
-        public void registerStompEndpoints(@NotNull StompEndpointRegistry registry) {
-
-            registry.addEndpoint(WEBSOCKET_SUFFIX)
-                    .setAllowedOrigins(ORIGIN_LOCALHOST, ORIGIN_PROD)
-                    .withSockJS();
-        }
     }
+
+    @Override
+    public void registerStompEndpoints(@NotNull StompEndpointRegistry registry) {
+
+        registry.addEndpoint(WEBSOCKET_SUFFIX)
+                .setAllowedOrigins(ORIGIN_LOCALHOST, ORIGIN_PROD)
+                .withSockJS();
+    }
+}

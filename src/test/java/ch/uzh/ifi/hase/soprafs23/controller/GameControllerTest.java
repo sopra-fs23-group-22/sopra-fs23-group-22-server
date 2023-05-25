@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -145,7 +144,7 @@ public class GameControllerTest {
 
         verify(gameService, times(1)).setInitialBoard(Mockito.anyInt(), Mockito.any());
         verify(gameService, times(1)).startGame(Mockito.anyInt());
-        verify(template).convertAndSend("/topic/loading/"+TEST_ROOM_ID, GameState.WAITING);
+        verify(template).convertAndSend("/topic/loading/" + TEST_ROOM_ID, GameState.WAITING);
     }
 
 
@@ -182,7 +181,7 @@ public class GameControllerTest {
         mockMvc.perform(putRequest)
                 .andExpect(status().isNoContent());
 
-        verify(template).convertAndSend("/topic/ongoingGame/"+TEST_ROOM_ID, socketMessageDTO);
+        verify(template).convertAndSend("/topic/ongoingGame/" + TEST_ROOM_ID, socketMessageDTO);
     }
 
     @Test
@@ -206,11 +205,8 @@ public class GameControllerTest {
         testResignPutDTO.setPlayerIdResigned(TEST_PLAYER_1);
         SocketMessageDTO socketMessageDTO = new SocketMessageDTO();
         socketMessageDTO.setPlayerIdResigned(TEST_PLAYER_1);
-//        ResignPutDTO resignPutDTOReturned = new ResignPutDTO();
-//        resignPutDTOReturned.setPlayerIdResigned(TEST_PLAYER_1);
 
         doNothing().when(gameService).resign(TEST_ROOM_ID, testResignPutDTO);
-//        doNothing().when(gameService).resign(Mockito.anyInt(), Mockito.any());
         given(gameService.getGameInfo(TEST_ROOM_ID)).willReturn(socketMessageDTO);
 
         MockHttpServletRequestBuilder putRequest = put("/rooms/{roomId}/resign", TEST_ROOM_ID)
@@ -220,9 +216,7 @@ public class GameControllerTest {
         mockMvc.perform(putRequest)
                 .andExpect(status().isOk());
 
-//        verify(gameService, times(1)).resign(TEST_ROOM_ID, any(ResignPutDTO.class));
-//        verify(gameService, times(1)).resign(TEST_ROOM_ID, Mockito.any());
-        verify(template).convertAndSend("/topic/ongoingGame/"+TEST_ROOM_ID, socketMessageDTO);
+        verify(template).convertAndSend("/topic/ongoingGame/" + TEST_ROOM_ID, socketMessageDTO);
     }
 
     @Test
@@ -254,7 +248,8 @@ public class GameControllerTest {
     private String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("The request body could not be created.%s", e.toString()));
         }

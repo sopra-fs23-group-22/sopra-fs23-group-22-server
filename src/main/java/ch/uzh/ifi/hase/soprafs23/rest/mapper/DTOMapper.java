@@ -8,12 +8,12 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import com.sun.istack.NotNull;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 /**
  * DTOMapper
@@ -69,37 +69,21 @@ public abstract class DTOMapper {
 
     @Mapping(source = "username", target = "username")
     @Mapping(source = "id", target = "id")
-//    @Mapping(target = "wins", ignore = true)
-//    @Mapping(target = "loss", ignore = true)
-//    @Mapping(target = "roomId", ignore = true)
     public abstract UserPutDTO convertEntityToUserPutDTO(User user);
-
 
     public List<SquareGETDTO> convertBoardToSquareGETDTOList(@NotNull Board board) {
         List<SquareGETDTO> squares = new ArrayList<SquareGETDTO>();
-        for(int i = 0; i<10; i++) {
-            for(int j=0; j<10; j++) {
-                squares.add(convertSquareToSquareGETDTO(board.getSquare(i,j)));
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                squares.add(convertSquareToSquareGETDTO(board.getSquare(i, j)));
             }
         }
         return squares;
     }
 
-
-
-//    SquareGETDTO[][] convertBoardToSquareGETDTOList(@NotNull Board board) {
-//        SquareGETDTO[][] squares = new SquareGETDTO[10][10];
-//        for(int i = 0; i<10; i++) {
-//            for(int j=0; j<10; j++) {
-//                squares[i][j] = convertSquareToSquareGETDTO(board.getSquare(i, j));
-//            }
-//        }
-//        return squares;
-//    }
-
     public Piece[] convertConfigurationToInitialBoard(@NotNull PiecePUTDTO[] pieces) {
         Piece[] configuration = new Piece[40];
-        for(int i=0; i<pieces.length; i++) {
+        for (int i = 0; i < pieces.length; i++) {
             configuration[i] = convertPiecePUTDTOtoPiece(pieces[i]);
         }
         return configuration;
@@ -110,10 +94,6 @@ public abstract class DTOMapper {
         // a better way maybe using a hashmap, but I don't exactly know much about hashmap...
         coordinates[0] = movingDTO.getSource();
         coordinates[1] = movingDTO.getTarget();
-//        System.out.println(coordinates[0][0]);
-//        System.out.println(coordinates[0][1]);
-//        System.out.println(coordinates[1][0]);
-//        System.out.println(coordinates[1][1]);
         return coordinates;
     }
 

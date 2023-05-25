@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
-import ch.uzh.ifi.hase.soprafs23.service.GameService;
 
 import java.util.ArrayList;
 
@@ -14,6 +13,7 @@ public class RoomPostDTO {
     public int getRoomId() {
         return roomId;
     }
+
     private ArrayList<Long> userIds = new ArrayList<Long>();
 
     public ArrayList<Long> getUserIds() {

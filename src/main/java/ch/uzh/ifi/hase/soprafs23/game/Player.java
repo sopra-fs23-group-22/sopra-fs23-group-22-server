@@ -11,6 +11,11 @@ public class Player {
         this.army = army;
     }
 
-    public long getUserId() { return this.userId; }
-    public Army getArmy() { return this.army; }
+    public long getUserId() {
+        return this.userId;
+    }
+
+    public Army getArmy() {
+        return this.army;
+    }
 }

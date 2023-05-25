@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
-import ch.uzh.ifi.hase.soprafs23.game.LobbyTest;
 import ch.uzh.ifi.hase.soprafs23.game.Room;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
@@ -11,16 +10,15 @@ import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @WebAppConfiguration
 @SpringBootTest
@@ -94,7 +92,6 @@ public class RoomServiceIntegrationTest {
         Room createdRoom = roomService.findRoomById(createdRoomGetDTO.getRoomId());
         List<UserGetDTO> usersInRoom = roomService.getUserInRoom(createdRoomGetDTO.getRoomId());
 
-        System.out.println(usersInRoom.size());
         assertEquals(1, createdRoom.getRoomId());
         assertEquals(testPlayerIds, createdRoom.getUserIds());
         // check if there's only one user in this room
@@ -131,7 +128,7 @@ public class RoomServiceIntegrationTest {
         newUser.setId(userId);
         newUser.setPassword("testPassword");
         newUser.setStatus(UserStatus.ONLINE);
-        newUser.setUsername("testUser"+userId);
+        newUser.setUsername("testUser" + userId);
         newUser.setToken(UUID.randomUUID().toString());
         userRepository.saveAndFlush(newUser);
         return newUser;

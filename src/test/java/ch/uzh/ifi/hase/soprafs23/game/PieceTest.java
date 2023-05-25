@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,12 +33,12 @@ public class PieceTest {
     private Piece piece;
 
     @Test
-    public void testMove(){
+    public void testMove() {
         MockitoAnnotations.openMocks(this);
         //set up the pieces
         //We choose a spy, bomb, and scout so we have all the moveStrategies covered
         Piece spy = new Piece(PieceType.SPY, ArmyType.RED);
-        Piece bomb = new Piece(PieceType.BOMB,ArmyType.RED);
+        Piece bomb = new Piece(PieceType.BOMB, ArmyType.RED);
         Piece scout = new Piece(PieceType.SCOUT, ArmyType.RED);
 
         given(sourcesquare.calculateDistanceTo(targetsquare)).willReturn(1);
@@ -72,7 +71,7 @@ public class PieceTest {
     }
 
     @Test
-    public void testAttack(){
+    public void testAttack() {
         MockitoAnnotations.openMocks(this);
         //Since attacking is one of the core mechanics of the game we will test all attacks against all pieces
         ArrayList<Piece> pieces = new ArrayList<>();
@@ -106,24 +105,29 @@ public class PieceTest {
         given(targetsquare.getContent()).willReturn(piece);
 
         //iterate through all enemy pieces
-        for(Piece enemy : enemies){
+        for (Piece enemy : enemies) {
             given(piece.getPieceType()).willReturn(enemy.getPieceType());
             //iterate through all attacking pieces
             for (Piece attacker : pieces) {
                 given(sourcesquare.getContent()).willReturn(attacker);
-                if(enemy.getPieceType() == PieceType.FLAG){
+                if (enemy.getPieceType() == PieceType.FLAG) {
                     assertEquals(AttackResult.SUCCESSFUL, attacker.attack(sourcesquare, targetsquare));
-                }else if(enemy.getPieceType() == PieceType.BOMB){
-                    if(attacker.getPieceType() == PieceType.MINER){
+                }
+                else if (enemy.getPieceType() == PieceType.BOMB) {
+                    if (attacker.getPieceType() == PieceType.MINER) {
                         assertEquals(AttackResult.SUCCESSFUL, attacker.attack(sourcesquare, targetsquare));
-                    }else{
+                    }
+                    else {
                         assertEquals(AttackResult.DEFEATED, attacker.attack(sourcesquare, targetsquare));
                     }
-                }else if(attacker.getPieceType().getRank().ordinal() > enemy.getPieceType().getRank().ordinal() || attacker.getPieceType() == PieceType.SPY && enemy.getPieceType() == PieceType.MARSHAL){
+                }
+                else if (attacker.getPieceType().getRank().ordinal() > enemy.getPieceType().getRank().ordinal() || attacker.getPieceType() == PieceType.SPY && enemy.getPieceType() == PieceType.MARSHAL) {
                     assertEquals(AttackResult.SUCCESSFUL, attacker.attack(sourcesquare, targetsquare));
-                }else if(attacker.getPieceType().equals(enemy.getPieceType())){
+                }
+                else if (attacker.getPieceType().equals(enemy.getPieceType())) {
                     assertEquals(AttackResult.BOTH_DEFEATED, attacker.attack(sourcesquare, targetsquare));
-                }else{
+                }
+                else {
                     assertEquals(AttackResult.DEFEATED, attacker.attack(sourcesquare, targetsquare));
                 }
             }

@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 import ch.uzh.ifi.hase.soprafs23.game.board.Axis;
 import ch.uzh.ifi.hase.soprafs23.game.board.SquareType;
-import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 
 public class SquareGETDTO {
 

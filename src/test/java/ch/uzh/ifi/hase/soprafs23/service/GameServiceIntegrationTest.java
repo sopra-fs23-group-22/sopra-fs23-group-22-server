@@ -12,6 +12,7 @@ import ch.uzh.ifi.hase.soprafs23.game.board.Square;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 import ch.uzh.ifi.hase.soprafs23.game.states.GameState;
+import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.ResignPutDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.RoomGetDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
-import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @WebAppConfiguration
 @SpringBootTest
@@ -60,7 +59,6 @@ public class GameServiceIntegrationTest {
         RoomGetDTO createdRoomGetDTO = roomService.createRoom(testUser1.getId());
         testRoom = roomService.findRoomById(createdRoomGetDTO.getRoomId());
         testRoom.addUser(testUser2.getId());
-        //testGame = gameService.findGameByRoomId(testRoom.getRoomId());
     }
 
     @Test
@@ -92,7 +90,7 @@ public class GameServiceIntegrationTest {
         // ... setup test initial board configuration 1
         Piece[] redArmy = new Piece[40];
         Piece[] blueArmy = new Piece[40];
-        for(int i=0; i<39; i++){
+        for (int i = 0; i < 39; i++) {
             redArmy[i] = new Piece(PieceType.GENERAL, ArmyType.RED);
             blueArmy[i] = new Piece(PieceType.GENERAL, ArmyType.BLUE);
         }
@@ -150,7 +148,7 @@ public class GameServiceIntegrationTest {
         newUser.setId(userId);
         newUser.setPassword("testPassword");
         newUser.setStatus(UserStatus.ONLINE);
-        newUser.setUsername("testUser"+userId);
+        newUser.setUsername("testUser" + userId);
         newUser.setToken(UUID.randomUUID().toString());
         userRepository.saveAndFlush(newUser);
         return newUser;
@@ -166,10 +164,5 @@ public class GameServiceIntegrationTest {
                 Lobby.getInstance().removeRoom(roomId);
             }
         }
-    }
-
-    private void placeInitialBoard(Game game, Long playerId) {
-        Board board = game.getBoard();
-
     }
 }

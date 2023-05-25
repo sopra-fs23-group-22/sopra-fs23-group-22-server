@@ -12,7 +12,6 @@ public enum Axis {
     _7(7),
     _8(8),
     _9(9);
-//    _10(10);
 
     private final int value;
 

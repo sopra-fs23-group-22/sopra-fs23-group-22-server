@@ -1,4 +1,5 @@
 package ch.uzh.ifi.hase.soprafs23.game;
+
 import java.util.ArrayList;
 
 import static ch.uzh.ifi.hase.soprafs23.game.states.GameState.WAITING;
@@ -8,12 +9,19 @@ public class Room {
     private ArrayList<Long> userIds = new ArrayList<Long>();
     private Game game;
 
-    public Room(int roomId) { this.roomId = roomId; }
+    public Room(int roomId) {
+        this.roomId = roomId;
+    }
 
-    public void addUser(long userId){ if (this.userIds.size() < 2) this.userIds.add(userId); }
-    public void removeUser(long userId){ this.userIds.remove(userIds.indexOf(userId)); }
+    public void addUser(long userId) {
+        if (this.userIds.size() < 2) this.userIds.add(userId);
+    }
 
-    public void enterGame(){
+    public void removeUser(long userId) {
+        this.userIds.remove(userIds.indexOf(userId));
+    }
+
+    public void enterGame() {
         if (this.userIds.size() != 2) throw new IllegalStateException("Not enough players in the room!");
         if (this.game == null) {
             this.game = new Game();
@@ -41,6 +49,8 @@ public class Room {
         return userIds;
     }
 
-    public Game getGame() { return game; }
+    public Game getGame() {
+        return game;
+    }
 
 }

@@ -28,7 +28,7 @@ public class Game {
     private Player loser;
     private int numPlayersPendingResultConfirmation = 0;
 
-    public void setup(ArrayList<Long> userIds){
+    public void setup(ArrayList<Long> userIds) {
         if (this.board == null) board = new Board();
         else board.clear();
         players.clear();
@@ -39,43 +39,33 @@ public class Game {
         gameState = PRE_PLAY;
     }
 
-    public void placePieces(Piece[] pieceArray){
+    public void placePieces(Piece[] pieceArray) {
         //convert the array with pieces to actual positions on the board
         Player redPlayer = players.get(0);
         Player bluePlayer = players.get(1);
-        if(pieceArray[0].getArmyType() == RED){
-            for(int i=0; i<10; i++){
-                for(int j=6; j<10; j++){
-                    board.setPiece(i,j,pieceArray[(j-6)*10+i]);
+        if (pieceArray[0].getArmyType() == RED) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 6; j < 10; j++) {
+                    board.setPiece(i, j, pieceArray[(j - 6) * 10 + i]);
                 }
             }
             redPlayer.getArmy().setArmyPieces(pieceArray);
-        }else{
-            for(int i=0; i<10; i++){
-                for(int j=0; j<4; j++){
-                    board.setPiece(i,j,pieceArray[j*10 + i]);
+        }
+        else {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 4; j++) {
+                    board.setPiece(i, j, pieceArray[j * 10 + i]);
                 }
             }
             bluePlayer.getArmy().setArmyPieces(pieceArray);
         }
 
     }
-    // The function to place a piece for the initial board
-    // (not necessarily using this approach, may implement placement at frontend and put them in backend at once)
-    // (should write with the frontend team to decide)
-    /*
-    public void placePieceForInitialBoard(Piece piece, Axis[] targetAxis) {
-        // check if the game is in PRE_PLAY
-        if (gameState != PRE_PLAY)
-            throw new IllegalStateException("The game state is not PRE_PLAY!");
-        // check if the target square has been occupied
-        if (board.getSquareViaAxis(targetAxis).getContent() != null)
-            throw new IllegalStateException("The chosen square has been occupied by another piece!");
-        board.place(piece, targetAxis);
-    }
-     */
 
-    public boolean isPlayerPrePlayCompleted(Player player) { return board.isPlayerPiecesPlaced(player); }
+    public boolean isPlayerPrePlayCompleted(Player player) {
+        return board.isPlayerPiecesPlaced(player);
+    }
+
     public boolean isPrePlayCompleted() {
         return (isPlayerPrePlayCompleted(players.get(0)) && isPlayerPrePlayCompleted(players.get(1)));
     }
@@ -90,13 +80,6 @@ public class Game {
         if (operatingPlayer == players.get(0)) operatingPlayer = players.get(1);
         else operatingPlayer = players.get(0);
     }
-
-    /*
-    // used for displaying available options for an operation
-    public Axis[][] getAvailableTargets(Piece piece) {
-        return board.getAvailableTargets(piece);
-    }
-     */
 
     // used for displaying available options for an operation
     public ArrayList<Square> getAvailableTargets(Axis[] sourceAxis) {
@@ -119,28 +102,25 @@ public class Game {
             for (Square square : path) {
                 if (square.getContent() != null)
                     throw new IllegalStateException("The path has been blocked by another piece!");
-                    //return; // (just for now, should throw exception)
                 if (square.getType() == LAKE)
                     throw new IllegalStateException("The path has been blocked by a lake!");
-                    //return; // (just for now, should throw exception)
             }
         }
         // ... if source piece is a bomb or flag, it cannot move, this operation is invalid
         if (board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.BOMB ||
                 board.getSquareViaAxis(sourceAxis).getContent().getPieceType() == PieceType.FLAG)
             throw new IllegalStateException("The bomb and flag piece cannot move!");
-            //return; // (just for now, should throw exception)
         if (board.getSquareViaAxis(targetAxis).getContent() != null) {
             // if the target square has a piece of the same army, then it is an invalid move
             if (board.getSquareViaAxis(sourceAxis).getContent().getArmyType() ==
                     board.getSquareViaAxis(targetAxis).getContent().getArmyType())
                 throw new IllegalStateException("You cannot attack your own army!");
-                //return; // (just for now, should throw exception)
             AttackResult result = board.attackPiece(sourceAxis, targetAxis);
             if (result == AttackResult.ILLEGAL_MOVE)
                 throw new IllegalStateException("Illegal move! Normal pieces other than scout can only move one square and not diagonally!");
             else switchTurn();
-        } else {
+        }
+        else {
             // if the target square has not been occupied, then it is a placement
             MoveResult result = board.movePiece(sourceAxis, targetAxis);
             if (result == MoveResult.SUCCESSFUL) switchTurn();
@@ -151,19 +131,15 @@ public class Game {
         if (hasWinner()) gameState = FINISHED;
     }
 
-    public boolean hasWinner(){
+    public boolean hasWinner() {
         // Two scenarios if there is a winner:
         //  1. if one's Flag is captured, then the other wins
         for (Player player : players) {
             for (Piece piece : player.getArmy().getPieces()) {
                 // ... print out whether flag's state is DOWN
-                // code below!
-                //System.out.println(piece.getPieceType() + " " + piece.getAliveState());
                 if (piece.getPieceType() == PieceType.FLAG && piece.getAliveState() == DOWN) {
-                    System.out.println("The flag of " + player.getUserId() + " is captured!");
                     this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
                     this.loser = (player == players.get(0)) ? players.get(0) : players.get(1);
-                    //gameState = FINISHED;
                     numPlayersPendingResultConfirmation = 2;
                     return true;
                 }
@@ -172,7 +148,6 @@ public class Game {
         //  2. if all the pieces of one's army are captured, then the other wins
         for (Player player : players) {
             // if all the pieces (except FLAG and BOMB) of one's army are captured (aliveState == DOWN)
-            //if (player.getArmy().getPieces().stream().allMatch(piece -> piece.getAliveState() == DOWN)) {
             if (player.getArmy().getPieces().stream().filter(piece -> piece.getPieceType() != PieceType.FLAG &&
                     piece.getPieceType() != PieceType.BOMB).allMatch(piece -> piece.getAliveState() == DOWN)) {
                 this.winner = (player == players.get(0)) ? players.get(1) : players.get(0);
@@ -185,11 +160,15 @@ public class Game {
         return false;
     }
 
-    public Player getOperatingPlayer(){ return this.operatingPlayer; }
-    public GameState getGameState(){ return this.gameState; }
+    public Player getOperatingPlayer() {
+        return this.operatingPlayer;
+    }
 
-    //public GameController getGameController(){}
-    public void resign(Player playerResigned){
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+    public void resign(Player playerResigned) {
         // the player resigned loses the game, another wins
         winner = (playerResigned == players.get(0)) ? players.get(1) : players.get(0);
         loser = (playerResigned == players.get(0)) ? players.get(0) : players.get(1);
@@ -210,8 +189,13 @@ public class Game {
         return board;
     }
 
-    public Player getWinner() { return winner; }
-    public Player getLoser() { return loser; }
+    public Player getWinner() {
+        return winner;
+    }
+
+    public Player getLoser() {
+        return loser;
+    }
 
     public Player getPlayerByUserId(long userId) {
         for (Player player : players) {
@@ -220,20 +204,19 @@ public class Game {
         return null;
     }
 
-    public ArrayList<Player> getPlayers() { return players; }
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
-    public void setGameState(GameState gameState) { this.gameState = gameState; }
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 
-//    public void setPendingPlayersConfirmation() { this.numPlayersPendingResultConfirmation = 2; }
     public void decrementPendingPlayersConfirmation() {
         this.numPlayersPendingResultConfirmation--;
         if (this.numPlayersPendingResultConfirmation == 0) {
             this.gameState = WAITING;
         }
     }
-//    public int getNumPlayersPendingResultConfirmation() { return this.numPlayersPendingResultConfirmation; }
-//    public void clearPlayersPendingResultConfirmation() {
-//        this.numPlayersPendingResultConfirmation = 0;
-//        this.gameState = WAITING;
-//    }
+
 }

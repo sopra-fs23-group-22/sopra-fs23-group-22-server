@@ -27,36 +27,35 @@ import java.util.List;
 @RestController
 public class UserController {
 
-
     private final UserService userService;
+
     UserController(UserService userService) {
         this.userService = userService;
-      }
+    }
 
     @Autowired
     SimpMessagingTemplate template;
 
-  @GetMapping("/users")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public List<UserGetDTO> getAllUsers() {
-    // fetch all users in the internal representation
-    List<User> users = userService.getUsers();
-    List<UserGetDTO> userGetDTOs = new ArrayList<>();
+    @GetMapping("/users")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<UserGetDTO> getAllUsers() {
+        // fetch all users in the internal representation
+        List<User> users = userService.getUsers();
+        List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
-    // convert each user to the API representation
-    for (User user : users) {
-      userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        // convert each user to the API representation
+        for (User user : users) {
+            userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        }
+        return userGetDTOs;
     }
-    return userGetDTOs;
-  }
 
     @GetMapping("/users/online")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<UserGetDTO> getOnlineUsers() {
         // fetch all online users in the internal representation
-
         List<User> users = userService.getOnlineUsers();
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
@@ -64,46 +63,46 @@ public class UserController {
         for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
-        template.convertAndSend("/topic/users/online",userGetDTOs);
+        template.convertAndSend("/topic/users/online", userGetDTOs);
         return userGetDTOs;
     }
 
-  @PostMapping("/users")
-  @ResponseStatus(HttpStatus.CREATED)
-  @ResponseBody
-  public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
-    // convert API user to internal representation
-    User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+    @PostMapping("/users")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
+        // convert API user to internal representation
+        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
 
-    // create user
-    User createdUser = userService.createUser(userInput);
-    // convert internal representation of user back to API
+        // create user
+        User createdUser = userService.createUser(userInput);
+        // convert internal representation of user back to API
 
-      // fetch all users in the internal representation
-      List<User> users = userService.getUsers();
-      List<UserGetDTO> userGetDTOs = new ArrayList<>();
+        // fetch all users in the internal representation
+        List<User> users = userService.getUsers();
+        List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
-      // convert each user to the API representation
-      for (User user : users) {
-          userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
-      }
+        // convert each user to the API representation
+        for (User user : users) {
+            userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+        }
 
-    // send to frontend if there is new user
-      template.convertAndSend("/topic/users",userGetDTOs);
+// send to frontend if there is new user
+        template.convertAndSend("/topic/users", userGetDTOs);
 
-      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
-  }
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
+    }
 
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void updateInfo(@PathVariable long userId, @RequestBody User user) {
 //        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
-        if(user.getUsername()!=null) {
+        if (user.getUsername() != null) {
             userService.updateUsername(user.getUsername(), userId);
         }
-        if (user.getStatus()!=null) {
-            if(user.getStatus() == UserStatus.OFFLINE) {
+        if (user.getStatus() != null) {
+            if (user.getStatus() == UserStatus.OFFLINE) {
                 userService.updateUserStatus(user.getStatus(), userId);
                 // make sure that roomId will be removed if the user logout;
                 userService.updateRoomId(null, userId);
@@ -118,13 +117,13 @@ public class UserController {
         for (User user1 : onlineUsers) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user1));
         }
-        template.convertAndSend("/topic/users/online",userGetDTOs);
+        template.convertAndSend("/topic/users/online", userGetDTOs);
     }
 
     @GetMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO getUserById(@PathVariable long userId){
+    public UserGetDTO getUserById(@PathVariable long userId) {
         User user = userService.findUserById(userId);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
     }
@@ -132,7 +131,7 @@ public class UserController {
     @GetMapping("/users/{username}/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO getUserByUsername(@PathVariable String username){
+    public UserGetDTO getUserByUsername(@PathVariable String username) {
         User user = userService.findUserByUsername(username);
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
     }
@@ -140,20 +139,12 @@ public class UserController {
     @PutMapping("/users/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserPutDTO userLogin(@RequestBody UserPostDTO userPostDTO, HttpServletResponse response){
+    public UserPutDTO userLogin(@RequestBody UserPostDTO userPostDTO, HttpServletResponse response) {
         User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
         User authorizedUser = userService.authorize(userInput);
-//        response.addHeader("Authorization",token);
-        System.out.println(authorizedUser.getToken());
+
         response.addHeader("Authorization", authorizedUser.getToken());
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        responseHeaders.set("Authorization", authorizedUser.getToken());
-//        request.setAttribute("Authorization", "Bearer " + token);
-//        try{
-//
-//        } catch (ResponseStatusException e) {
-//            throw e;
-//        }
+
         return DTOMapper.INSTANCE.convertEntityToUserPutDTO(authorizedUser);
     }
 

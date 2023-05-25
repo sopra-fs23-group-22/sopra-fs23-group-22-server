@@ -3,8 +3,6 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
 import ch.uzh.ifi.hase.soprafs23.game.piece.PieceType;
 
-import javax.servlet.http.PushBuilder;
-
 public class PieceGETDTO {
 
     private PieceType pieceType;
@@ -27,7 +25,11 @@ public class PieceGETDTO {
         this.armyType = armyType;
     }
 
-    public boolean isRevealed() { return isRevealed; }
+    public boolean isRevealed() {
+        return isRevealed;
+    }
 
-    public void setRevealed(boolean revealed) { isRevealed = revealed; }
+    public void setRevealed(boolean revealed) {
+        isRevealed = revealed;
+    }
 }

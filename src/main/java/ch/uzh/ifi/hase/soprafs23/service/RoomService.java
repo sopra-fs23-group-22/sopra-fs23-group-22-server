@@ -31,16 +31,19 @@ public class RoomService {
         this.userRepository = userRepository;
         this.userService = userService;
     }
-    public Room findRoomById(int roomId){
+
+    public Room findRoomById(int roomId) {
         String baseErrorMessage = "Room %s is not found!";
         Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-        if(room!=null) {
+        if (room != null) {
             return room;
-        } else {
+        }
+        else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, roomId));
         }
     }
-    public List<RoomGetDTO> getAllRooms(){
+
+    public List<RoomGetDTO> getAllRooms() {
 
         HashMap<Integer, Room> rooms = Lobby.getInstance().getRooms();
         List<RoomGetDTO> roomGetDTOs = new ArrayList<>();
@@ -50,10 +53,11 @@ public class RoomService {
         }
         return roomGetDTOs;
     }
-    public List<UserGetDTO> getUserInRoom(int roomId){
+
+    public List<UserGetDTO> getUserInRoom(int roomId) {
         Room room = findRoomById(roomId);
         List<UserGetDTO> userGetDTOS = new ArrayList<UserGetDTO>();
-        for(long id: room.getUserIds()){
+        for (long id : room.getUserIds()) {
             User user1 = userService.findUserById(id);
             userGetDTOS.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user1));
         }
@@ -70,7 +74,7 @@ public class RoomService {
     public void addAUserToRoom(int roomId, long userId) {
         Room room = findRoomById(roomId);
         room.addUser(userId);
-        userService.updateRoomId(room.getRoomId(),userId);
+        userService.updateRoomId(room.getRoomId(), userId);
     }
 
     public void removeAUserFromRoom(int roomId, long userId) {

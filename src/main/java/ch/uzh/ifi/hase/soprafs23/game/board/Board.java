@@ -6,9 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.game.army.ArmyType;
 import ch.uzh.ifi.hase.soprafs23.game.piece.Piece;
 import ch.uzh.ifi.hase.soprafs23.game.piece.attackstrategies.AttackResult;
 import ch.uzh.ifi.hase.soprafs23.game.piece.movestrategies.MoveResult;
-import ch.uzh.ifi.hase.soprafs23.game.states.AliveState;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,8 +20,8 @@ public class Board {
 
     public Board() {
         // Initialisation of the board. Each grid is a square object.
-        for (int i=0; i<10; i++) {
-            for (int j=0; j<10; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 this.square[i][j] = new Square(Axis.values()[i], Axis.values()[j]);
             }
         }
@@ -38,16 +36,15 @@ public class Board {
         square[5][7].setType(LAKE);
     }
 
-    public Square getSquareViaAxis(Axis[] axis) { return this.square[axis[0].getInt()][axis[1].getInt()]; }
-    public Piece getPieceViaAxis(Axis[] axis){
+    public Square getSquareViaAxis(Axis[] axis) {
+        return this.square[axis[0].getInt()][axis[1].getInt()];
+    }
+
+    public Piece getPieceViaAxis(Axis[] axis) {
         return this.square[axis[0].getInt()][axis[1].getInt()].getContent();
     }
 
     public void place(Piece piece, Square targetSquare) {
-        /*
-        if (square[targetAxis[0].getInt()][targetAxis[1].getInt()].getContent() != null)
-            throw new IllegalStateException("Target square has been occupied!");
-         */
         targetSquare.setContent(piece);
     }
 
@@ -95,15 +92,15 @@ public class Board {
         Piece attacker = getPieceViaAxis(sourceAxis);
         Square targetSquare = getSquareViaAxis(targetAxis);
         Square sourceSquare = getSquareViaAxis(sourceAxis);
-        if ( attacker.move(sourceSquare, targetSquare) == FAILED ) { return ILLEGAL_MOVE; }
+        if (attacker.move(sourceSquare, targetSquare) == FAILED) {
+            return ILLEGAL_MOVE;
+        }
         AttackResult result = attacker.attack(sourceSquare, targetSquare);
         // 1. If the attack is successful, the target square is cleared.
         //      and the attacker moves to the target square.
         if (result == SUCCESSFUL) {
-            System.out.println("attack successfully");
             targetSquare.getContent().setAliveState(DOWN);
             targetSquare.clear();
-            System.out.println("movePiece() after attack invoked!");
             //movePiece(sourceAxis, targetAxis);
             targetSquare.setContent(attacker);
             targetSquare.getContent().setRevealed(true);
@@ -111,7 +108,6 @@ public class Board {
         }
         // 2. If attack result is DEFEATED, the attacker is captured.
         else if (result == DEFEATED) {
-            System.out.println("attack fail");
             attacker.setAliveState(DOWN);
             targetSquare.getContent().setRevealed(true);
             square[sourceAxis[0].getInt()][sourceAxis[1].getInt()].clear();
@@ -125,14 +121,15 @@ public class Board {
         }
         return result;
     }
-    //TODO: getSquare and setPiece use inverted Axis, not sure which one is correct but one of both
-    //TODO: methods needs to be refactored
+
     public Square getSquare(int axisX, int axisY) {
         return square[axisX][axisY];
     }
-    public void setPiece(int axisX, int axisY, Piece piece){
+
+    public void setPiece(int axisX, int axisY, Piece piece) {
         this.square[axisY][axisX].setContent(piece);
     }
+
     public Square[] getPath(Axis[] sourceAxis, Axis[] targetAxis) {
         // to get the squares along the path from source to target
         // the source and target is not included
@@ -145,9 +142,10 @@ public class Board {
         int deltaY = y2 - y1;
         int xStep = 0;
         int yStep = 0;
-        if(deltaX != 0 && deltaY != 0){
+        if (deltaX != 0 && deltaY != 0) {
             throw new IllegalArgumentException("The move can't be diagonal");
-        }else if(deltaX == 0 && deltaY == 0){
+        }
+        else if (deltaX == 0 && deltaY == 0) {
             throw new IllegalArgumentException("Source and target square is equal");
         }
         if (deltaX != 0) xStep = deltaX / Math.abs(deltaX);
@@ -155,8 +153,8 @@ public class Board {
         int x = x1 + xStep;
         int y = y1 + yStep;
         while (x != x2 || y != y2) {
-            path = Arrays.copyOf(path, path.length+1);
-            path[path.length-1] = square[x][y];
+            path = Arrays.copyOf(path, path.length + 1);
+            path[path.length - 1] = square[x][y];
             x += xStep;
             y += yStep;
         }
@@ -207,42 +205,50 @@ public class Board {
         // ... get the surrounding squares
         if (x == 0) {
             if (y == 0) {
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y+1]);
-            } else if (y == 9) {
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y-1]);
-            } else {
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y-1]);
-                surroundingSquares.add(square[x][y+1]);
+                surroundingSquares.add(square[x + 1][y]);
+                surroundingSquares.add(square[x][y + 1]);
             }
-        } else if (x == 9) {
-            if (y == 0) {
-                surroundingSquares.add(square[x-1][y]);
-                surroundingSquares.add(square[x][y+1]);
-            } else if (y == 9) {
-                surroundingSquares.add(square[x-1][y]);
-                surroundingSquares.add(square[x][y-1]);
-            } else {
-                surroundingSquares.add(square[x-1][y]);
-                surroundingSquares.add(square[x][y-1]);
-                surroundingSquares.add(square[x][y+1]);
+            else if (y == 9) {
+                surroundingSquares.add(square[x + 1][y]);
+                surroundingSquares.add(square[x][y - 1]);
             }
-        } else {
+            else {
+                surroundingSquares.add(square[x + 1][y]);
+                surroundingSquares.add(square[x][y - 1]);
+                surroundingSquares.add(square[x][y + 1]);
+            }
+        }
+        else if (x == 9) {
             if (y == 0) {
-                surroundingSquares.add(square[x-1][y]);
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y+1]);
-            } else if (y == 9) {
-                surroundingSquares.add(square[x-1][y]);
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y-1]);
-            } else {
-                surroundingSquares.add(square[x-1][y]);
-                surroundingSquares.add(square[x+1][y]);
-                surroundingSquares.add(square[x][y-1]);
-                surroundingSquares.add(square[x][y+1]);
+                surroundingSquares.add(square[x - 1][y]);
+                surroundingSquares.add(square[x][y + 1]);
+            }
+            else if (y == 9) {
+                surroundingSquares.add(square[x - 1][y]);
+                surroundingSquares.add(square[x][y - 1]);
+            }
+            else {
+                surroundingSquares.add(square[x - 1][y]);
+                surroundingSquares.add(square[x][y - 1]);
+                surroundingSquares.add(square[x][y + 1]);
+            }
+        }
+        else {
+            if (y == 0) {
+                surroundingSquares.add(square[x - 1][y]);
+                surroundingSquares.add(square[x + 1][y]);
+                surroundingSquares.add(square[x][y + 1]);
+            }
+            else if (y == 9) {
+                surroundingSquares.add(square[x - 1][y]);
+                surroundingSquares.add(square[x + 1][y]);
+                surroundingSquares.add(square[x][y - 1]);
+            }
+            else {
+                surroundingSquares.add(square[x - 1][y]);
+                surroundingSquares.add(square[x + 1][y]);
+                surroundingSquares.add(square[x][y - 1]);
+                surroundingSquares.add(square[x][y + 1]);
             }
         }
         return surroundingSquares;
@@ -263,13 +269,16 @@ public class Board {
             if (continueLeft) {
                 if (x - i < 0) {
                     continueLeft = false;
-                } else {
-                    if (square[x-i][y].getContent() == null && square[x-i][y].getType() != LAKE) {
-                        squaresAlongFourDirections.add(square[x-i][y]);
-                    } else if (square[x-i][y].getContent() != null && square[x-i][y].getContent().getArmyType() != armyType) {
-                        squaresAlongFourDirections.add(square[x-i][y]);
+                }
+                else {
+                    if (square[x - i][y].getContent() == null && square[x - i][y].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x - i][y]);
+                    }
+                    else if (square[x - i][y].getContent() != null && square[x - i][y].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x - i][y]);
                         continueLeft = false;
-                    } else {
+                    }
+                    else {
                         continueLeft = false;
                     }
                 }
@@ -277,13 +286,16 @@ public class Board {
             if (continueRight) {
                 if (x + i > 9) {
                     continueRight = false;
-                } else {
-                    if (square[x+i][y].getContent() == null && square[x+i][y].getType() != LAKE) {
-                        squaresAlongFourDirections.add(square[x+i][y]);
-                    } else if (square[x+i][y].getContent() != null && square[x+i][y].getContent().getArmyType() != armyType) {
-                        squaresAlongFourDirections.add(square[x+i][y]);
+                }
+                else {
+                    if (square[x + i][y].getContent() == null && square[x + i][y].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x + i][y]);
+                    }
+                    else if (square[x + i][y].getContent() != null && square[x + i][y].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x + i][y]);
                         continueRight = false;
-                    } else {
+                    }
+                    else {
                         continueRight = false;
                     }
                 }
@@ -291,13 +303,16 @@ public class Board {
             if (continueUp) {
                 if (y - i < 0) {
                     continueUp = false;
-                } else {
-                    if (square[x][y-i].getContent() == null && square[x][y-i].getType() != LAKE) {
-                        squaresAlongFourDirections.add(square[x][y-i]);
-                    } else if (square[x][y-i].getContent() != null && square[x][y-i].getContent().getArmyType() != armyType) {
-                        squaresAlongFourDirections.add(square[x][y-i]);
+                }
+                else {
+                    if (square[x][y - i].getContent() == null && square[x][y - i].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x][y - i]);
+                    }
+                    else if (square[x][y - i].getContent() != null && square[x][y - i].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x][y - i]);
                         continueUp = false;
-                    } else {
+                    }
+                    else {
                         continueUp = false;
                     }
                 }
@@ -305,13 +320,16 @@ public class Board {
             if (continueDown) {
                 if (y + i > 9) {
                     continueDown = false;
-                } else {
-                    if (square[x][y+i].getContent() == null && square[x][y+i].getType() != LAKE) {
-                        squaresAlongFourDirections.add(square[x][y+i]);
-                    } else if (square[x][y+i].getContent() != null && square[x][y+i].getContent().getArmyType() != armyType) {
-                        squaresAlongFourDirections.add(square[x][y+i]);
+                }
+                else {
+                    if (square[x][y + i].getContent() == null && square[x][y + i].getType() != LAKE) {
+                        squaresAlongFourDirections.add(square[x][y + i]);
+                    }
+                    else if (square[x][y + i].getContent() != null && square[x][y + i].getContent().getArmyType() != armyType) {
+                        squaresAlongFourDirections.add(square[x][y + i]);
                         continueDown = false;
-                    } else {
+                    }
+                    else {
                         continueDown = false;
                     }
                 }

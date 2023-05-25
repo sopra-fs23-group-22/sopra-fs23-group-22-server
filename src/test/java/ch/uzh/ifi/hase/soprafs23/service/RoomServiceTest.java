@@ -1,4 +1,5 @@
 package ch.uzh.ifi.hase.soprafs23.service;
+
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.game.Lobby;
@@ -7,13 +8,16 @@ import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -68,7 +72,7 @@ class RoomServiceTest {
 
     @Test
     void roomNotFound_throwNOTFOUND() {
-        assertThrows(ResponseStatusException.class, ()->roomService.findRoomById(42));
+        assertThrows(ResponseStatusException.class, () -> roomService.findRoomById(42));
     }
 
     @Test

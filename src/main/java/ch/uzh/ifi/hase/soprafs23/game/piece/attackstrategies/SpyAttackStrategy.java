@@ -10,7 +10,7 @@ public class SpyAttackStrategy implements AttackStrategy {
         // can only attack Marshal or Flag. Otherwise defeated
         if (targetSquare.getContent().getPieceType() == MARSHAL || targetSquare.getContent().getPieceType() == FLAG)
             return AttackResult.SUCCESSFUL;
-        else if (targetSquare.getContent().getPieceType() == SPY){
+        else if (targetSquare.getContent().getPieceType() == SPY) {
             return AttackResult.BOTH_DEFEATED;
         }
         else return AttackResult.DEFEATED;
