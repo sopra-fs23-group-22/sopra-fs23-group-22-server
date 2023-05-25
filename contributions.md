@@ -57,6 +57,7 @@
 | Issue No.           | Description  |
 | :---------: |:-------------:|
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/34 | - Modify gamePreparing page format. - Add frontend requests to fetch data and display the player and the opponent |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/64 | implement gameresult page |
 
 ### Week 4, Stefan Plüss
 | Issue No.           | Description  |
