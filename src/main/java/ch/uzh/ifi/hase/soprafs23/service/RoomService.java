@@ -73,6 +73,9 @@ public class RoomService {
 
     public void addAUserToRoom(int roomId, long userId) {
         Room room = findRoomById(roomId);
+        if(room.getUserIds().contains(userId)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "You are already in this room!");
+        }
         room.addUser(userId);
         userService.updateRoomId(room.getRoomId(), userId);
     }
