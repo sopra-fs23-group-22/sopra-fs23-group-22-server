@@ -90,6 +90,19 @@
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/10 | Implemented updating the view of the board |
 | https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/83 | Corporation between front-end and back-end to perform the placement of initial board |
 
+### Week 5, Stefan Plüss
+|                                  Issue No.                                  |              Description              |
+|:---------------------------------------------------------------------------:|:-------------------------------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/94 | Implemented basic websocket function  |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/issues/95  |   Added test to verify board setup    |
+| | Added Armytest and GameControllerTest |
+
+### Week 5, Anqi Xu
+|                                  Issue No.                                  |                    Description                    |
+|:---------------------------------------------------------------------------:|:-------------------------------------------------:|
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/26 | Add visual declaration of the winner of the fight |
+| https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/issues/11 | implement views of the victory and defeat screen  |
+
 ## 09.05.2023
 ### Week 6, Chenfei Xiong
 | Issue No.           | Description  |
