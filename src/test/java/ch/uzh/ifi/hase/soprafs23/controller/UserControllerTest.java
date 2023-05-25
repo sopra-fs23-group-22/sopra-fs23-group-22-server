@@ -29,6 +29,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -200,24 +201,13 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testGetUserByUsername() throws Exception {
-        String username = "test";
-        User user = new User();
-        given(userService.findUserByUsername(Mockito.anyString())).willReturn(user);
-
-        MockHttpServletRequestBuilder getRequest = get("/users/" + username + "/login");
-        mockMvc.perform(getRequest)
-                .andExpect(status().isOk());
-
-        Mockito.verify(userService, Mockito.times(1)).findUserByUsername(username);
-    }
-
-    @Test
     public void testUserLogin() throws Exception {
         User user = new User();
         user.setToken("test");
+        user.setId(1L);
         UserPutDTO userPutDTO = new UserPutDTO();
         given(userService.authorize(Mockito.any())).willReturn(user);
+        doNothing().when(userService).updateUserStatus(UserStatus.ONLINE, user.getId());
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/users/login", response)

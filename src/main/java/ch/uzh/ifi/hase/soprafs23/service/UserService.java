@@ -91,7 +91,7 @@ public class UserService {
         }
     }
 
-    private void checkIfUserNameExists(String username) {
+    private void checkIfUserExistsByUserName(String username) {
         User userByUsername = userRepository.findByUsername(username);
         String baseErrorMessage = "User with username %s was not found";
         if (userByUsername == null) {
@@ -105,7 +105,7 @@ public class UserService {
     }
 
     public User findUserByUsername(String username) {
-        checkIfUserNameExists(username);
+        checkIfUserExistsByUserName(username);
         return userRepository.findByUsername(username);
     }
 

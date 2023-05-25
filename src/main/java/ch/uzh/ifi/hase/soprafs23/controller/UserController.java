@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -128,23 +129,14 @@ public class UserController {
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
     }
 
-    @GetMapping("/users/{username}/login")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public UserGetDTO getUserByUsername(@PathVariable String username) {
-        User user = userService.findUserByUsername(username);
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
-    }
-
     @PutMapping("/users/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserPutDTO userLogin(@RequestBody UserPostDTO userPostDTO, HttpServletResponse response) {
         User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
         User authorizedUser = userService.authorize(userInput);
-
         response.addHeader("Authorization", authorizedUser.getToken());
-
+        userService.updateUserStatus(UserStatus.ONLINE, authorizedUser.getId());
         return DTOMapper.INSTANCE.convertEntityToUserPutDTO(authorizedUser);
     }
 
