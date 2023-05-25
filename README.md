@@ -3,11 +3,16 @@
 </div>
 
 # SoPra FS23 – Stratego
+
+## Introduction
+
+Stratego is a classic board game has been enjoyed by many strategy enthusiasts over years. The project aims to create an online version of the game where worldwide players can easily access. Stratego is a 1vs1 game which requires careful planning, deduction, and bluffing, as players attempt to determine the ranks of their opponent’s hidden pieces and make tactical decisions. To start a game, users need to register first. A registered user can start a game by creating a room or joining an available room. After each game, they can choose to play with the same person again or go to lobby to find new challengers. Profile provides a record of the player's wins and losses, allowing players to track their progress and compare achievements.
+
 ## Table of Contents
 
 - [SoPra FS23 – Stratego](#sopra-fs23--stratego)
-  - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
   - [Technologies](#technologies)
   - [High-level components](#high-level-components)
   - [Getting started](#getting-started)
@@ -18,15 +23,13 @@
     - [Development Mode](#development-mode)
     - [Debugging](#debugging)
     - [Deployment](#deployment)
-  - [Roadmap](#roadmap)
+  - [RoadMap](#roadmap)
   - [Authors](#authors)
   - [License](#license)
   - [Acknowledgements](#acknowledgements)
   - [Links](#links)
 
-## Introduction
 
-Stratego is a classic board game has been enjoyed by many strategy enthusiasts over years. The project aims to create an online version of the game where worldwide players can easily access. Stratego is a 1vs1 game which requires careful planning, deduction, and bluffing, as players attempt to determine the ranks of their opponent’s hidden pieces and make tactical decisions. To start a game, users need to register first. A registered user can start a game by creating a room or joining an available room. After each game, they can choose to play with the same person again or go to lobby to find new challengers. Profile provides a record of the player's wins and losses, allowing players to track their progress and compare achievements.
 
 ## Technologies
 
@@ -48,19 +51,16 @@ Stratego is a classic board game has been enjoyed by many strategy enthusiasts o
 
 <img src="https://user-images.githubusercontent.com/91155454/170887616-39d92726-e081-45a4-8192-11f41297c98c.png" style='visibility:hidden;' width="16" height="16" /> [**JUnit**](https://junit.org/)  
 
-<img src="https://user-images.githubusercontent.com/91155454/170843395-534f90bd-793d-477d-8626-4d8015c6041a.png" style='visibility:hidden;' width="16" height="16" /> [**Hibernate**](https://hibernate.org/)
+<img src="https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/blob/readme-media/images/SpringJpa.png" style='visibility:hidden;' width="16" height="16" /> [**Spring JPA**](https://spring.io/projects/spring-data-jpa)
+
+<img src="https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-client/blob/readme-media/images/sonar-logo.svg" style='visibility:hidden;' width="16" height="16" /> [**SonarQube**](https://www.sonarsource.com/products/sonarqube/)
+
 
 ## High-level components
 
-The high-level architecture follows the Repository-Service Pattern. It promotes the separation of concerns with the introduction of three entities: Controller, Service, and Repository. 
+In the backend side, the high-level components that can be mentioned first is the [game](https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/tree/main/src/main/java/ch/uzh/ifi/hase/soprafs23/game) package, which is the code of the game part. It follows the principle of separation of concern, dividing the game into Lobby, Room, Game, Board, Piece, Player, Army etc. such that each object in the game has its own minimal responsibility. It is worth to notice that the [Lobby](https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/blob/main/src/main/java/ch/uzh/ifi/hase/soprafs23/game/Lobby.java) class is a singleton class, since there is only 1 lobby in our server. Also, the design of game strategies, which concerns about the move and attack operation of different types of pieces, utilizes Strategy Design Pattern, to avoid using many switch cases. Another point is that in the design, Enum types are used where appropriate to limit the object state space.
 
-// follwing need to be changed:
-//According to the above mentioned pattern a lot of work is executed in the [LobbyService](https://github.com/sopra-fs22-group-16/sopra-fs22-group-16-server/blob/readme/src/main/java/ch/uzh/ifi/hase/soprafs22/service/LobbyService.java) and therefore, it depicts a main component. A lobby represents the meeting point for players, the possibility to change the player's name, and the starting point for a game. Whenever all users are set, the game will start. So, the LobbyService can be seen as the interface between the actual game and all necessary administration logic.
-
-Unsurprisingly for a game, another major part of the logic is located in the [GameService](https://github.com/sopra-fs22-group-16/sopra-fs22-group-16-server/blob/readme/src/main/java/ch/uzh/ifi/hase/soprafs22/service/GameService.java). After all user requests are digested by the respective controllers, game related actions are forwarded to the GameService which takes care of the main options for a play unit: attack, move, and surrender. It triggers the underlying models correspondingly, handles and responds to requests by the controller. Besides that, it also triggers the creation of statistics as soon as a game is finished.
-
-And last but not least, the [Game](https://github.com/sopra-fs22-group-16/sopra-fs22-group-16-server/blob/readme/src/main/java/ch/uzh/ifi/hase/soprafs22/game/Game.java) class also bundles multiple functionalities. The Game combines multiple elements to the actual game. It consists of the game map, the game units, the players that control the units, and makes adjustments according to settings like the game mode (casual or ranked) or the game type (1vs1 or - in the future - 2vs2). It also calculates the health points after an attack taking the counter attack into account, and informs about the ending of a game.//
-
+To make the game work, there are other components that is peripheral to connect it to the front-end to receive communication request and handle the processing. There are different controllers to receive the HTTP requests. It receives and delegates the request to the corresponding service class. For example, when a player moves a piece, the front-end sends the request which contains the information to the [GameController](https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/blob/main/src/main/java/ch/uzh/ifi/hase/soprafs23/controller/GameController.java), it then delegates the request to [GameService](https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/blob/main/src/main/java/ch/uzh/ifi/hase/soprafs23/service/GameService.java) to invoke the corresponding methods in [Game](https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/blob/main/src/main/java/ch/uzh/ifi/hase/soprafs23/game/Game.java) class to move a piece. In some of the communications especially the ones that require real-time update and subscription of message, [WebSocket](https://github.com/sopra-fs23-group-22/sopra-fs23-group-22-server/blob/main/src/main/java/ch/uzh/ifi/hase/soprafs23/socket/Socket.java) connection is established to the endpoint. To handle the storage of users, JPA repository is used for data storage.
 
 ## Getting started
 <p>
@@ -134,10 +134,15 @@ After each commit to the master branch, automatic Github Actions get executed wh
 
 
 ## RoadMap
+
+Some potential improvements that futures developers working on this project:
 - Add friend function.
-User can add others by sending requests and unfriend friends directly.
+
+    User can add others by sending requests and unfriend friends directly.
+
 - Add Chat funtion using external api.
-Users can send messages to other users on lobby page or send messages to opponent while playing the game.
+  
+    Users can send messages to other users on lobby page or send messages to opponent while playing the game.
 
 ## Authors
 
