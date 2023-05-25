@@ -10,7 +10,9 @@ import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -30,10 +32,13 @@ public class RoomService {
         this.userService = userService;
     }
     public Room findRoomById(int roomId){
-//        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
-//        RoomGetDTO roomGetDTO = DTOMapper.INSTANCE.convertEntityToRoomGetDTO(room);
-//        return roomGetDTO;
-        return Lobby.getInstance().getRoomByRoomId(roomId);
+        String baseErrorMessage = "Room %s is not found!";
+        Room room = Lobby.getInstance().getRoomByRoomId(roomId);
+        if(room!=null) {
+            return room;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, roomId));
+        }
     }
     public List<RoomGetDTO> getAllRooms(){
 

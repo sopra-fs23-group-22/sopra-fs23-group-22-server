@@ -8,6 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,10 @@ class RoomServiceTest {
         verify(userService, times(1)).findUserById(TEST_USER_ID);
     }
 
+    @Test
+    void roomNotFound_throwNOTFOUND() {
+        assertThrows(ResponseStatusException.class, ()->roomService.findRoomById(42));
+    }
 
     @Test
     void addAUserToRoom() {
@@ -88,6 +94,5 @@ class RoomServiceTest {
         ArrayList<Long> actual = testRoom.getUserIds();
         assertEquals(playersInRoom, actual);
     }
-
 
 }
